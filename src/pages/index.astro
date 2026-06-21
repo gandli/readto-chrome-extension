@@ -63,7 +63,7 @@ const base = import.meta.env.BASE_URL;
             </p>
             
             <!-- Slider Labels -->
-            <div class="flex justify-between mb-1 px-[10%]">
+            <div class="flex justify-between mb-1 px-[8%]">
               <span class="text-[13px] text-[#111] font-medium slider-label active" data-index="0">入门</span>
               <span class="text-[13px] text-[#b8b3ac] slider-label" data-index="1">基础</span>
               <span class="text-[13px] text-[#b8b3ac] slider-label" data-index="2">进阶</span>
@@ -1072,25 +1072,43 @@ const base = import.meta.env.BASE_URL;
     return 10 + (level / 4) * 80;
   }
 
-  // 每个等级显示的单词 - 基于扩展项目 level-data-full.json 的 CEFR 等级
-  // 入门(A1): 显示 B1+ 的词, 基础(A2): 显示 B1+ 的词, 进阶(B1): 显示 B2+ 的词, 熟练(B2): 显示 C1+ 的词, 精通(C1): 只显示 C2 的词
-  const levelWords: string[][] = [
-    // 入门 (A1): 13 词 - B1+B2+C1+C2
-    ['sweeping', 'overhaul', 'disproportionately', 'profligate', 'austerity', 'burdened', 'stimulate', 'ameliorate', 'fractious', 'polarized', 'obstruct', 'vituperative', 'perfunctory'],
-    // 基础 (A2): 13 词 - B1+B2+C1+C2
-    ['sweeping', 'overhaul', 'disproportionately', 'profligate', 'austerity', 'burdened', 'stimulate', 'ameliorate', 'fractious', 'polarized', 'obstruct', 'vituperative', 'perfunctory'],
-    // 进阶 (B1): 10 词 - B2+C1+C2
-    ['overhaul', 'disproportionately', 'profligate', 'austerity', 'ameliorate', 'fractious', 'polarized', 'obstruct', 'vituperative', 'perfunctory'],
-    // 熟练 (B2): 6 词 - C1+C2
-    ['profligate', 'ameliorate', 'fractious', 'polarized', 'vituperative', 'perfunctory'],
-    // 精通 (C1): 3 词 - C2
-    ['profligate', 'fractious', 'vituperative'],
-  ];
+  // 单词 CEFR 等级映射 - 从扩展项目 level-data-full.json 获取
+  const wordLevels: Record<string, string> = {
+    sweeping: 'B1',
+    overhaul: 'B2',
+    disproportionately: 'B2',
+    profligate: 'C2',
+    austerity: 'B2',
+    burdened: 'B1',
+    stimulate: 'B1',
+    ameliorate: 'C1',
+    fractious: 'C2',
+    polarized: 'C1',
+    obstruct: 'B2',
+    vituperative: 'C2',
+    perfunctory: 'C1'
+  };
+
+  // CEFR 等级顺序
+  const LEVEL_ORDER: Record<string, number> = { A1: 1, A2: 2, B1: 3, B2: 4, C1: 5, C2: 6 };
+
+  // 用户等级对应的 CEFR 阈值
+  const userLevelThresholds = ['A1', 'A2', 'B1', 'B2', 'C1'];
+
+  // 根据用户等级动态计算显示的单词
+  function getWordsForLevel(userLevelIndex: number): string[] {
+    const userLevel = userLevelThresholds[userLevelIndex] || 'B1';
+    const threshold = LEVEL_ORDER[userLevel];
+    
+    return Object.entries(wordLevels)
+      .filter(([_, wordLevel]) => LEVEL_ORDER[wordLevel] > threshold)
+      .map(([word]) => word);
+  }
 
   function updateAnnotations(level: number) {
     if (!demoContent) return;
     
-    const showWords = levelWords[level] || levelWords[2];
+    const showWords = getWordsForLevel(level);
     
     demoContent.querySelectorAll('[data-readto]').forEach(el => {
       const word = el.getAttribute('data-word');
