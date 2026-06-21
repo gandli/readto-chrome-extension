@@ -777,6 +777,40 @@ const base = import.meta.env.BASE_URL;
     return 10 + (level / 4) * 80;
   }
 
+  // 每个等级显示的单词（等级越高，显示的单词越少越难）
+  const levelWords: string[][] = [
+    // 入门：显示所有词
+    ['sweeping', 'overhaul', 'disproportionately', 'profligate', 'austerity', 'burdened', 'stimulate', 'ameliorate', 'inequities', 'fractious', 'polarized', 'obstruct', 'vituperative'],
+    // 基础：去掉最简单的
+    ['overhaul', 'disproportionately', 'profligate', 'austerity', 'ameliorate', 'inequities', 'fractious', 'polarized', 'obstruct', 'vituperative'],
+    // 进阶：中级词汇
+    ['profligate', 'austerity', 'ameliorate', 'fractious', 'vituperative'],
+    // 熟练：高级词汇
+    ['profligate', 'fractious', 'vituperative'],
+    // 精通：最难的词
+    ['vituperative'],
+  ];
+
+  function updateAnnotations(level: number) {
+    if (!demoContent) return;
+    
+    const showWords = levelWords[level] || levelWords[2];
+    
+    demoContent.querySelectorAll('[data-readto]').forEach(el => {
+      const word = el.getAttribute('data-word');
+      if (word && showWords.includes(word)) {
+        el.style.display = '';
+        // 显示 rt
+        const rt = el.querySelector('.rt');
+        if (rt) rt.style.display = '';
+      } else if (word) {
+        // 隐藏 rt 但保留文字
+        const rt = el.querySelector('.rt');
+        if (rt) rt.style.display = 'none';
+      }
+    });
+  }
+
   function updateSlider(level: number, save = true) {
     currentLevel = level;
     const percent = getPercent(level);
@@ -799,6 +833,9 @@ const base = import.meta.env.BASE_URL;
       slider.setAttribute('aria-valuenow', String(level + 1));
       slider.setAttribute('aria-valuetext', ['入门', '基础', '进阶', '熟练', '精通'][level]);
     }
+
+    // 联动更新标注
+    updateAnnotations(level);
 
     // 持久化到 localStorage
     if (save) {
