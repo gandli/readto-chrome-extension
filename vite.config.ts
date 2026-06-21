@@ -36,9 +36,41 @@ function manifestPatchPlugin() {
       const translations = files.find(f => f.startsWith('translations-') && !f.includes('detail') && !f.includes('data')) ?? null;
       const types = findFile('types-');
 
-      // Update content_scripts[0] — main content script loader
-      if (manifest.content_scripts?.[0] && loader) {
-        manifest.content_scripts[0].js = [`assets/${loader}`];
+      // Update ALL content_scripts entries
+      if (manifest.content_scripts) {
+        for (const cs of manifest.content_scripts) {
+          const isYouTube = cs.matches?.some((m: string) => m.includes('youtube'));
+          const isMainWorld = cs.world === 'MAIN';
+
+          const newJs: string[] = [];
+          for (const jsFile of cs.js) {
+            if (jsFile.includes('page-world.ts') && jsFile.includes('loader')) {
+              // Page world loader (MAIN world for YouTube)
+              if (pageWorld) {
+                const loaderName = `page-world-loader.js`;
+                if (!fs.existsSync(resolve(distDir, loaderName))) {
+                  fs.writeFileSync(resolve(distDir, loaderName), `import './assets/${pageWorld}';`);
+                }
+                newJs.push(loaderName);
+              }
+            } else if (isYouTube && !isMainWorld && jsFile.includes('-loader')) {
+              // YouTube content script loader
+              if (youtube) {
+                const loaderName = `index.ts-youtube-loader.js`;
+                if (!fs.existsSync(resolve(distDir, loaderName))) {
+                  fs.writeFileSync(resolve(distDir, loaderName), `import './assets/${youtube}';`);
+                }
+                newJs.push(loaderName);
+              }
+            } else if (jsFile.includes('-loader') && jsFile.includes('index.ts')) {
+              // Main content script loader (non-YouTube)
+              if (loader) newJs.push(`assets/${loader}`);
+            } else {
+              newJs.push(jsFile);
+            }
+          }
+          cs.js = newJs;
+        }
       }
 
       // Update web_accessible_resources
