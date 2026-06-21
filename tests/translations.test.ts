@@ -196,3 +196,120 @@ describe('dictionary loading', () => {
     expect(results).toEqual([]);
   });
 });
+
+// ── LLM translator (covers createLlmTranslator, lines 99-111) ───────
+
+const { mockStreamBatch } = vi.hoisted(() => ({
+  mockStreamBatch: vi.fn(),
+}));
+
+vi.mock('../src/lib/llm-stream', () => ({
+  streamBatch: mockStreamBatch,
+}));
+
+describe('LLM translator', () => {
+  it('has kind "llm"', () => {
+    const t = getTranslator({
+      translationMode: 'llm',
+      llm: { endpoint: 'https://api.openai.com', model: 'gpt-4', apiKey: 'sk-x' },
+    });
+    expect(t.kind).toBe('llm');
+  });
+
+  it('calls streamBatch with correct params and returns translations', async () => {
+    mockStreamBatch.mockImplementation(async (params: any) => {
+      params.onParagraphDone?.(0, [
+        { word: 'hello', occurrence: 0, translation: '你好' },
+        { word: 'world', occurrence: 0, translation: '世界' },
+      ]);
+    });
+
+    const t = getTranslator({
+      translationMode: 'llm',
+      llm: { endpoint: 'https://api.openai.com', model: 'gpt-4', apiKey: 'sk-x' },
+    });
+
+    const results = await t.translate({
+      context: 'Hello world',
+      targets: [
+        { word: 'hello', occurrence: 0 },
+        { word: 'world', occurrence: 0 },
+      ],
+    });
+
+    expect(mockStreamBatch).toHaveBeenCalledTimes(1);
+    const callArgs = mockStreamBatch.mock.calls[0][0];
+    expect(callArgs.items).toEqual([{
+      context: 'Hello world',
+      targets: [
+        { word: 'hello', occurrence: 0 },
+        { word: 'world', occurrence: 0 },
+      ],
+    }]);
+    expect(callArgs.cfg).toEqual({
+      endpoint: 'https://api.openai.com',
+      model: 'gpt-4',
+      apiKey: 'sk-x',
+    });
+    expect(callArgs.abortSignal).toBeInstanceOf(AbortSignal);
+
+    expect(results).toEqual([
+      { word: 'hello', occurrence: 0, translation: '你好' },
+      { word: 'world', occurrence: 0, translation: '世界' },
+    ]);
+  });
+
+  it('returns empty array when streamBatch yields no translations', async () => {
+    mockStreamBatch.mockResolvedValue(undefined);
+
+    const t = getTranslator({
+      translationMode: 'llm',
+      llm: { endpoint: 'https://api.openai.com', model: 'gpt-4', apiKey: 'sk-x' },
+    });
+
+    const results = await t.translate({
+      context: 'test',
+      targets: [{ word: 'test', occurrence: 0 }],
+    });
+
+    expect(results).toEqual([]);
+  });
+
+  it('propagates streamBatch errors', async () => {
+    mockStreamBatch.mockRejectedValueOnce(new Error('API error'));
+
+    const t = getTranslator({
+      translationMode: 'llm',
+      llm: { endpoint: 'https://api.openai.com', model: 'gpt-4', apiKey: 'sk-x' },
+    });
+
+    await expect(
+      t.translate({
+        context: 'test',
+        targets: [{ word: 'test', occurrence: 0 }],
+      }),
+    ).rejects.toThrow('API error');
+  });
+
+  it('collects multiple onParagraphDone callbacks', async () => {
+    mockStreamBatch.mockImplementation(async (params: any) => {
+      params.onParagraphDone?.(0, [{ word: 'a', occurrence: 0, translation: '甲' }]);
+      params.onParagraphDone?.(0, [{ word: 'b', occurrence: 0, translation: '乙' }]);
+    });
+
+    const t = getTranslator({
+      translationMode: 'llm',
+      llm: { endpoint: 'https://api.openai.com', model: 'gpt-4', apiKey: 'sk-x' },
+    });
+
+    const results = await t.translate({
+      context: 'a b',
+      targets: [{ word: 'a', occurrence: 0 }, { word: 'b', occurrence: 0 }],
+    });
+
+    expect(results).toEqual([
+      { word: 'a', occurrence: 0, translation: '甲' },
+      { word: 'b', occurrence: 0, translation: '乙' },
+    ]);
+  });
+});
