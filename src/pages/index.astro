@@ -308,22 +308,22 @@ const base = import.meta.env.BASE_URL;
     user-select: none;
   }
 
-  /* Tooltip - 匹配扩展样式 */
+  /* Tooltip - 紧凑布局 */
   .tooltip {
     position: fixed;
     background: hsl(30 7% 97%);
     color: hsl(24 10% 10%);
     border: 1px solid hsl(25 6% 85%);
     border-radius: 6px;
-    padding: 10px 12px;
+    padding: 8px 10px;
     font-family: Charter, 'Iowan Old Style', 'Source Serif 4', Georgia, serif;
     font-size: 14px;
-    line-height: 1.55;
+    line-height: 1.5;
     font-weight: 400;
     text-align: left;
     white-space: pre-wrap;
-    min-width: 180px;
-    max-width: 340px;
+    min-width: 160px;
+    max-width: 300px;
     box-shadow: 0 1px 2px rgba(24, 20, 18, 0.05), 0 6px 16px rgba(24, 20, 18, 0.06);
     z-index: 2147483647;
     user-select: text;
@@ -340,21 +340,22 @@ const base = import.meta.env.BASE_URL;
   .tooltip .phonetic {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     color: hsl(25 5% 45%);
-    margin-bottom: 6px;
+    margin-bottom: 4px;
   }
 
   .tooltip .ipa {
     font-style: italic;
+    font-size: 13px;
   }
 
   .tooltip .speaker {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
     padding: 2px;
     margin: 0;
     background: transparent;
@@ -366,8 +367,8 @@ const base = import.meta.env.BASE_URL;
   }
 
   .tooltip .speaker svg {
-    width: 14px;
-    height: 14px;
+    width: 13px;
+    height: 13px;
     display: block;
   }
 
@@ -391,14 +392,20 @@ const base = import.meta.env.BASE_URL;
     100% { transform: scale(1); }
   }
 
+  .tooltip .body {
+    font-size: 14px;
+    line-height: 1.45;
+    margin-bottom: 0;
+  }
+
   .tooltip .examples {
-    margin-top: 10px;
-    padding-top: 10px;
+    margin-top: 6px;
+    padding-top: 6px;
     border-top: 1px dashed hsl(25 6% 85%);
   }
 
   .tooltip .example {
-    margin-top: 8px;
+    margin-top: 6px;
   }
 
   .tooltip .example:first-child {
@@ -406,8 +413,8 @@ const base = import.meta.env.BASE_URL;
   }
 
   .tooltip .example .en {
-    font-size: 13px;
-    line-height: 1.5;
+    font-size: 12px;
+    line-height: 1.45;
     color: hsl(24 10% 18%);
   }
 
@@ -417,10 +424,10 @@ const base = import.meta.env.BASE_URL;
   }
 
   .tooltip .example .zh {
-    font-size: 12px;
-    line-height: 1.45;
+    font-size: 11px;
+    line-height: 1.4;
     color: hsl(25 5% 50%);
-    margin-top: 2px;
+    margin-top: 1px;
   }
 
   .slider-label {
