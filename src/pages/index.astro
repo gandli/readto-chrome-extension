@@ -1,26 +1,42 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
 
 const base = import.meta.env.BASE_URL;
 ---
 
 <Layout>
   <!-- Navigation -->
-  <header class="sticky top-0 z-50 bg-[#f5f2eb]/95 backdrop-blur-sm border-b border-[#e3dfd8]">
-    <div class="max-w-[1180px] mx-auto flex items-center justify-between gap-6 py-4 px-6">
+  <header
+    class="sticky top-0 z-50 bg-[#f5f2eb]/95 backdrop-blur-sm border-b border-[#e3dfd8]"
+  >
+    <div
+      class="max-w-[1180px] mx-auto flex items-center justify-between gap-6 py-4 px-6"
+    >
       <div class="flex items-baseline gap-[18px] min-w-0">
-        <a href={base} class="inline-flex items-baseline text-[24px] font-medium font-serif tracking-tight">
-          readto<span class="text-[#b2462a] font-semibold">.</span><span class="ml-[2px] text-[0.7em] tracking-normal font-normal text-[#9a9489]">ai</span>
+        <a
+          href={base}
+          class="inline-flex items-baseline text-[24px] font-medium font-serif tracking-tight"
+        >
+          readto<span class="text-[#b2462a] font-semibold">.</span><span
+            class="ml-[2px] text-[0.7em] tracking-normal font-normal text-[#9a9489]"
+            >ai</span
+          >
         </a>
         <div class="hidden sm:inline-block text-[12px] text-[#9a9489]">
           读懂每一个词 · Read to know
         </div>
       </div>
       <nav class="flex items-center gap-6">
-        <a href="#how" class="text-[14px] text-[#2b2824] hover:text-[#111] transition-colors">
+        <a
+          href="#how"
+          class="text-[14px] text-[#2b2824] hover:text-[#111] transition-colors"
+        >
           工作原理
         </a>
-        <a href={base} class="text-[14px] text-[#2b2824] hover:text-[#111] transition-colors">
+        <a
+          href={base}
+          class="text-[14px] text-[#2b2824] hover:text-[#111] transition-colors"
+        >
           安装
         </a>
         <a
@@ -39,15 +55,22 @@ const base = import.meta.env.BASE_URL;
       <div class="grid md:grid-cols-[1fr_1.2fr] gap-10 md:gap-14 items-start">
         <!-- Left: Description -->
         <div>
-          <p class="text-[11px] text-[#9a9489] tracking-[0.14em] uppercase font-semibold mb-6">
+          <p
+            class="text-[11px] text-[#9a9489] tracking-[0.14em] uppercase font-semibold mb-6"
+          >
             A CHROME EXTENSION · 浏览器扩展
           </p>
-          <h1 class="font-serif font-normal text-[68px] leading-[1.05] tracking-tight m-0 mb-8">
-            Read to know.<br/>
+          <h1
+            class="font-serif font-normal text-[68px] leading-[1.05] tracking-tight m-0 mb-8"
+          >
+            Read to know.<br />
             <span class="whitespace-nowrap font-medium">读懂每一个词。</span>
           </h1>
-          <p class="text-[15px] text-[#2b2824] leading-[1.7] mb-8 max-w-[400px]">
-            在任何英文网页上，readto 会根据你的英语水平，悄悄在生词上方标好中文小注。不划词、不跳窗、不中断阅读。
+          <p
+            class="text-[15px] text-[#2b2824] leading-[1.7] mb-8 max-w-[400px]"
+          >
+            在任何英文网页上，readto
+            会根据你的英语水平，悄悄在生词上方标好中文小注。不划词、不跳窗、不中断阅读。
           </p>
           <a
             href="https://chromewebstore.google.com/detail/readto/hmoifnkckggncdpoplpoiifjafffmkof"
@@ -58,17 +81,34 @@ const base = import.meta.env.BASE_URL;
 
           <!-- Level Selector -->
           <div class="mt-14">
-            <p class="text-[11px] text-[#9a9489] tracking-[0.14em] uppercase font-semibold mb-4">
+            <p
+              class="text-[11px] text-[#9a9489] tracking-[0.14em] uppercase font-semibold mb-4"
+            >
               YOUR LEVEL · 你的水平
             </p>
-            
+
             <!-- Slider Labels -->
             <div class="flex justify-between mb-1 px-[8%]">
-              <span class="text-[13px] text-[#111] font-medium slider-label active" data-index="0">入门</span>
-              <span class="text-[13px] text-[#b8b3ac] slider-label" data-index="1">基础</span>
-              <span class="text-[13px] text-[#b8b3ac] slider-label" data-index="2">进阶</span>
-              <span class="text-[13px] text-[#b8b3ac] slider-label" data-index="3">熟练</span>
-              <span class="text-[13px] text-[#b8b3ac] slider-label" data-index="4">精通</span>
+              <span
+                class="text-[13px] text-[#111] font-medium slider-label active"
+                data-index="0">入门</span
+              >
+              <span
+                class="text-[13px] text-[#b8b3ac] slider-label"
+                data-index="1">基础</span
+              >
+              <span
+                class="text-[13px] text-[#b8b3ac] slider-label"
+                data-index="2">进阶</span
+              >
+              <span
+                class="text-[13px] text-[#b8b3ac] slider-label"
+                data-index="3">熟练</span
+              >
+              <span
+                class="text-[13px] text-[#b8b3ac] slider-label"
+                data-index="4">精通</span
+              >
             </div>
 
             <!-- Custom Slider -->
@@ -84,7 +124,9 @@ const base = import.meta.env.BASE_URL;
               id="level-slider"
             >
               <!-- Tick Marks -->
-              <div class="absolute left-[10%] right-[10%] top-1/2 h-3.5 -translate-y-1/2 flex justify-between items-center pointer-events-none">
+              <div
+                class="absolute left-[10%] right-[10%] top-1/2 h-3.5 -translate-y-1/2 flex justify-between items-center pointer-events-none"
+              >
                 <div class="w-px h-3.5 bg-[#9a9489]"></div>
                 <div class="w-px h-2 bg-[#e3dfd8]"></div>
                 <div class="w-px h-2 bg-[#e3dfd8]"></div>
@@ -109,17 +151,26 @@ const base = import.meta.env.BASE_URL;
               </div>
 
               <!-- Track -->
-              <div class="absolute inset-x-0 top-1/2 h-px bg-[#e3dfd8] -translate-y-1/2"></div>
+              <div
+                class="absolute inset-x-0 top-1/2 h-px bg-[#e3dfd8] -translate-y-1/2"
+              >
+              </div>
 
               <!-- Track Fill -->
-              <div class="absolute left-0 top-1/2 h-0.5 bg-[#111] -translate-y-1/2 transition-[width] duration-[350ms] ease-[cubic-bezier(0.2,0.7,0.2,1)]" id="track-fill" style="width:50%"></div>
+              <div
+                class="absolute left-0 top-1/2 h-0.5 bg-[#111] -translate-y-1/2 transition-[width] duration-[350ms] ease-[cubic-bezier(0.2,0.7,0.2,1)]"
+                id="track-fill"
+                style="width:50%"
+              >
+              </div>
 
               <!-- Knob -->
               <div
                 class="absolute top-1/2 w-3.5 h-3.5 bg-[#111] rounded-full -translate-x-1/2 -translate-y-1/2 transition-[left,box-shadow] duration-[350ms] ease-[cubic-bezier(0.2,0.7,0.2,1)] cursor-grab shadow-[0_0_0_4px_#f5f2eb,0_0_0_5px_rgba(17,17,17,0.08)] hover:shadow-[0_0_0_4px_#f5f2eb,0_0_0_8px_rgba(17,17,17,0.12)]"
                 id="knob"
                 style="left:50%"
-              ></div>
+              >
+              </div>
             </div>
 
             <p class="text-[13px] text-[#9a9489] mt-3" id="level-desc">
@@ -129,34 +180,90 @@ const base = import.meta.env.BASE_URL;
         </div>
 
         <!-- Right: Browser Mockup -->
-        <div class="bg-white rounded-lg shadow-[0_4px_24px_rgba(0,0,0,0.08)] overflow-hidden">
-          <div class="bg-[#f5f2eb] px-3 py-2 flex items-center gap-2 border-b border-[#e3dfd8]">
+        <div
+          class="bg-white rounded-lg shadow-[0_4px_24px_rgba(0,0,0,0.08)] overflow-hidden"
+        >
+          <div
+            class="bg-[#f5f2eb] px-3 py-2 flex items-center gap-2 border-b border-[#e3dfd8]"
+          >
             <span class="w-[10px] h-[10px] rounded-full bg-[#ff5f57]"></span>
             <span class="w-[10px] h-[10px] rounded-full bg-[#febc2e]"></span>
             <span class="w-[10px] h-[10px] rounded-full bg-[#28c840]"></span>
-            <span class="flex-1 bg-[#ebe7df] rounded px-3 py-1 text-[12px] text-[#9a9489] ml-2">
+            <span
+              class="flex-1 bg-[#ebe7df] rounded px-3 py-1 text-[12px] text-[#9a9489] ml-2"
+            >
               /politics/tax-reform-bill.html
             </span>
           </div>
-          <div class="p-6 text-[15px] leading-[1.75] font-sans" id="demo-content">
-            <div class="text-[12px] text-[#9a9489] uppercase tracking-[0.14em] font-semibold mb-2">News</div>
-            <h2 class="font-semibold text-[22px] tracking-tight mb-1 text-[#111]">
+          <div
+            class="p-6 text-[15px] leading-[1.75] font-sans"
+            id="demo-content"
+          >
+            <div
+              class="text-[12px] text-[#9a9489] uppercase tracking-[0.14em] font-semibold mb-2"
+            >
+              News
+            </div>
+            <h2
+              class="font-semibold text-[22px] tracking-tight mb-1 text-[#111]"
+            >
               President Announces Sweeping Tax Reforms
             </h2>
             <p class="text-[#141210] mb-3">
-              The president announced <span data-readto data-word="sweeping">sweeping<span class="rt">影响广泛的</span></span> reforms to the nation's tax system yesterday, marking the most significant <span data-readto data-word="overhaul">overhaul<span class="rt">大修</span></span> in a decade.
+              The president announced <span data-readto data-word="sweeping"
+                >sweeping<span class="rt">影响广泛的</span></span
+              > reforms to the nation's tax system yesterday, marking the most significant
+              <span data-readto data-word="overhaul"
+                >overhaul<span class="rt">大修</span></span
+              > in a decade.
             </p>
             <p class="text-[#141210] mb-3">
-              Critics denounce the changes as <span data-readto data-word="disproportionately">disproportionately<span class="rt">不成比例地</span></span> benefiting wealthy citizens, accusing the administration of <span data-readto data-word="profligate">profligate<span class="rt">挥霍的</span></span> giveaways and <span data-readto data-word="austerity">austerity<span class="rt">紧缩</span></span> toward middle-class families already <span data-readto data-word="burdened">burdened<span class="rt">负担沉重的</span></span> by rising costs.
+              Critics denounce the changes as <span
+                data-readto
+                data-word="disproportionately"
+                >disproportionately<span class="rt">不成比例地</span></span
+              > benefiting wealthy citizens, accusing the administration of <span
+                data-readto
+                data-word="profligate"
+                >profligate<span class="rt">挥霍的</span></span
+              > giveaways and <span data-readto data-word="austerity"
+                >austerity<span class="rt">紧缩</span></span
+              > toward middle-class families already <span
+                data-readto
+                data-word="burdened"
+                >burdened<span class="rt">负担沉重的</span></span
+              > by rising costs.
             </p>
             <p class="text-[#141210] mb-3">
-              Proponents counter that lower taxes will <span data-readto data-word="stimulate">stimulate<span class="rt">刺激</span></span> investment and <span data-readto data-word="ameliorate">ameliorate<span class="rt">改善</span></span> broader inequities.
+              Proponents counter that lower taxes will <span
+                data-readto
+                data-word="stimulate"
+                >stimulate<span class="rt">刺激</span></span
+              > investment and <span data-readto data-word="ameliorate"
+                >ameliorate<span class="rt">改善</span></span
+              > broader inequities.
             </p>
             <p class="text-[#141210] mb-3">
-              The bill faces a difficult path through the <span data-readto data-word="fractious">fractious<span class="rt">易怒的</span></span>, <span data-readto data-word="polarized">polarized<span class="rt">极化的</span></span> legislature, where opposition lawmakers have vowed to <span data-readto data-word="obstruct">obstruct<span class="rt">阻碍</span></span> its passage with <span data-readto data-word="vituperative">vituperative<span class="rt">谩骂的</span></span> floor speeches.
+              The bill faces a difficult path through the <span
+                data-readto
+                data-word="fractious"
+                >fractious<span class="rt">易怒的</span></span
+              >, <span data-readto data-word="polarized"
+                >polarized<span class="rt">极化的</span></span
+              > legislature, where opposition lawmakers have vowed to <span
+                data-readto
+                data-word="obstruct">obstruct<span class="rt">阻碍</span></span
+              > its passage with <span data-readto data-word="vituperative"
+                >vituperative<span class="rt">谩骂的</span></span
+              > floor speeches.
             </p>
             <p class="text-[#141210]">
-              Despite a flurry of grassroots rhetoric, recent polls indicate voters remain deeply skeptical of what they view as <span data-readto data-word="perfunctory">perfunctory<span class="rt">敷衍的</span></span> concessions, leaving negotiations at a fragile impasse.
+              Despite a flurry of grassroots rhetoric, recent polls indicate
+              voters remain deeply skeptical of what they view as <span
+                data-readto
+                data-word="perfunctory"
+                >perfunctory<span class="rt">敷衍的</span></span
+              > concessions, leaving negotiations at a fragile impasse.
             </p>
           </div>
         </div>
@@ -167,52 +274,129 @@ const base = import.meta.env.BASE_URL;
     <section id="how" class="pt-[120px] pb-24 border-t border-[#e3dfd8] mt-20">
       <div class="max-w-[1180px] mx-auto px-6">
         <div class="flex items-baseline justify-between mb-14 gap-6">
-          <div class="flex items-center gap-3 text-[11px] text-[#9a9489] tracking-[0.14em] uppercase font-semibold">
+          <div
+            class="flex items-center gap-3 text-[11px] text-[#9a9489] tracking-[0.14em] uppercase font-semibold"
+          >
             <span class="inline-block w-6 h-px bg-[#b2462a]"></span>
             原理 · How it works
           </div>
-          <h2 class="font-serif font-normal text-[44px] tracking-tight m-0 leading-[1.1] max-w-[580px]">
-            读你本来就想读的，<br/>生词在<span class="not-italic text-[#b2462a]">阅读中</span>自然沉淀。
+          <h2
+            class="font-serif font-normal text-[44px] tracking-tight m-0 leading-[1.1] max-w-[580px]"
+          >
+            读你本来就想读的，<br />生词在<span
+              class="not-italic text-[#b2462a]">阅读中</span
+            >自然沉淀。
           </h2>
         </div>
 
         <div class="grid md:grid-cols-3 border-t border-[#ebe7df]">
           <!-- Feature 1 -->
-          <div class="py-10 px-8 pb-2 min-h-[260px] flex flex-col gap-3 relative border-b md:border-b-0 md:border-r border-[#ebe7df] first:pl-0 last:pr-0 last:border-r-0">
-            <div class="font-serif text-[13px] text-[#b2462a] font-medium tracking-[0.02em]">No. 01</div>
-            <h3 class="font-serif font-medium text-[24px] m-0 tracking-tight leading-[1.25]">只标你不会的词</h3>
-            <p class="mt-1.5 text-[#2b2824] text-[14px] leading-[1.65] max-w-[320px]">
+          <div
+            class="py-10 px-8 pb-2 min-h-[260px] flex flex-col gap-3 relative border-b md:border-b-0 md:border-r border-[#ebe7df] first:pl-0 last:pr-0 last:border-r-0"
+          >
+            <div
+              class="font-serif text-[13px] text-[#b2462a] font-medium tracking-[0.02em]"
+            >
+              No. 01
+            </div>
+            <h3
+              class="font-serif font-medium text-[24px] m-0 tracking-tight leading-[1.25]"
+            >
+              只标你不会的词
+            </h3>
+            <p
+              class="mt-1.5 text-[#2b2824] text-[14px] leading-[1.65] max-w-[320px]"
+            >
               根据你选择的英语水平，跳过你已经会的，只在真正超纲的词上方加注。
             </p>
-            <div class="font-serif text-[14px] text-[#141210] mt-auto pt-6 leading-[2] border-t border-dotted border-[#e3dfd8] w-full">
-              He was <span data-readto class="annot-word" data-word="ostensibly">ostensibly<span class="rt">表面上</span></span> in charge, but the real power lay <span data-readto class="annot-word" data-word="elsewhere">elsewhere<span class="rt">别处</span></span>.
+            <div
+              class="font-serif text-[14px] text-[#141210] mt-auto pt-6 leading-[2] border-t border-dotted border-[#e3dfd8] w-full"
+            >
+              He was <span data-readto class="annot-word" data-word="ostensibly"
+                >ostensibly<span class="rt">表面上</span></span
+              > in charge, but the real power lay <span
+                data-readto
+                class="annot-word"
+                data-word="elsewhere"
+                >elsewhere<span class="rt">别处</span></span
+              >.
             </div>
           </div>
 
           <!-- Feature 2 -->
-          <div class="py-10 px-8 pb-2 min-h-[260px] flex flex-col gap-3 relative border-b md:border-b-0 md:border-r border-[#ebe7df] first:pl-0 last:pr-0 last:border-r-0">
-            <div class="font-serif text-[13px] text-[#b2462a] font-medium tracking-[0.02em]">No. 02</div>
-            <h3 class="font-serif font-medium text-[24px] m-0 tracking-tight leading-[1.25]">不打断你的阅读节奏</h3>
-            <p class="mt-1.5 text-[#2b2824] text-[14px] leading-[1.65] max-w-[320px]">
+          <div
+            class="py-10 px-8 pb-2 min-h-[260px] flex flex-col gap-3 relative border-b md:border-b-0 md:border-r border-[#ebe7df] first:pl-0 last:pr-0 last:border-r-0"
+          >
+            <div
+              class="font-serif text-[13px] text-[#b2462a] font-medium tracking-[0.02em]"
+            >
+              No. 02
+            </div>
+            <h3
+              class="font-serif font-medium text-[24px] m-0 tracking-tight leading-[1.25]"
+            >
+              不打断你的阅读节奏
+            </h3>
+            <p
+              class="mt-1.5 text-[#2b2824] text-[14px] leading-[1.65] max-w-[320px]"
+            >
               中文释义以小字标注在单词上方，不需要划词、点击或跳转词典。
             </p>
-            <div class="font-serif text-[14px] text-[#141210] mt-auto pt-6 leading-[2] border-t border-dotted border-[#e3dfd8] w-full">
-              The findings were <span data-readto class="annot-word" data-word="ambiguous">ambiguous<span class="rt">模糊的</span></span>, leaving room for <span data-readto class="annot-word" data-word="interpretation">interpretation<span class="rt">解读</span></span>.
+            <div
+              class="font-serif text-[14px] text-[#141210] mt-auto pt-6 leading-[2] border-t border-dotted border-[#e3dfd8] w-full"
+            >
+              The findings were <span
+                data-readto
+                class="annot-word"
+                data-word="ambiguous"
+                >ambiguous<span class="rt">模糊的</span></span
+              >, leaving room for <span
+                data-readto
+                class="annot-word"
+                data-word="interpretation"
+                >interpretation<span class="rt">解读</span></span
+              >.
             </div>
           </div>
 
           <!-- Feature 3 -->
-          <div class="py-10 px-8 pb-2 min-h-[260px] flex flex-col gap-3 relative first:pl-0 last:pr-0 last:border-r-0">
-            <div class="font-serif text-[13px] text-[#b2462a] font-medium tracking-[0.02em]">No. 03</div>
-            <h3 class="font-serif font-medium text-[24px] m-0 tracking-tight leading-[1.25]">任何英文页面都能用</h3>
-            <p class="mt-1.5 text-[#2b2824] text-[14px] leading-[1.65] max-w-[320px]">
+          <div
+            class="py-10 px-8 pb-2 min-h-[260px] flex flex-col gap-3 relative first:pl-0 last:pr-0 last:border-r-0"
+          >
+            <div
+              class="font-serif text-[13px] text-[#b2462a] font-medium tracking-[0.02em]"
+            >
+              No. 03
+            </div>
+            <h3
+              class="font-serif font-medium text-[24px] m-0 tracking-tight leading-[1.25]"
+            >
+              任何英文页面都能用
+            </h3>
+            <p
+              class="mt-1.5 text-[#2b2824] text-[14px] leading-[1.65] max-w-[320px]"
+            >
               新闻、博客、论文、小说——所有英文网页都支持。
             </p>
-            <div class="flex flex-wrap gap-2 mt-auto pt-6 border-t border-dotted border-[#e3dfd8]">
-              <span class="text-[12px] bg-[#ebe7df] px-2 py-1 rounded text-[#2b2824]">nytimes.com</span>
-              <span class="text-[12px] bg-[#ebe7df] px-2 py-1 rounded text-[#2b2824]">medium.com</span>
-              <span class="text-[12px] bg-[#ebe7df] px-2 py-1 rounded text-[#2b2824]">arxiv.org</span>
-              <span class="text-[12px] bg-[#ebe7df] px-2 py-1 rounded text-[#2b2824]">wikipedia.org</span>
+            <div
+              class="flex flex-wrap gap-2 mt-auto pt-6 border-t border-dotted border-[#e3dfd8]"
+            >
+              <span
+                class="text-[12px] bg-[#ebe7df] px-2 py-1 rounded text-[#2b2824]"
+                >nytimes.com</span
+              >
+              <span
+                class="text-[12px] bg-[#ebe7df] px-2 py-1 rounded text-[#2b2824]"
+                >medium.com</span
+              >
+              <span
+                class="text-[12px] bg-[#ebe7df] px-2 py-1 rounded text-[#2b2824]"
+                >arxiv.org</span
+              >
+              <span
+                class="text-[12px] bg-[#ebe7df] px-2 py-1 rounded text-[#2b2824]"
+                >wikipedia.org</span
+              >
             </div>
           </div>
         </div>
@@ -220,17 +404,28 @@ const base = import.meta.env.BASE_URL;
     </section>
 
     <!-- Why Read This Way -->
-    <section class="py-24 border-t border-[#e3dfd8] bg-gradient-to-b from-[#f5f2eb] to-[#ebe7df]">
-      <div class="max-w-[1180px] mx-auto px-6 grid md:grid-cols-[1fr_2fr] gap-14 items-start">
-        <div class="text-[11px] text-[#9a9489] tracking-[0.14em] uppercase font-semibold">
+    <section
+      class="py-24 border-t border-[#e3dfd8] bg-gradient-to-b from-[#f5f2eb] to-[#ebe7df]"
+    >
+      <div
+        class="max-w-[1180px] mx-auto px-6 grid md:grid-cols-[1fr_2fr] gap-14 items-start"
+      >
+        <div
+          class="text-[11px] text-[#9a9489] tracking-[0.14em] uppercase font-semibold"
+        >
           Why read this way
         </div>
         <div>
-          <blockquote class="m-0 font-serif font-normal text-[36px] leading-[1.25] tracking-tight">
-            背单词的最好方式，<br/>
-            是在<span class="not-italic text-[#b2462a]">真实阅读</span>里反复遇到它。
+          <blockquote
+            class="m-0 font-serif font-normal text-[36px] leading-[1.25] tracking-tight"
+          >
+            背单词的最好方式，<br />
+            是在<span class="not-italic text-[#b2462a]">真实阅读</span
+            >里反复遇到它。
           </blockquote>
-          <cite class="block mt-5 text-[13px] text-[#9a9489] tracking-[0.02em] not-italic">
+          <cite
+            class="block mt-5 text-[13px] text-[#9a9489] tracking-[0.02em] not-italic"
+          >
             — readto 的设计前提
           </cite>
         </div>
@@ -240,12 +435,19 @@ const base = import.meta.env.BASE_URL;
 
   <!-- Footer -->
   <footer class="border-t border-[#e3dfd8]">
-    <div class="max-w-[1180px] mx-auto px-6 py-8 flex items-center justify-between">
+    <div
+      class="max-w-[1180px] mx-auto px-6 py-8 flex items-center justify-between"
+    >
       <a href={base} class="text-[14px] font-medium font-serif tracking-tight">
-        readto<span class="text-[#b2462a]">.</span><span class="text-[0.7em] text-[#9a9489]">ai</span>
+        readto<span class="text-[#b2462a]">.</span><span
+          class="text-[0.7em] text-[#9a9489]">ai</span
+        >
       </a>
       <div class="flex items-center gap-6">
-        <a href={`${base}/privacy`} class="text-[12px] text-[#9a9489] hover:text-[#141210]">
+        <a
+          href={`${base}/privacy`}
+          class="text-[12px] text-[#9a9489] hover:text-[#141210]"
+        >
           隐私政策
         </a>
         <span class="text-[12px] text-[#9a9489]">© 2026 · 读懂</span>
@@ -257,9 +459,17 @@ const base = import.meta.env.BASE_URL;
   <div id="tooltip" class="tooltip hidden">
     <div class="phonetic">
       <button class="speaker" type="button" aria-label="Play pronunciation">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"
+          ></path>
         </svg>
       </button>
       <span class="ipa"></span>
@@ -289,12 +499,12 @@ const base = import.meta.env.BASE_URL;
     position: relative;
     cursor: pointer;
   }
-  
+
   [data-readto]:hover {
     background: rgba(178, 70, 42, 0.08);
     border-radius: 2px;
   }
-  
+
   .rt {
     display: inline;
     font-size: 0.6em;
@@ -310,27 +520,26 @@ const base = import.meta.env.BASE_URL;
 
   /* Tooltip - 匹配扩展样式 */
   .tooltip {
-    position: fixed;
-    background: #ffffff;
-    color: rgb(28, 25, 23);
-    border: 1px solid rgb(219, 216, 214);
-    border-radius: 6px;
-    padding: 8px 10px;
-    font-family: Charter, "Iowan Old Style", "Source Serif 4", Georgia, serif;
-    font-size: 14px;
-    line-height: 1.5;
-    font-weight: 400;
-    text-align: left;
-    white-space: pre-wrap;
-    min-width: 180px;
-    max-width: 340px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-    z-index: 2147483647;
-    user-select: text;
-    pointer-events: auto;
-    transition: opacity 0.15s, transform 0.15s;
+      position: fixed;
+  background: hsl(30 7% 97%);
+  color: hsl(24 10% 10%);
+  border: 1px solid hsl(25 6% 85%);
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-family: Charter, 'Iowan Old Style', 'Source Serif 4', Georgia, serif;
+  font-size: 14px;
+  line-height: 1;
+  font-weight: 400;
+  text-align: left;
+  white-space: pre-wrap;
+  min-width: 180px;
+  max-width: 340px;
+  box-shadow: 0 1px 2px rgba(24, 20, 18, 0.05), 0 6px 16px rgba(24, 20, 18, 0.06);
+  z-index: 2147483647;
+  user-select: text;
+  pointer-events: auto;
   }
-  
+
   .tooltip.show {
     display: block;
     opacity: 1;
@@ -340,28 +549,27 @@ const base = import.meta.env.BASE_URL;
   .tooltip .phonetic {
     display: flex;
     align-items: center;
-    gap: 4px;
-    color: #666666;
-    margin-bottom: 3px;
+    gap: 6px;
+    color: hsl(25 5% 45%);
+    margin-bottom: 6px;
   }
 
   .tooltip .ipa {
     font-style: italic;
-    font-size: 12px;
   }
 
   .tooltip .speaker {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 18px;
-    height: 18px;
+    width: 22px;
+    height: 22px;
     padding: 2px;
     margin: 0;
     background: transparent;
     border: none;
-    border-radius: 3px;
-    color: #666666;
+    border-radius: 4px;
+    color: inherit;
     cursor: pointer;
     transition: background 0.15s, color 0.15s, transform 0.08s;
   }
@@ -373,8 +581,8 @@ const base = import.meta.env.BASE_URL;
   }
 
   .tooltip .speaker:hover {
-    background: rgba(0, 0, 0, 0.06);
-    color: #333333;
+    background: rgba(24, 20, 18, 0.06);
+    color: hsl(24 10% 10%);
   }
 
   .tooltip .speaker:active {
@@ -392,21 +600,14 @@ const base = import.meta.env.BASE_URL;
     100% { transform: scale(1); }
   }
 
-  .tooltip .body {
-    font-size: 14px;
-    line-height: 1.4;
-    margin-bottom: 0;
-    color: #000000;
-  }
-
   .tooltip .examples {
-    margin-top: 4px;
-    padding-top: 4px;
-    border-top: 1px dashed #e0e0e0;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed hsl(25 6% 85%);
   }
 
   .tooltip .example {
-    margin-top: 4px;
+    margin-top: 8px;
   }
 
   .tooltip .example:first-child {
@@ -415,24 +616,26 @@ const base = import.meta.env.BASE_URL;
 
   .tooltip .example .en {
     font-size: 13px;
-    line-height: 1.4;
-    color: #000000;
+    line-height: 1.5;
+    color: hsl(24 10% 18%);
   }
 
   .tooltip .example .target {
     font-weight: 600;
-    color: #b2462a;
+    color: hsl(24 80% 35%);
   }
 
   .tooltip .example .zh {
-    font-size: 11px;
-    line-height: 1.35;
-    color: #888888;
-    margin-top: 1px;
+    font-size: 12px;
+    line-height: 1.45;
+    color: hsl(25 5% 50%);
+    margin-top: 2px;
   }
 
   .slider-label {
-    transition: color 0.2s, font-weight 0.2s;
+    transition:
+      color 0.2s,
+      font-weight 0.2s;
   }
   .slider-label.active {
     color: #111;
@@ -445,25 +648,25 @@ const base = import.meta.env.BASE_URL;
     header {
       padding: 12px 0;
     }
-    
+
     header .max-w-\[1180px\] {
       padding: 0 16px;
       gap: 8px;
     }
-    
+
     header .hidden.sm\:inline-block {
       display: none !important;
     }
-    
+
     header nav {
       gap: 2px;
     }
-    
+
     header nav a:not([class*="bg-"]) {
       font-size: 12px;
       padding: 4px 8px;
     }
-    
+
     header nav a[class*="bg-"] {
       font-size: 12px;
       padding: 6px 12px;
@@ -474,7 +677,7 @@ const base = import.meta.env.BASE_URL;
       padding-top: 48px;
       padding-bottom: 48px;
     }
-    
+
     section:first-of-type > div {
       gap: 32px;
     }
@@ -658,196 +861,305 @@ const base = import.meta.env.BASE_URL;
       background: hsl(24 10% 6%);
       color: hsl(30 7% 95%);
       border-color: hsl(24 6% 18%);
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 6px 16px rgba(0, 0, 0, 0.45);
+      box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.4),
+        0 6px 16px rgba(0, 0, 0, 0.45);
     }
-    .tooltip .phonetic { color: hsl(25 5% 65%); }
+    .tooltip .phonetic {
+      color: hsl(25 5% 65%);
+    }
     .tooltip .speaker:hover {
       background: rgba(245, 243, 240, 0.08);
       color: hsl(30 7% 95%);
     }
-    .tooltip .speaker.playing { color: #66b1ff; }
-    .tooltip .examples { border-top-color: hsl(24 6% 18%); }
-    .tooltip .example .en { color: hsl(30 7% 90%); }
-    .tooltip .example .target { color: #e07a5f; }
-    .tooltip .example .zh { color: hsl(25 5% 65%); }
+    .tooltip .speaker.playing {
+      color: #66b1ff;
+    }
+    .tooltip .examples {
+      border-top-color: hsl(24 6% 18%);
+    }
+    .tooltip .example .en {
+      color: hsl(30 7% 90%);
+    }
+    .tooltip .example .target {
+      color: #e07a5f;
+    }
+    .tooltip .example .zh {
+      color: hsl(25 5% 65%);
+    }
   }
 </style>
 
 <script>
   // 单词详情数据 - 从扩展项目 translations-detail 获取
-  const wordDetails: Record<string, { p?: string; t: string; e?: Array<{ en: string; zh: string }> }> = {
+  const wordDetails: Record<
+    string,
+    { p?: string; t: string; e?: Array<{ en: string; zh: string }> }
+  > = {
     sweeping: {
       p: "'swi:piŋ",
       t: "adj. 影响广泛的；彻底的\nn. 清扫",
       e: [
-        { en: "The new law brought {sweeping} changes to healthcare policy.", zh: "新法律为医疗政策带来了广泛的变革。" },
-        { en: "She is {sweeping} the leaves off the front porch.", zh: "她正在清扫前门廊上的落叶。" }
-      ]
+        {
+          en: "The new law brought {sweeping} changes to healthcare policy.",
+          zh: "新法律为医疗政策带来了广泛的变革。",
+        },
+        {
+          en: "She is {sweeping} the leaves off the front porch.",
+          zh: "她正在清扫前门廊上的落叶。",
+        },
+      ],
     },
     overhaul: {
       p: ".әuvә'hɒ:l",
       t: "v. 彻底检修；全面改革\nn. 大修",
       e: [
-        { en: "The company plans a complete {overhaul} of its mobile app.", zh: "公司计划对手机应用进行彻底改版。" },
-        { en: "Mechanics will {overhaul} the engine before the long road trip.", zh: "长途旅行前，技师会把发动机彻底大修一遍。" }
-      ]
+        {
+          en: "The company plans a complete {overhaul} of its mobile app.",
+          zh: "公司计划对手机应用进行彻底改版。",
+        },
+        {
+          en: "Mechanics will {overhaul} the engine before the long road trip.",
+          zh: "长途旅行前，技师会把发动机彻底大修一遍。",
+        },
+      ],
     },
     disproportionately: {
       p: undefined,
       t: "adv. 不成比例地；过度地",
       e: [
-        { en: "The pandemic affected low-income workers {disproportionately}.", zh: "疫情对低收入工人造成的影响过于严重。" },
-        { en: "Older users are {disproportionately} targeted by phone scams.", zh: "老年用户尤其容易成为电话诈骗的目标。" }
-      ]
+        {
+          en: "The pandemic affected low-income workers {disproportionately}.",
+          zh: "疫情对低收入工人造成的影响过于严重。",
+        },
+        {
+          en: "Older users are {disproportionately} targeted by phone scams.",
+          zh: "老年用户尤其容易成为电话诈骗的目标。",
+        },
+      ],
     },
     profligate: {
       p: "'prɒfligit",
       t: "adj. 挥霍的；放荡的",
       e: [
-        { en: "He led a {profligate} lifestyle and went bankrupt at thirty.", zh: "他生活挥霍无度，三十岁就破产了。" },
-        { en: "The team was {profligate} with chances and lost the match.", zh: "球队浪费了大量机会，最终输掉了比赛。" }
-      ]
+        {
+          en: "He led a {profligate} lifestyle and went bankrupt at thirty.",
+          zh: "他生活挥霍无度，三十岁就破产了。",
+        },
+        {
+          en: "The team was {profligate} with chances and lost the match.",
+          zh: "球队浪费了大量机会，最终输掉了比赛。",
+        },
+      ],
     },
     austerity: {
       p: "ɒ'sterәti",
       t: "n. 经济紧缩；朴素",
       e: [
-        { en: "The government imposed {austerity} measures to cut the deficit.", zh: "政府实施紧缩措施以削减赤字。" },
-        { en: "She admired the quiet {austerity} of Japanese tea rooms.", zh: "她欣赏日式茶室那种宁静的简朴。" }
-      ]
+        {
+          en: "The government imposed {austerity} measures to cut the deficit.",
+          zh: "政府实施紧缩措施以削减赤字。",
+        },
+        {
+          en: "She admired the quiet {austerity} of Japanese tea rooms.",
+          zh: "她欣赏日式茶室那种宁静的简朴。",
+        },
+      ],
     },
     burdened: {
       p: "'bә:dn",
       t: "adj. 负担沉重的；受累的",
       e: [
-        { en: "She felt {burdened} by the responsibility of caring for her parents.", zh: "照顾父母的责任让她感到压力很大。" },
-        { en: "The donkey was {burdened} with sacks of grain.", zh: "那头驴驮着一袋袋谷物。" }
-      ]
+        {
+          en: "She felt {burdened} by the responsibility of caring for her parents.",
+          zh: "照顾父母的责任让她感到压力很大。",
+        },
+        {
+          en: "The donkey was {burdened} with sacks of grain.",
+          zh: "那头驴驮着一袋袋谷物。",
+        },
+      ],
     },
     stimulate: {
       p: "'stimjuleit",
       t: "v. 刺激；促进；激发",
       e: [
-        { en: "Tax cuts are meant to {stimulate} consumer spending.", zh: "减税的目的是刺激消费支出。" },
-        { en: "Puzzles {stimulate} the brain and improve memory.", zh: "益智游戏能刺激大脑、增强记忆力。" }
-      ]
+        {
+          en: "Tax cuts are meant to {stimulate} consumer spending.",
+          zh: "减税的目的是刺激消费支出。",
+        },
+        {
+          en: "Puzzles {stimulate} the brain and improve memory.",
+          zh: "益智游戏能刺激大脑、增强记忆力。",
+        },
+      ],
     },
     ameliorate: {
       p: "ә'mi:ljәreit",
       t: "v. 改善，改良",
       e: [
-        { en: "New policies aim to {ameliorate} working conditions in the factory.", zh: "新政策旨在改善工厂的工作条件。" },
-        { en: "A warm meal can {ameliorate} the misery of a cold day.", zh: "一顿热饭能缓解寒冷天气带来的不适。" }
-      ]
+        {
+          en: "New policies aim to {ameliorate} working conditions in the factory.",
+          zh: "新政策旨在改善工厂的工作条件。",
+        },
+        {
+          en: "A warm meal can {ameliorate} the misery of a cold day.",
+          zh: "一顿热饭能缓解寒冷天气带来的不适。",
+        },
+      ],
     },
     fractious: {
       p: "'frækʃәs",
       t: "adj. 易怒的；爱闹的",
       e: [
-        { en: "The {fractious} toddler refused to put on his shoes.", zh: "那个爱闹脾气的小孩不肯穿鞋。" },
-        { en: "Coalition talks grew {fractious} after the budget leak.", zh: "预算外泄后联合谈判变得越来越火爆。" }
-      ]
+        {
+          en: "The {fractious} toddler refused to put on his shoes.",
+          zh: "那个爱闹脾气的小孩不肯穿鞋。",
+        },
+        {
+          en: "Coalition talks grew {fractious} after the budget leak.",
+          zh: "预算外泄后联合谈判变得越来越火爆。",
+        },
+      ],
     },
     polarized: {
       p: "'pəʊləraɪzd",
       t: "adj. 极化的；两极分化的",
       e: [
-        { en: "The country has rarely been more {polarized} than it is today.", zh: "这个国家很少像今天这样两极分化。" },
-        { en: "{Polarized} lenses cut down reflections off water and snow.", zh: "偏光镜片能减少水面和雪面的反光。" }
-      ]
+        {
+          en: "The country has rarely been more {polarized} than it is today.",
+          zh: "这个国家很少像今天这样两极分化。",
+        },
+        {
+          en: "{Polarized} lenses cut down reflections off water and snow.",
+          zh: "偏光镜片能减少水面和雪面的反光。",
+        },
+      ],
     },
     obstruct: {
       p: "әb'strʌkt",
       t: "v. 阻碍，阻挡；妨碍",
       e: [
-        { en: "Don't park here — you'll {obstruct} the fire exit.", zh: "别停在这里，你会挡住消防通道的。" },
-        { en: "Lawmakers tried to {obstruct} the bill with endless amendments.", zh: "议员们试图用无休止的修正案来阻挠这项法案。" }
-      ]
+        {
+          en: "Don't park here — you'll {obstruct} the fire exit.",
+          zh: "别停在这里，你会挡住消防通道的。",
+        },
+        {
+          en: "Lawmakers tried to {obstruct} the bill with endless amendments.",
+          zh: "议员们试图用无休止的修正案来阻挠这项法案。",
+        },
+      ],
     },
     vituperative: {
       p: "vi'tju:pәreitiv",
       t: "adj. 谩骂的；辱骂性的",
       e: [
-        { en: "The debate turned into a {vituperative} shouting match.", zh: "那场辩论沦为了一场谩骂式的争吵。" },
-        { en: "He deleted his {vituperative} post the next morning.", zh: "第二天早上他删掉了那条恶语相向的帖子。" }
-      ]
+        {
+          en: "The debate turned into a {vituperative} shouting match.",
+          zh: "那场辩论沦为了一场谩骂式的争吵。",
+        },
+        {
+          en: "He deleted his {vituperative} post the next morning.",
+          zh: "第二天早上他删掉了那条恶语相向的帖子。",
+        },
+      ],
     },
     ostensibly: {
       p: "ɑːˈstensɪbli",
       t: "adv. 表面上；外表上；显然",
       e: [
-        { en: "He was {ostensibly} working, but actually watching videos.", zh: "他表面上在工作，实际上在看视频。" }
-      ]
+        {
+          en: "He was {ostensibly} working, but actually watching videos.",
+          zh: "他表面上在工作，实际上在看视频。",
+        },
+      ],
     },
     elsewhere: {
       p: "ˈelswer",
       t: "adv. 在别处；到别处",
       e: [
-        { en: "If you can't find it here, look {elsewhere}.", zh: "如果你在这里找不到，去别处看看。" }
-      ]
+        {
+          en: "If you can't find it here, look {elsewhere}.",
+          zh: "如果你在这里找不到，去别处看看。",
+        },
+      ],
     },
     ambiguous: {
       p: "æmˈbɪɡjuəs",
       t: "adj. 模棱两可的；含混不清的",
       e: [
-        { en: "The instructions were {ambiguous} and confusing.", zh: "说明含混不清，令人困惑。" }
-      ]
+        {
+          en: "The instructions were {ambiguous} and confusing.",
+          zh: "说明含混不清，令人困惑。",
+        },
+      ],
     },
     interpretation: {
       p: "ɪnˌtɜːrprɪˈteɪʃn",
       t: "n. 解释；理解；诠释",
       e: [
-        { en: "Different people have different {interpretations} of the poem.", zh: "不同的人对这首诗有不同的理解。" }
-      ]
+        {
+          en: "Different people have different {interpretations} of the poem.",
+          zh: "不同的人对这首诗有不同的理解。",
+        },
+      ],
     },
     perfunctory: {
       p: "pә'fʌŋktәri",
       t: "adj. 敷衍的，草率的",
       e: [
-        { en: "The manager gave a {perfunctory} apology and moved on.", zh: "经理敷衍地道了个歉就把话题带过去了。" },
-        { en: "His {perfunctory} review missed several obvious bugs.", zh: "他敷衍的审查漏掉了好几个明显的漏洞。" }
-      ]
-    }
+        {
+          en: "The manager gave a {perfunctory} apology and moved on.",
+          zh: "经理敷衍地道了个歉就把话题带过去了。",
+        },
+        {
+          en: "His {perfunctory} review missed several obvious bugs.",
+          zh: "他敷衍的审查漏掉了好几个明显的漏洞。",
+        },
+      ],
+    },
   };
 
   // Tooltip 元素 - 使用类名选择器匹配扩展结构
-  const tooltip = document.getElementById('tooltip');
-  const phonetic = tooltip?.querySelector('.phonetic');
-  const ipa = tooltip?.querySelector('.ipa');
-  const body = tooltip?.querySelector('.body');
-  const examples = tooltip?.querySelector('.examples');
-  const speaker = tooltip?.querySelector('.speaker');
+  const tooltip = document.getElementById("tooltip");
+  const phonetic = tooltip?.querySelector(".phonetic");
+  const ipa = tooltip?.querySelector(".ipa");
+  const body = tooltip?.querySelector(".body");
+  const examples = tooltip?.querySelector(".examples");
+  const speaker = tooltip?.querySelector(".speaker");
 
   let activeTooltipWord: string | null = null;
 
   // 朗读功能 - 匹配扩展实现
   function speakWord(word: string) {
-    if (!('speechSynthesis' in window)) return;
-    
+    if (!("speechSynthesis" in window)) return;
+
     speechSynthesis.cancel();
-    
+
     const utterance = new SpeechSynthesisUtterance(word);
-    utterance.lang = 'en-US';
+    utterance.lang = "en-US";
     utterance.rate = 0.9;
     utterance.pitch = 1;
-    
+
     const voices = speechSynthesis.getVoices();
-    const enVoice = voices.find(v => v.lang.startsWith('en') && v.name.includes('Google')) ||
-                    voices.find(v => v.lang.startsWith('en'));
+    const enVoice =
+      voices.find(
+        (v) => v.lang.startsWith("en") && v.name.includes("Google"),
+      ) || voices.find((v) => v.lang.startsWith("en"));
     if (enVoice) utterance.voice = enVoice;
-    
-    speaker?.classList.remove('playing');
+
+    speaker?.classList.remove("playing");
     void (speaker as HTMLElement)?.offsetWidth;
-    speaker?.classList.add('playing');
-    setTimeout(() => speaker?.classList.remove('playing'), 400);
-    
-    utterance.onend = () => speaker?.classList.remove('playing');
-    utterance.onerror = () => speaker?.classList.remove('playing');
-    
+    speaker?.classList.add("playing");
+    setTimeout(() => speaker?.classList.remove("playing"), 400);
+
+    utterance.onend = () => speaker?.classList.remove("playing");
+    utterance.onerror = () => speaker?.classList.remove("playing");
+
     speechSynthesis.speak(utterance);
   }
 
-  speaker?.addEventListener('click', (e) => {
+  speaker?.addEventListener("click", (e) => {
     e.preventDefault();
     e.stopPropagation();
     if (activeTooltipWord) {
@@ -864,57 +1176,57 @@ const base = import.meta.env.BASE_URL;
 
     if (detail.p && ipa && phonetic) {
       ipa.textContent = `/${detail.p}/`;
-      phonetic.style.display = 'flex';
+      phonetic.style.display = "flex";
     } else if (phonetic) {
-      phonetic.style.display = 'none';
+      phonetic.style.display = "none";
     }
 
     if (body) {
-      body.textContent = detail.t.replace(/\\n/g, '\n');
+      body.textContent = detail.t.replace(/\\n/g, "\n");
     }
 
     if (examples && detail.e?.length) {
-      examples.innerHTML = '';
+      examples.innerHTML = "";
       for (const ex of detail.e) {
-        const exDiv = document.createElement('div');
-        exDiv.className = 'example';
+        const exDiv = document.createElement("div");
+        exDiv.className = "example";
 
-        const enDiv = document.createElement('div');
-        enDiv.className = 'en';
+        const enDiv = document.createElement("div");
+        enDiv.className = "en";
         const segments = ex.en.split(/\{([^}]+)\}/g);
         segments.forEach((seg, i) => {
           if (i % 2 === 0) {
             enDiv.appendChild(document.createTextNode(seg));
           } else {
-            const targetSpan = document.createElement('span');
-            targetSpan.className = 'target';
+            const targetSpan = document.createElement("span");
+            targetSpan.className = "target";
             targetSpan.textContent = seg;
             enDiv.appendChild(targetSpan);
           }
         });
         exDiv.appendChild(enDiv);
 
-        const zhDiv = document.createElement('div');
-        zhDiv.className = 'zh';
+        const zhDiv = document.createElement("div");
+        zhDiv.className = "zh";
         zhDiv.textContent = ex.zh;
         exDiv.appendChild(zhDiv);
 
         examples.appendChild(exDiv);
       }
-      examples.style.display = 'block';
+      examples.style.display = "block";
     } else if (examples) {
-      examples.style.display = 'none';
+      examples.style.display = "none";
     }
 
     const GAP = 8;
     const vw = window.innerWidth;
     const vh = window.innerHeight;
 
-    tooltip.style.visibility = 'hidden';
-    tooltip.classList.remove('hidden');
-    
+    tooltip.style.visibility = "hidden";
+    tooltip.classList.remove("hidden");
+
     const tipRect = tooltip.getBoundingClientRect();
-    
+
     let top = rect.bottom + GAP;
     let left = rect.left + (rect.width - tipRect.width) / 2;
 
@@ -926,8 +1238,8 @@ const base = import.meta.env.BASE_URL;
 
     tooltip.style.top = `${top}px`;
     tooltip.style.left = `${left}px`;
-    tooltip.style.visibility = '';
-    tooltip.classList.add('show');
+    tooltip.style.visibility = "";
+    tooltip.classList.add("show");
 
     // 自动隐藏 30 秒
     activeAutoHideTimer = setTimeout(cleanup, 30_000);
@@ -940,10 +1252,10 @@ const base = import.meta.env.BASE_URL;
       clearTimeout(activeAutoHideTimer);
       activeAutoHideTimer = null;
     }
-    
+
     if (tooltip) {
-      tooltip.classList.remove('show');
-      tooltip.classList.add('hidden');
+      tooltip.classList.remove("show");
+      tooltip.classList.add("hidden");
     }
     activeTooltipWord = null;
   }
@@ -952,17 +1264,23 @@ const base = import.meta.env.BASE_URL;
     // 匹配扩展的 hover + click 行为
     const HOVER_SHOW_DELAY = 150;
     const HOVER_HIDE_DELAY = 120;
-    
+
     let showTimer: ReturnType<typeof setTimeout> | null = null;
     let hideTimer: ReturnType<typeof setTimeout> | null = null;
     let isPinned = false;
     let currentHoverEl: Element | null = null;
 
     const clearShow = () => {
-      if (showTimer !== null) { clearTimeout(showTimer); showTimer = null; }
+      if (showTimer !== null) {
+        clearTimeout(showTimer);
+        showTimer = null;
+      }
     };
     const clearHide = () => {
-      if (hideTimer !== null) { clearTimeout(hideTimer); hideTimer = null; }
+      if (hideTimer !== null) {
+        clearTimeout(hideTimer);
+        hideTimer = null;
+      }
     };
 
     const scheduleHide = () => {
@@ -974,11 +1292,11 @@ const base = import.meta.env.BASE_URL;
       }, HOVER_HIDE_DELAY);
     };
 
-    document.querySelectorAll('[data-readto]').forEach(el => {
-      const word = el.getAttribute('data-word') || '';
+    document.querySelectorAll("[data-readto]").forEach((el) => {
+      const word = el.getAttribute("data-word") || "";
 
       // Hover: 延迟显示 tooltip
-      el.addEventListener('pointerenter', () => {
+      el.addEventListener("pointerenter", () => {
         currentHoverEl = el;
         clearShow();
         clearHide();
@@ -990,17 +1308,17 @@ const base = import.meta.env.BASE_URL;
       });
 
       // Hover leave: 延迟隐藏
-      el.addEventListener('pointerleave', () => {
+      el.addEventListener("pointerleave", () => {
         currentHoverEl = null;
         clearShow();
         if (!isPinned) scheduleHide();
       });
 
       // Click: pin/unpin（移动端也用 click）
-      el.addEventListener('click', (e) => {
+      el.addEventListener("click", (e) => {
         e.preventDefault();
         e.stopPropagation();
-        
+
         if (isPinned && activeTooltipWord === word.toLowerCase()) {
           // Unpin
           isPinned = false;
@@ -1017,54 +1335,58 @@ const base = import.meta.env.BASE_URL;
     });
 
     // Tooltip hover: 保持显示
-    tooltip?.addEventListener('pointerenter', () => {
+    tooltip?.addEventListener("pointerenter", () => {
       clearHide();
       clearShow();
     });
 
-    tooltip?.addEventListener('pointerleave', () => {
+    tooltip?.addEventListener("pointerleave", () => {
       if (!isPinned) scheduleHide();
     });
 
     // 点击外部关闭
-    document.addEventListener('mousedown', (e) => {
+    document.addEventListener("mousedown", (e) => {
       const target = e.target as Element;
-      if (target.closest('[data-readto]')) return;
+      if (target.closest("[data-readto]")) return;
       if (tooltip?.contains(target)) return;
       isPinned = false;
       cleanup();
     });
 
     // Escape 关闭
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
         isPinned = false;
         cleanup();
       }
     });
 
     // 滚动关闭
-    window.addEventListener('scroll', () => {
-      isPinned = false;
-      cleanup();
-    }, { passive: true });
+    window.addEventListener(
+      "scroll",
+      () => {
+        isPinned = false;
+        cleanup();
+      },
+      { passive: true },
+    );
   }
   bindAnnotationClicks();
 
   // ─── Level Slider ───────────────────────────────────────────────────
-  const slider = document.getElementById('level-slider');
-  const knob = document.getElementById('knob');
-  const trackFill = document.getElementById('track-fill');
-  const levelDesc = document.getElementById('level-desc');
-  const demoContent = document.getElementById('demo-content');
-  const sliderLabels = document.querySelectorAll('.slider-label');
+  const slider = document.getElementById("level-slider");
+  const knob = document.getElementById("knob");
+  const trackFill = document.getElementById("track-fill");
+  const levelDesc = document.getElementById("level-desc");
+  const demoContent = document.getElementById("demo-content");
+  const sliderLabels = document.querySelectorAll(".slider-label");
 
   const levelDescs = [
-    '只标最基础的词。',
-    '标高考以下的词。',
-    '只标大学四六级以上的词。',
-    '标雅思托福以上的词。',
-    '只标最生僻的词。',
+    "只标最基础的词。",
+    "标高考以下的词。",
+    "只标大学四六级以上的词。",
+    "标雅思托福以上的词。",
+    "只标最生僻的词。",
   ];
 
   let currentLevel = 2;
@@ -1075,32 +1397,39 @@ const base = import.meta.env.BASE_URL;
 
   // 单词 CEFR 等级映射 - 从扩展项目 level-data-full.json 获取
   const wordLevels: Record<string, string> = {
-    sweeping: 'B1',
-    overhaul: 'B2',
-    disproportionately: 'B2',
-    profligate: 'C2',
-    austerity: 'B2',
-    burdened: 'B1',
-    stimulate: 'B1',
-    ameliorate: 'C1',
-    fractious: 'C2',
-    polarized: 'C1',
-    obstruct: 'B2',
-    vituperative: 'C2',
-    perfunctory: 'C1'
+    sweeping: "B1",
+    overhaul: "B2",
+    disproportionately: "B2",
+    profligate: "C2",
+    austerity: "B2",
+    burdened: "B1",
+    stimulate: "B1",
+    ameliorate: "C1",
+    fractious: "C2",
+    polarized: "C1",
+    obstruct: "B2",
+    vituperative: "C2",
+    perfunctory: "C1",
   };
 
   // CEFR 等级顺序
-  const LEVEL_ORDER: Record<string, number> = { A1: 1, A2: 2, B1: 3, B2: 4, C1: 5, C2: 6 };
+  const LEVEL_ORDER: Record<string, number> = {
+    A1: 1,
+    A2: 2,
+    B1: 3,
+    B2: 4,
+    C1: 5,
+    C2: 6,
+  };
 
   // 用户等级对应的 CEFR 阈值
-  const userLevelThresholds = ['A1', 'A2', 'B1', 'B2', 'C1'];
+  const userLevelThresholds = ["A1", "A2", "B1", "B2", "C1"];
 
   // 根据用户等级动态计算显示的单词
   function getWordsForLevel(userLevelIndex: number): string[] {
-    const userLevel = userLevelThresholds[userLevelIndex] || 'B1';
+    const userLevel = userLevelThresholds[userLevelIndex] || "B1";
     const threshold = LEVEL_ORDER[userLevel];
-    
+
     return Object.entries(wordLevels)
       .filter(([_, wordLevel]) => LEVEL_ORDER[wordLevel] > threshold)
       .map(([word]) => word);
@@ -1108,20 +1437,20 @@ const base = import.meta.env.BASE_URL;
 
   function updateAnnotations(level: number) {
     if (!demoContent) return;
-    
+
     const showWords = getWordsForLevel(level);
-    
-    demoContent.querySelectorAll('[data-readto]').forEach(el => {
-      const word = el.getAttribute('data-word');
+
+    demoContent.querySelectorAll("[data-readto]").forEach((el) => {
+      const word = el.getAttribute("data-word");
       if (word && showWords.includes(word)) {
-        el.style.display = '';
+        el.style.display = "";
         // 显示 rt
-        const rt = el.querySelector('.rt');
-        if (rt) rt.style.display = '';
+        const rt = el.querySelector(".rt");
+        if (rt) rt.style.display = "";
       } else if (word) {
         // 隐藏 rt 但保留文字
-        const rt = el.querySelector('.rt');
-        if (rt) rt.style.display = 'none';
+        const rt = el.querySelector(".rt");
+        if (rt) rt.style.display = "none";
       }
     });
   }
@@ -1135,18 +1464,21 @@ const base = import.meta.env.BASE_URL;
 
     sliderLabels.forEach((label, i) => {
       if (i === level) {
-        label.classList.add('active', 'text-[#111]', 'font-medium');
-        label.classList.remove('text-[#b8b3ac]');
+        label.classList.add("active", "text-[#111]", "font-medium");
+        label.classList.remove("text-[#b8b3ac]");
       } else {
-        label.classList.remove('active', 'text-[#111]', 'font-medium');
-        label.classList.add('text-[#b8b3ac]');
+        label.classList.remove("active", "text-[#111]", "font-medium");
+        label.classList.add("text-[#b8b3ac]");
       }
     });
 
     if (levelDesc) levelDesc.textContent = levelDescs[level];
     if (slider) {
-      slider.setAttribute('aria-valuenow', String(level + 1));
-      slider.setAttribute('aria-valuetext', ['入门', '基础', '进阶', '熟练', '精通'][level]);
+      slider.setAttribute("aria-valuenow", String(level + 1));
+      slider.setAttribute(
+        "aria-valuetext",
+        ["入门", "基础", "进阶", "熟练", "精通"][level],
+      );
     }
 
     // 联动更新标注
@@ -1155,7 +1487,7 @@ const base = import.meta.env.BASE_URL;
     // 持久化到 localStorage
     if (save) {
       try {
-        localStorage.setItem('readto-level', String(level));
+        localStorage.setItem("readto-level", String(level));
       } catch {}
     }
   }
@@ -1183,48 +1515,60 @@ const base = import.meta.env.BASE_URL;
 
   let isDragging = false;
 
-  slider?.addEventListener('mousedown', (e) => {
+  slider?.addEventListener("mousedown", (e) => {
     isDragging = true;
     updateSlider(pointerToLevel(e.clientX));
     e.preventDefault();
   });
 
-  document.addEventListener('mousemove', (e) => {
+  document.addEventListener("mousemove", (e) => {
     if (isDragging) updateSlider(pointerToLevel(e.clientX));
   });
 
-  document.addEventListener('mouseup', () => { isDragging = false; });
+  document.addEventListener("mouseup", () => {
+    isDragging = false;
+  });
 
-  slider?.addEventListener('touchstart', (e) => {
-    isDragging = true;
-    updateSlider(pointerToLevel(e.touches[0].clientX));
-    e.preventDefault();
-  }, { passive: false });
+  slider?.addEventListener(
+    "touchstart",
+    (e) => {
+      isDragging = true;
+      updateSlider(pointerToLevel(e.touches[0].clientX));
+      e.preventDefault();
+    },
+    { passive: false },
+  );
 
-  document.addEventListener('touchmove', (e) => {
-    if (isDragging) updateSlider(pointerToLevel(e.touches[0].clientX));
-  }, { passive: true });
+  document.addEventListener(
+    "touchmove",
+    (e) => {
+      if (isDragging) updateSlider(pointerToLevel(e.touches[0].clientX));
+    },
+    { passive: true },
+  );
 
-  document.addEventListener('touchend', () => { isDragging = false; });
+  document.addEventListener("touchend", () => {
+    isDragging = false;
+  });
 
-  slider?.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
+  slider?.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowRight" || e.key === "ArrowUp") {
       updateSlider(Math.min(4, currentLevel + 1));
       e.preventDefault();
-    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
+    } else if (e.key === "ArrowLeft" || e.key === "ArrowDown") {
       updateSlider(Math.max(0, currentLevel - 1));
       e.preventDefault();
     }
   });
 
   sliderLabels.forEach((label, i) => {
-    label.addEventListener('click', () => updateSlider(i));
+    label.addEventListener("click", () => updateSlider(i));
   });
 
   // 初始化：从 localStorage 读取保存的等级
   let savedLevel = 2; // 默认进阶
   try {
-    const stored = localStorage.getItem('readto-level');
+    const stored = localStorage.getItem("readto-level");
     if (stored !== null) {
       const parsed = parseInt(stored, 10);
       if (parsed >= 0 && parsed <= 4) {
