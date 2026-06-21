@@ -5,3 +5,4 @@ dist/
 cdp-*.cjs
 src/lib/level-data-full.json
 src/lib/translations-data.json
+test-results/
