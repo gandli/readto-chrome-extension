@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Readto E2E Test Page</title>
+  <style>
+    body { font-family: Georgia, serif; max-width: 720px; margin: 40px auto; line-height: 1.8; color: #333; }
+    h1 { font-size: 1.6em; margin-bottom: 1em; }
+    p { margin-bottom: 1.2em; }
+    .code-block { background: #f5f5f5; padding: 12px; font-family: monospace; }
+    nav { padding: 10px; background: #eee; margin-bottom: 20px; }
+    .notranslate { color: #999; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="#">Home</a> | <a href="#">About</a>
+  </nav>
+
+  <h1>The Serendipity of Scientific Discovery</h1>
+
+  <p id="para-1">
+    Throughout history, many groundbreaking discoveries have been the result of serendipitous
+    encounters rather than deliberate investigation. Scientists often stumble upon remarkable
+    findings while pursuing entirely different objectives, demonstrating the quintessential
+    nature of curiosity-driven research.
+  </p>
+
+  <p id="para-2">
+    The phenomenon of penicillin's discovery exemplifies this paradigm perfectly. Alexander Fleming
+    noticed that a contaminated petri dish exhibited remarkable antibacterial properties, leading to
+    the development of antibiotics that revolutionized modern medicine and saved countless lives
+    throughout the twentieth century.
+  </p>
+
+  <p id="para-3">
+    Similarly, the discovery of X-ray diffraction was an inadvertent consequence of experiments
+    conducted by Wilhelm Röntgen. His meticulous observation of fluorescent screens illuminated
+    by cathode rays ultimately unveiled an unprecedented method for examining the internal
+    architecture of crystalline structures.
+  </p>
+
+  <!-- Code block should NOT be annotated -->
+  <div class="code-block">
+    <code>const x = document.querySelector('.serendipity');</code>
+  </div>
+
+  <!-- Short paragraph with common words (few annotations expected) -->
+  <p id="para-common">
+    The cat sat on the mat and looked at the dog. It was a good day.
+  </p>
+
+  <!-- Mixed content: some known words, some advanced -->
+  <p id="para-mixed">
+    The ubiquitous smartphone has become an indispensable tool in contemporary society.
+    Its proliferation has transformed communication, commerce, and entertainment in ways
+    that were inconceivable just a few decades ago.
+  </p>
+
+  <!-- notranslate element should NOT be annotated -->
+  <span class="notranslate">This technical term should remain unchanged</span>
+
+</body>
+</html>
