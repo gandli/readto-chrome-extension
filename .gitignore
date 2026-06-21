@@ -1,0 +1,7 @@
+node_modules/
+dist/
+*.log
+.DS_Store
+cdp-*.cjs
+src/lib/level-data-full.json
+src/lib/translations-data.json

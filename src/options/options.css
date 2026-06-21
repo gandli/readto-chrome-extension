@@ -1,0 +1,57 @@
+/**
+ * Component-level styles for the options page.
+ *
+ * The main Tailwind-based design system lives in public/assets/options.css
+ * (generated from the original extension). This file adds only the styles
+ * needed for the options React components that aren't covered by the
+ * Tailwind utility classes.
+ */
+
+/* ─── Preview annotation overrides ──────────────────────────────── */
+
+/* Ensure readto annotation spans in the preview area display correctly */
+[data-readto] {
+  display: inline;
+}
+
+/* Ruby annotation styling for the preview */
+[data-readto] ruby rt {
+  font-family: "Noto Sans SC", "Inter Variable", system-ui, sans-serif;
+  font-size: 0.65em;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--readto-annot, #9a9489);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Dark mode adjustments for annotations */
+@media (prefers-color-scheme: dark) {
+  [data-readto] ruby rt {
+    color: var(--readto-annot, #b8b3ac);
+  }
+}
+
+/* ─── Slider knob focus ring ────────────────────────────────────── */
+
+.readto-track-wrap:focus-visible .readto-knob {
+  outline: 2px solid var(--readto-ink, #111);
+  outline-offset: 4px;
+}
+
+/* ─── Level label active state ──────────────────────────────────── */
+
+.readto-levels .readto-active {
+  position: relative;
+}
+
+.readto-levels .readto-active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 25%;
+  right: 25%;
+  height: 2px;
+  background: var(--readto-ink, #111);
+  border-radius: 1px;
+}

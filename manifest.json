@@ -1,0 +1,86 @@
+{
+  "update_url": "https://clients2.google.com/service/update2/crx",
+  "manifest_version": 3,
+  "name": "readto",
+  "version": "0.3.1",
+  "description": "Chinese ruby annotations for English words above your CEFR level",
+  "homepage_url": "https://readto.ai",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "permissions": ["storage"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "service-worker-loader.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "readto — configure",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
+  },
+  "options_page": "options.html",
+  "content_scripts": [
+    {
+      "js": ["assets/index.ts-loader-Cv3b-ymH.js"],
+      "matches": ["http://*/*", "https://*/*"],
+      "exclude_matches": [
+        "https://*.youtube.com/*",
+        "https://*.youtube-nocookie.com/*"
+      ],
+      "run_at": "document_idle"
+    },
+    {
+      "js": ["assets/index.ts-loader-DwE3QRHa.js"],
+      "matches": [
+        "https://*.youtube.com/*",
+        "https://*.youtube-nocookie.com/*"
+      ],
+      "run_at": "document_start",
+      "all_frames": true
+    },
+    {
+      "js": ["assets/page-world.ts-loader-B6WhpLWu.js"],
+      "matches": [
+        "https://*.youtube.com/*",
+        "https://*.youtube-nocookie.com/*"
+      ],
+      "run_at": "document_start",
+      "all_frames": true,
+      "world": "MAIN"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "resources": [
+        "assets/storage-BlXw-pAd.js",
+        "assets/level-filter-DqkbMnw5.js",
+        "assets/inline-renderer-CE9Ekxkf.js",
+        "assets/translations-3x5cXER0.js",
+        "assets/index.ts-Bi-u9n9y.js"
+      ],
+      "use_dynamic_url": false
+    },
+    {
+      "matches": [
+        "https://*.youtube-nocookie.com/*",
+        "https://*.youtube.com/*"
+      ],
+      "resources": [
+        "assets/storage-BlXw-pAd.js",
+        "assets/level-filter-DqkbMnw5.js",
+        "assets/types-DC28QtkU.js",
+        "assets/translations-3x5cXER0.js",
+        "assets/index.ts-D_6H5iX4.js",
+        "assets/page-world.ts-BGmjBmlP.js"
+      ],
+      "use_dynamic_url": false
+    }
+  ]
+}
