@@ -16,7 +16,7 @@
 
 /* Ruby annotation styling for the preview */
 [data-readto] ruby rt {
-  font-family: "Noto Sans SC", "Inter Variable", system-ui, sans-serif;
+  font-family: "Noto Sans SC", Inter, system-ui, sans-serif;
   font-size: 0.65em;
   font-weight: 400;
   line-height: 1;
