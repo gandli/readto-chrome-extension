@@ -36,7 +36,7 @@ const base = import.meta.env.BASE_URL;
   <main>
     <!-- Hero Section -->
     <section class="max-w-[1180px] mx-auto px-6 pt-20 pb-24">
-      <div class="grid md:grid-cols-[1fr_1.2fr] gap-14 items-start">
+      <div class="grid md:grid-cols-[1fr_1.2fr] gap-10 md:gap-14 items-start">
         <!-- Left: Description -->
         <div>
           <p class="text-[11px] text-[#9a9489] tracking-[0.14em] uppercase font-semibold mb-6">
@@ -174,9 +174,9 @@ const base = import.meta.env.BASE_URL;
           </h2>
         </div>
 
-        <div class="grid grid-cols-3 border-t border-[#ebe7df]">
+        <div class="grid md:grid-cols-3 border-t border-[#ebe7df]">
           <!-- Feature 1 -->
-          <div class="py-10 px-8 pb-2 min-h-[260px] flex flex-col gap-3 relative border-r border-[#ebe7df] first:pl-0 last:pr-0 last:border-r-0">
+          <div class="py-10 px-8 pb-2 min-h-[260px] flex flex-col gap-3 relative border-b md:border-b-0 md:border-r border-[#ebe7df] first:pl-0 last:pr-0 last:border-r-0">
             <div class="font-serif text-[13px] text-[#b2462a] font-medium tracking-[0.02em]">No. 01</div>
             <h3 class="font-serif font-medium text-[24px] m-0 tracking-tight leading-[1.25]">只标你不会的词</h3>
             <p class="mt-1.5 text-[#2b2824] text-[14px] leading-[1.65] max-w-[320px]">
@@ -188,7 +188,7 @@ const base = import.meta.env.BASE_URL;
           </div>
 
           <!-- Feature 2 -->
-          <div class="py-10 px-8 pb-2 min-h-[260px] flex flex-col gap-3 relative border-r border-[#ebe7df] first:pl-0 last:pr-0 last:border-r-0">
+          <div class="py-10 px-8 pb-2 min-h-[260px] flex flex-col gap-3 relative border-b md:border-b-0 md:border-r border-[#ebe7df] first:pl-0 last:pr-0 last:border-r-0">
             <div class="font-serif text-[13px] text-[#b2462a] font-medium tracking-[0.02em]">No. 02</div>
             <h3 class="font-serif font-medium text-[24px] m-0 tracking-tight leading-[1.25]">不打断你的阅读节奏</h3>
             <p class="mt-1.5 text-[#2b2824] text-[14px] leading-[1.65] max-w-[320px]">
@@ -429,6 +429,38 @@ const base = import.meta.env.BASE_URL;
     font-weight: 500;
   }
 
+  /* 移动端适配 */
+  @media (max-width: 768px) {
+    .tooltip {
+      min-width: 160px;
+      max-width: 280px;
+      font-size: 13px;
+      padding: 8px 10px;
+    }
+
+    .tooltip .speaker {
+      width: 20px;
+      height: 20px;
+    }
+
+    .tooltip .speaker svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    .tooltip .example .en {
+      font-size: 12px;
+    }
+
+    .tooltip .example .zh {
+      font-size: 11px;
+    }
+
+    [data-readto] {
+      -webkit-tap-highlight-color: transparent;
+    }
+  }
+
   @media (prefers-color-scheme: dark) {
     .tooltip {
       background: hsl(24 10% 6%);
@@ -601,12 +633,7 @@ const base = import.meta.env.BASE_URL;
     tooltip.style.visibility = '';
     tooltip.classList.add('show');
 
-    setTimeout(() => {
-      document.addEventListener('mousedown', onClickOutside, { once: true });
-    }, 0);
-    document.addEventListener('keydown', onKeyDown);
-    document.addEventListener('scroll', onScroll, { passive: true });
-
+    // 自动隐藏 30 秒
     activeAutoHideTimer = setTimeout(cleanup, 30_000);
   }
 
@@ -617,9 +644,6 @@ const base = import.meta.env.BASE_URL;
       clearTimeout(activeAutoHideTimer);
       activeAutoHideTimer = null;
     }
-    document.removeEventListener('mousedown', onClickOutside);
-    document.removeEventListener('keydown', onKeyDown);
-    document.removeEventListener('scroll', onScroll);
     
     if (tooltip) {
       tooltip.classList.remove('show');
@@ -628,38 +652,106 @@ const base = import.meta.env.BASE_URL;
     activeTooltipWord = null;
   }
 
-  function onClickOutside(e: MouseEvent) {
-    // 检查点击是否在标注元素内
-    const target = e.target as Element;
-    if (target.closest('[data-readto]')) return;
-    
-    if (tooltip && !tooltip.contains(target)) {
-      cleanup();
-    }
-  }
-
-  function onKeyDown(e: KeyboardEvent) {
-    if (e.key === 'Escape') cleanup();
-  }
-
-  function onScroll() {
-    cleanup();
-  }
-
   function bindAnnotationClicks() {
+    // 匹配扩展的 hover + click 行为
+    const HOVER_SHOW_DELAY = 150;
+    const HOVER_HIDE_DELAY = 120;
+    
+    let showTimer: ReturnType<typeof setTimeout> | null = null;
+    let hideTimer: ReturnType<typeof setTimeout> | null = null;
+    let isPinned = false;
+    let currentHoverEl: Element | null = null;
+
+    const clearShow = () => {
+      if (showTimer !== null) { clearTimeout(showTimer); showTimer = null; }
+    };
+    const clearHide = () => {
+      if (hideTimer !== null) { clearTimeout(hideTimer); hideTimer = null; }
+    };
+
+    const scheduleHide = () => {
+      clearHide();
+      hideTimer = setTimeout(() => {
+        hideTimer = null;
+        if (isPinned) return;
+        cleanup();
+      }, HOVER_HIDE_DELAY);
+    };
+
     document.querySelectorAll('[data-readto]').forEach(el => {
+      const word = el.getAttribute('data-word') || '';
+
+      // Hover: 延迟显示 tooltip
+      el.addEventListener('pointerenter', () => {
+        currentHoverEl = el;
+        clearShow();
+        clearHide();
+        showTimer = setTimeout(() => {
+          showTimer = null;
+          const rect = el.getBoundingClientRect();
+          showTooltip(word, rect);
+        }, HOVER_SHOW_DELAY);
+      });
+
+      // Hover leave: 延迟隐藏
+      el.addEventListener('pointerleave', () => {
+        currentHoverEl = null;
+        clearShow();
+        if (!isPinned) scheduleHide();
+      });
+
+      // Click: pin/unpin（移动端也用 click）
       el.addEventListener('click', (e) => {
+        e.preventDefault();
         e.stopPropagation();
-        const word = el.getAttribute('data-word') || el.textContent?.split('\n')[0]?.trim() || '';
-        const rect = el.getBoundingClientRect();
         
-        if (activeTooltipWord === word.toLowerCase()) {
-          cleanup();
+        if (isPinned && activeTooltipWord === word.toLowerCase()) {
+          // Unpin
+          isPinned = false;
+          scheduleHide();
         } else {
+          // Pin
+          isPinned = true;
+          clearHide();
+          clearShow();
+          const rect = el.getBoundingClientRect();
           showTooltip(word, rect);
         }
       });
     });
+
+    // Tooltip hover: 保持显示
+    tooltip?.addEventListener('pointerenter', () => {
+      clearHide();
+      clearShow();
+    });
+
+    tooltip?.addEventListener('pointerleave', () => {
+      if (!isPinned) scheduleHide();
+    });
+
+    // 点击外部关闭
+    document.addEventListener('mousedown', (e) => {
+      const target = e.target as Element;
+      if (target.closest('[data-readto]')) return;
+      if (tooltip?.contains(target)) return;
+      isPinned = false;
+      cleanup();
+    });
+
+    // Escape 关闭
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        isPinned = false;
+        cleanup();
+      }
+    });
+
+    // 滚动关闭
+    window.addEventListener('scroll', () => {
+      isPinned = false;
+      cleanup();
+    }, { passive: true });
   }
   bindAnnotationClicks();
 
