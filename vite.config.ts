@@ -199,7 +199,12 @@ export default defineConfig({
     include: ['src/**/*.{test,spec}.{ts,tsx}', 'tests/**/*.{test,spec}.{ts,tsx}'],
     coverage: {
       provider: 'v8',
-      include: ['src/lib/**', 'src/background/**'],
+      include: ['src/lib/*.ts', 'src/background/*.ts'],
+      exclude: ['**/*.json', '**/*.test.ts', '**/*.spec.ts', '**/*.js'],
+      reporter: ['text', 'text-summary'],
+      reportsDirectory: 'coverage',
+      all: false,
+      clean: true,
     },
   },
 });
