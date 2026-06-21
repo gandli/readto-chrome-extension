@@ -7,7 +7,7 @@
 # Test info
 
 - Name: landing.spec.ts >> Readto Landing Page >> Page Structure >> should have correct title
-- Location: tests\landing.spec.ts:11:5
+- Location: tests\landing.spec.ts:10:5
 
 # Error details
 
@@ -20,7 +20,7 @@ Timeout: 5000ms
 
 Call log:
   - Expect "toHaveTitle" with timeout 5000ms
-    13 × unexpected value "404: Not Found"
+    14 × unexpected value "404: Not Found"
 
 ```
 
@@ -50,112 +50,111 @@ Call log:
   3   | test.describe('Readto Landing Page', () => {
   4   |   test.beforeEach(async ({ page }) => {
   5   |     await page.goto('/');
-  6   |     // Wait for page to be fully loaded
-  7   |     await page.waitForLoadState('networkidle');
-  8   |   });
-  9   | 
-  10  |   test.describe('Page Structure', () => {
-  11  |     test('should have correct title', async ({ page }) => {
-> 12  |       await expect(page).toHaveTitle(/readto/);
+  6   |     await page.waitForLoadState('networkidle');
+  7   |   });
+  8   | 
+  9   |   test.describe('Page Structure', () => {
+  10  |     test('should have correct title', async ({ page }) => {
+> 11  |       await expect(page).toHaveTitle(/readto/);
       |                          ^ Error: expect(page).toHaveTitle(expected) failed
-  13  |     });
-  14  | 
-  15  |     test('should have navigation header', async ({ page }) => {
-  16  |       const header = page.locator('header');
-  17  |       await expect(header).toBeVisible();
-  18  |       await expect(header.locator('a:has-text("readto")')).toBeVisible();
-  19  |       await expect(header.locator('a:has-text("工作原理")')).toBeVisible();
-  20  |       await expect(header.locator('a:has-text("安装扩展")')).toBeVisible();
-  21  |     });
-  22  | 
-  23  |     test('should have hero section with title', async ({ page }) => {
-  24  |       const h1 = page.locator('h1');
-  25  |       await expect(h1).toBeVisible();
-  26  |       await expect(h1).toContainText('Read to know');
-  27  |       await expect(h1).toContainText('读懂每一个词');
-  28  |     });
-  29  | 
-  30  |     test('should have install button', async ({ page }) => {
-  31  |       const installBtn = page.locator('a:has-text("安装 Chrome 扩展")');
-  32  |       await expect(installBtn).toBeVisible();
-  33  |       await expect(installBtn).toHaveAttribute('href', /chromewebstore/);
-  34  |     });
-  35  | 
-  36  |     test('should have How It Works section', async ({ page }) => {
-  37  |       const section = page.locator('#how');
-  38  |       await expect(section).toBeVisible();
-  39  |       await expect(section.locator('h3:has-text("只标你不会的词")')).toBeVisible();
-  40  |       await expect(section.locator('h3:has-text("不打断你的阅读节奏")')).toBeVisible();
-  41  |       await expect(section.locator('h3:has-text("任何英文页面都能用")')).toBeVisible();
-  42  |     });
-  43  | 
-  44  |     test('should have footer', async ({ page }) => {
-  45  |       const footer = page.locator('footer');
-  46  |       await expect(footer).toBeVisible();
-  47  |       await expect(footer).toContainText('© 2026');
-  48  |     });
-  49  |   });
-  50  | 
-  51  |   test.describe('Level Slider', () => {
-  52  |     test('should have level selector with 5 options', async ({ page }) => {
-  53  |       const labels = page.locator('.slider-label');
-  54  |       await expect(labels).toHaveCount(5);
-  55  |       await expect(labels.nth(0)).toHaveText('入门');
-  56  |       await expect(labels.nth(1)).toHaveText('基础');
-  57  |       await expect(labels.nth(2)).toHaveText('进阶');
-  58  |       await expect(labels.nth(3)).toHaveText('熟练');
-  59  |       await expect(labels.nth(4)).toHaveText('精通');
-  60  |     });
-  61  | 
-  62  |     test('should default to 进阶 level', async ({ page }) => {
-  63  |       const desc = page.locator('#level-desc');
-  64  |       await expect(desc).toContainText('大学四六级');
-  65  |     });
-  66  | 
-  67  |     test('should update description when clicking levels', async ({ page }) => {
-  68  |       const desc = page.locator('#level-desc');
-  69  |       
-  70  |       // Click 入门
-  71  |       await page.locator('.slider-label:has-text("入门")').click();
-  72  |       await expect(desc).toContainText('最基础');
-  73  |       
-  74  |       // Click 精通
-  75  |       await page.locator('.slider-label:has-text("精通")').click();
-  76  |       await expect(desc).toContainText('最生僻');
-  77  |     });
-  78  | 
-  79  |     test('should persist level selection in localStorage', async ({ page }) => {
-  80  |       // Select 熟练
-  81  |       await page.locator('.slider-label:has-text("熟练")').click();
+  12  |     });
+  13  | 
+  14  |     test('should have navigation header', async ({ page }) => {
+  15  |       const header = page.locator('header');
+  16  |       await expect(header).toBeVisible();
+  17  |       await expect(header.locator('a:has-text("readto")')).toBeVisible();
+  18  |       await expect(header.locator('a:has-text("工作原理")')).toBeVisible();
+  19  |       await expect(header.locator('a:has-text("安装扩展")')).toBeVisible();
+  20  |     });
+  21  | 
+  22  |     test('should have hero section with title', async ({ page }) => {
+  23  |       const h1 = page.locator('h1');
+  24  |       await expect(h1).toBeVisible();
+  25  |       await expect(h1).toContainText('Read to know');
+  26  |       await expect(h1).toContainText('读懂每一个词');
+  27  |     });
+  28  | 
+  29  |     test('should have install button linking to Chrome Web Store', async ({ page }) => {
+  30  |       const installBtn = page.locator('a:has-text("安装 Chrome 扩展")');
+  31  |       await expect(installBtn).toBeVisible();
+  32  |       await expect(installBtn).toHaveAttribute('href', /chromewebstore/);
+  33  |     });
+  34  | 
+  35  |     test('should have How It Works section with 3 features', async ({ page }) => {
+  36  |       const section = page.locator('#how');
+  37  |       await expect(section).toBeVisible();
+  38  |       await expect(section.locator('h3:has-text("只标你不会的词")')).toBeVisible();
+  39  |       await expect(section.locator('h3:has-text("不打断你的阅读节奏")')).toBeVisible();
+  40  |       await expect(section.locator('h3:has-text("任何英文页面都能用")')).toBeVisible();
+  41  |     });
+  42  | 
+  43  |     test('should have Why Read This Way section', async ({ page }) => {
+  44  |       const quote = page.locator('blockquote');
+  45  |       await expect(quote).toBeVisible();
+  46  |       await expect(quote).toContainText('背单词的最好方式');
+  47  |     });
+  48  | 
+  49  |     test('should have footer with privacy link', async ({ page }) => {
+  50  |       const footer = page.locator('footer');
+  51  |       await expect(footer).toBeVisible();
+  52  |       await expect(footer).toContainText('© 2026');
+  53  |       const privacyLink = footer.locator('a:has-text("隐私政策")');
+  54  |       await expect(privacyLink).toHaveAttribute('href', /privacy/);
+  55  |     });
+  56  |   });
+  57  | 
+  58  |   test.describe('Level Slider', () => {
+  59  |     test('should have level selector with 5 options', async ({ page }) => {
+  60  |       const labels = page.locator('.slider-label');
+  61  |       await expect(labels).toHaveCount(5);
+  62  |       await expect(labels.nth(0)).toHaveText('入门');
+  63  |       await expect(labels.nth(1)).toHaveText('基础');
+  64  |       await expect(labels.nth(2)).toHaveText('进阶');
+  65  |       await expect(labels.nth(3)).toHaveText('熟练');
+  66  |       await expect(labels.nth(4)).toHaveText('精通');
+  67  |     });
+  68  | 
+  69  |     test('should default to 进阶 level', async ({ page }) => {
+  70  |       const desc = page.locator('#level-desc');
+  71  |       await expect(desc).toContainText('大学四六级');
+  72  |     });
+  73  | 
+  74  |     test('should update description when clicking levels', async ({ page }) => {
+  75  |       const desc = page.locator('#level-desc');
+  76  |       
+  77  |       await page.locator('.slider-label:has-text("入门")').click();
+  78  |       await expect(desc).toContainText('最基础');
+  79  |       
+  80  |       await page.locator('.slider-label:has-text("基础")').click();
+  81  |       await expect(desc).toContainText('高考');
   82  |       
-  83  |       // Reload page
-  84  |       await page.reload();
-  85  |       await page.waitForLoadState('networkidle');
-  86  |       
-  87  |       // Should still be 熟练
-  88  |       const desc = page.locator('#level-desc');
-  89  |       await expect(desc).toContainText('雅思托福');
-  90  |     });
-  91  |   });
+  83  |       await page.locator('.slider-label:has-text("进阶")').click();
+  84  |       await expect(desc).toContainText('大学四六级');
+  85  |       
+  86  |       await page.locator('.slider-label:has-text("熟练")').click();
+  87  |       await expect(desc).toContainText('雅思托福');
+  88  |       
+  89  |       await page.locator('.slider-label:has-text("精通")').click();
+  90  |       await expect(desc).toContainText('最生僻');
+  91  |     });
   92  | 
-  93  |   test.describe('Article Preview Annotations', () => {
-  94  |     test('should have annotated words in article preview', async ({ page }) => {
-  95  |       const readtoElements = page.locator('#demo-content [data-readto]');
-  96  |       const count = await readtoElements.count();
-  97  |       expect(count).toBeGreaterThan(0);
-  98  |     });
-  99  | 
-  100 |     test('should have correct annotation words', async ({ page }) => {
-  101 |       const words = ['sweeping', 'overhaul', 'profligate', 'vituperative'];
-  102 |       for (const word of words) {
-  103 |         const el = page.locator(`#demo-content [data-word="${word}"]`);
-  104 |         await expect(el).toBeVisible();
-  105 |       }
-  106 |     });
-  107 | 
-  108 |     test('should show rt (ruby text) above annotated words', async ({ page }) => {
-  109 |       const rtElements = page.locator('#demo-content .rt');
-  110 |       const count = await rtElements.count();
-  111 |       expect(count).toBeGreaterThan(0);
-  112 |     });
+  93  |     test('should persist level selection in localStorage', async ({ page }) => {
+  94  |       await page.locator('.slider-label:has-text("熟练")').click();
+  95  |       await page.reload();
+  96  |       await page.waitForLoadState('networkidle');
+  97  |       
+  98  |       const desc = page.locator('#level-desc');
+  99  |       await expect(desc).toContainText('雅思托福');
+  100 |     });
+  101 | 
+  102 |     test('should have correct ARIA attributes', async ({ page }) => {
+  103 |       const slider = page.locator('#level-slider');
+  104 |       await expect(slider).toHaveAttribute('role', 'slider');
+  105 |       await expect(slider).toHaveAttribute('aria-label', '英语水平');
+  106 |       await expect(slider).toHaveAttribute('aria-valuemin', '1');
+  107 |       await expect(slider).toHaveAttribute('aria-valuemax', '5');
+  108 |     });
+  109 |   });
+  110 | 
+  111 |   test.describe('Level-Annotation Linkage', () => {
 ```

@@ -6,43 +6,39 @@
 
 # Test info
 
-- Name: landing.spec.ts >> Readto Landing Page >> Level Slider >> should have level selector with 5 options
-- Location: tests\landing.spec.ts:59:5
+- Name: landing.spec.ts >> Readto Landing Page >> Page Structure >> should have How It Works section with 3 features
+- Location: tests\landing.spec.ts:35:5
 
 # Error details
 
 ```
-Error: expect(locator).toHaveCount(expected) failed
+Error: expect(locator).toBeVisible() failed
 
-Locator:  locator('.slider-label')
-Expected: 5
-Received: 0
-Timeout:  5000ms
+Locator: locator('#how')
+Expected: visible
+Timeout: 5000ms
+Error: element(s) not found
 
 Call log:
-  - Expect "toHaveCount" with timeout 5000ms
-  - waiting for locator('.slider-label')
-    14 × locator resolved to 0 elements
-       - unexpected value "0"
+  - Expect "toBeVisible" with timeout 5000ms
+  - waiting for locator('#how')
 
 ```
 
-# Page snapshot
-
 ```yaml
-- main [ref=e2]:
-  - img [ref=e3]
-  - 'heading "404: Not found" [level=1] [ref=e7]'
-  - paragraph [ref=e8]:
+- main:
+  - img
+  - 'heading "404: Not found" [level=1]'
+  - paragraph:
     - text: In your
-    - code [ref=e9]: site
+    - code: site
     - text: you have your base path set to
-    - link "/readto-chrome-extension" [ref=e10] [cursor=pointer]:
+    - link "/readto-chrome-extension":
       - /url: /readto-chrome-extension
     - text: . Do you want to go there instead?
-  - paragraph [ref=e11]:
+  - paragraph:
     - text: Come to our
-    - link "Discord" [ref=e12] [cursor=pointer]:
+    - link "Discord":
       - /url: https://astro.build/chat
     - text: if you need help.
 ```
@@ -86,7 +82,8 @@ Call log:
   34  | 
   35  |     test('should have How It Works section with 3 features', async ({ page }) => {
   36  |       const section = page.locator('#how');
-  37  |       await expect(section).toBeVisible();
+> 37  |       await expect(section).toBeVisible();
+      |                             ^ Error: expect(locator).toBeVisible() failed
   38  |       await expect(section.locator('h3:has-text("只标你不会的词")')).toBeVisible();
   39  |       await expect(section.locator('h3:has-text("不打断你的阅读节奏")')).toBeVisible();
   40  |       await expect(section.locator('h3:has-text("任何英文页面都能用")')).toBeVisible();
@@ -110,8 +107,7 @@ Call log:
   58  |   test.describe('Level Slider', () => {
   59  |     test('should have level selector with 5 options', async ({ page }) => {
   60  |       const labels = page.locator('.slider-label');
-> 61  |       await expect(labels).toHaveCount(5);
-      |                            ^ Error: expect(locator).toHaveCount(expected) failed
+  61  |       await expect(labels).toHaveCount(5);
   62  |       await expect(labels.nth(0)).toHaveText('入门');
   63  |       await expect(labels.nth(1)).toHaveText('基础');
   64  |       await expect(labels.nth(2)).toHaveText('进阶');
@@ -188,28 +184,4 @@ Call log:
   135 | 
   136 |     test('精通 should show 1 annotation', async ({ page }) => {
   137 |       await page.locator('.slider-label:has-text("精通")').click();
-  138 |       const rtElements = page.locator('#demo-content .rt:visible');
-  139 |       await expect(rtElements).toHaveCount(1);
-  140 |     });
-  141 | 
-  142 |     test('should update annotations in real-time', async ({ page }) => {
-  143 |       await page.locator('.slider-label:has-text("入门")').click();
-  144 |       await expect(page.locator('#demo-content .rt:visible')).toHaveCount(13);
-  145 |       
-  146 |       await page.locator('.slider-label:has-text("精通")').click();
-  147 |       await expect(page.locator('#demo-content .rt:visible')).toHaveCount(1);
-  148 |       
-  149 |       await page.locator('.slider-label:has-text("进阶")').click();
-  150 |       await expect(page.locator('#demo-content .rt:visible')).toHaveCount(5);
-  151 |     });
-  152 |   });
-  153 | 
-  154 |   test.describe('Article Preview Annotations', () => {
-  155 |     test('should have annotated words with data-readto attribute', async ({ page }) => {
-  156 |       const readtoElements = page.locator('#demo-content [data-readto]');
-  157 |       const count = await readtoElements.count();
-  158 |       expect(count).toBeGreaterThan(0);
-  159 |     });
-  160 | 
-  161 |     test('should have correct annotation words', async ({ page }) => {
 ```

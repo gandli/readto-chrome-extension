@@ -243,7 +243,7 @@ const base = import.meta.env.BASE_URL;
         readto<span class="text-[#b2462a]">.</span><span class="text-[0.7em] text-[#9a9489]">ai</span>
       </a>
       <div class="flex items-center gap-6">
-        <a href={`${base}privacy`} class="text-[12px] text-[#9a9489] hover:text-[#141210]">
+        <a href={`${base}/privacy`} class="text-[12px] text-[#9a9489] hover:text-[#141210]">
           隐私政策
         </a>
         <span class="text-[12px] text-[#9a9489]">© 2026 · 读懂</span>
@@ -484,6 +484,97 @@ const base = import.meta.env.BASE_URL;
 <script>
   // 单词详情数据
   const wordDetails: Record<string, { p?: string; t: string; e?: Array<{ en: string; zh: string }> }> = {
+    sweeping: {
+      p: 'ˈswiːpɪŋ',
+      t: 'adj. 大规模的；彻底的\nn. 扫除',
+      e: [
+        { en: 'The {sweeping} reforms changed the entire system.', zh: '大规模的改革改变了整个体制。' }
+      ]
+    },
+    overhaul: {
+      p: 'ˌoʊvərˈhɔːl',
+      t: 'n. 大修；彻底检修\nv. 全面改革',
+      e: [
+        { en: 'The company needs to {overhaul} its management structure.', zh: '公司需要彻底改革其管理结构。' }
+      ]
+    },
+    disproportionately: {
+      p: 'ˌdɪsprəˈpɔːrʃənətli',
+      t: 'adv. 不成比例地',
+      e: [
+        { en: 'The policy affected low-income families {disproportionately}.', zh: '这项政策对低收入家庭的影响不成比例。' }
+      ]
+    },
+    profligate: {
+      p: 'ˈprɒflɪɡət',
+      t: 'adj. 挥霍的；浪费的',
+      e: [
+        { en: 'His {profligate} spending led to bankruptcy.', zh: '他挥霍无度导致破产。' }
+      ]
+    },
+    austerity: {
+      p: 'ɒˈsterəti',
+      t: 'n. 紧缩；朴素；苦行',
+      e: [
+        { en: 'The government introduced {austerity} measures.', zh: '政府推出了紧缩措施。' }
+      ]
+    },
+    burdened: {
+      p: 'ˈbɜːrdnd',
+      t: 'adj. 负担重的；受压迫的',
+      e: [
+        { en: 'She felt {burdened} by responsibility.', zh: '她感到责任重大。' }
+      ]
+    },
+    stimulate: {
+      p: 'ˈstɪmjuleɪt',
+      t: 'v. 刺激；激发；促进',
+      e: [
+        { en: 'The policy aims to {stimulate} economic growth.', zh: '这项政策旨在刺激经济增长。' }
+      ]
+    },
+    ameliorate: {
+      p: 'əˈmiːliəreɪt',
+      t: 'v. 改善；改进',
+      e: [
+        { en: 'Steps were taken to {ameliorate} working conditions.', zh: '采取了措施改善工作条件。' }
+      ]
+    },
+    inequities: {
+      p: 'ɪnˈekwətiz',
+      t: 'n. 不公平；不公正',
+      e: [
+        { en: 'Social {inequities} persist despite progress.', zh: '尽管有进步，社会不公仍然存在。' }
+      ]
+    },
+    fractious: {
+      p: 'ˈfrækʃəs',
+      t: 'adj. 难驾驭的；易怒的',
+      e: [
+        { en: 'The {fractious} debate lasted for hours.', zh: '这场难以驾驭的辩论持续了数小时。' }
+      ]
+    },
+    polarized: {
+      p: 'ˈpoʊləraɪzd',
+      t: 'adj. 两极化的；偏振的',
+      e: [
+        { en: 'The issue has {polarized} public opinion.', zh: '这个问题使公众舆论两极化。' }
+      ]
+    },
+    obstruct: {
+      p: 'əbˈstrʌkt',
+      t: 'v. 阻挠；妨碍；堵塞',
+      e: [
+        { en: 'The opposition tried to {obstruct} the bill.', zh: '反对派试图阻挠该法案。' }
+      ]
+    },
+    vituperative: {
+      p: 'vaɪˈtuːpərətɪv',
+      t: 'adj. 辱骂的；责骂的',
+      e: [
+        { en: 'He launched a {vituperative} attack on his opponents.', zh: '他对对手发起了猛烈的抨击。' }
+      ]
+    },
     ostensibly: {
       p: 'ɑːˈstensɪbli',
       t: 'adv. 表面上；外表上；显然',

@@ -1,0 +1,10 @@
+    [Mobile Chrome] › tests\landing.spec.ts:306:5 › Readto Landing Page › Dark Mode › should support dark mode styles 
+    [Mobile Chrome] › tests\landing.spec.ts:318:5 › Readto Landing Page › Accessibility › slider should have correct ARIA attributes 
+    [Mobile Chrome] › tests\landing.spec.ts:326:5 › Readto Landing Page › Accessibility › speaker button should have aria-label 
+    [Mobile Chrome] › tests\landing.spec.ts:333:5 › Readto Landing Page › Accessibility › annotated words should be clickable 
+    [Mobile Chrome] › tests\landing.spec.ts:346:3 › Privacy Page › should have correct title ───────
+    [Mobile Chrome] › tests\landing.spec.ts:350:3 › Privacy Page › should have privacy policy heading 
+    [Mobile Chrome] › tests\landing.spec.ts:356:3 › Privacy Page › should have all 7 sections ──────
+    [Mobile Chrome] › tests\landing.spec.ts:372:3 › Privacy Page › should have navigation back to home 
+    [Mobile Chrome] › tests\landing.spec.ts:378:3 › Privacy Page › should have footer ──────────────
+    [Mobile Chrome] › tests\landing.spec.ts:384:3 › Privacy Page › should have code blocks for technical terms 

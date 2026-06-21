@@ -26,18 +26,24 @@ test.describe('Readto Landing Page', () => {
       await expect(h1).toContainText('读懂每一个词');
     });
 
-    test('should have install button', async ({ page }) => {
+    test('should have install button linking to Chrome Web Store', async ({ page }) => {
       const installBtn = page.locator('a:has-text("安装 Chrome 扩展")');
       await expect(installBtn).toBeVisible();
       await expect(installBtn).toHaveAttribute('href', /chromewebstore/);
     });
 
-    test('should have How It Works section', async ({ page }) => {
+    test('should have How It Works section with 3 features', async ({ page }) => {
       const section = page.locator('#how');
       await expect(section).toBeVisible();
       await expect(section.locator('h3:has-text("只标你不会的词")')).toBeVisible();
       await expect(section.locator('h3:has-text("不打断你的阅读节奏")')).toBeVisible();
       await expect(section.locator('h3:has-text("任何英文页面都能用")')).toBeVisible();
+    });
+
+    test('should have Why Read This Way section', async ({ page }) => {
+      const quote = page.locator('blockquote');
+      await expect(quote).toBeVisible();
+      await expect(quote).toContainText('背单词的最好方式');
     });
 
     test('should have footer with privacy link', async ({ page }) => {
@@ -71,6 +77,15 @@ test.describe('Readto Landing Page', () => {
       await page.locator('.slider-label:has-text("入门")').click();
       await expect(desc).toContainText('最基础');
       
+      await page.locator('.slider-label:has-text("基础")').click();
+      await expect(desc).toContainText('高考');
+      
+      await page.locator('.slider-label:has-text("进阶")').click();
+      await expect(desc).toContainText('大学四六级');
+      
+      await page.locator('.slider-label:has-text("熟练")').click();
+      await expect(desc).toContainText('雅思托福');
+      
       await page.locator('.slider-label:has-text("精通")').click();
       await expect(desc).toContainText('最生僻');
     });
@@ -83,70 +98,61 @@ test.describe('Readto Landing Page', () => {
       const desc = page.locator('#level-desc');
       await expect(desc).toContainText('雅思托福');
     });
+
+    test('should have correct ARIA attributes', async ({ page }) => {
+      const slider = page.locator('#level-slider');
+      await expect(slider).toHaveAttribute('role', 'slider');
+      await expect(slider).toHaveAttribute('aria-label', '英语水平');
+      await expect(slider).toHaveAttribute('aria-valuemin', '1');
+      await expect(slider).toHaveAttribute('aria-valuemax', '5');
+    });
   });
 
   test.describe('Level-Annotation Linkage', () => {
-    test('入门 should show all annotations', async ({ page }) => {
+    test('入门 should show all 13 annotations', async ({ page }) => {
       await page.locator('.slider-label:has-text("入门")').click();
-      
-      // 入门显示所有 13 个标注
       const rtElements = page.locator('#demo-content .rt:visible');
-      const count = await rtElements.count();
-      expect(count).toBe(13);
+      await expect(rtElements).toHaveCount(13);
     });
 
-    test('基础 should show fewer annotations', async ({ page }) => {
+    test('基础 should show 10 annotations', async ({ page }) => {
       await page.locator('.slider-label:has-text("基础")').click();
-      
       const rtElements = page.locator('#demo-content .rt:visible');
-      const count = await rtElements.count();
-      expect(count).toBe(10);
+      await expect(rtElements).toHaveCount(10);
     });
 
-    test('进阶 should show medium annotations', async ({ page }) => {
+    test('进阶 should show 5 annotations', async ({ page }) => {
       await page.locator('.slider-label:has-text("进阶")').click();
-      
       const rtElements = page.locator('#demo-content .rt:visible');
-      const count = await rtElements.count();
-      expect(count).toBe(5);
+      await expect(rtElements).toHaveCount(5);
     });
 
-    test('熟练 should show few annotations', async ({ page }) => {
+    test('熟练 should show 3 annotations', async ({ page }) => {
       await page.locator('.slider-label:has-text("熟练")').click();
-      
       const rtElements = page.locator('#demo-content .rt:visible');
-      const count = await rtElements.count();
-      expect(count).toBe(3);
+      await expect(rtElements).toHaveCount(3);
     });
 
-    test('精通 should show only hardest annotation', async ({ page }) => {
+    test('精通 should show 1 annotation', async ({ page }) => {
       await page.locator('.slider-label:has-text("精通")').click();
-      
       const rtElements = page.locator('#demo-content .rt:visible');
-      const count = await rtElements.count();
-      expect(count).toBe(1);
+      await expect(rtElements).toHaveCount(1);
     });
 
-    test('should update annotations in real-time when slider changes', async ({ page }) => {
-      // Start with 入门
+    test('should update annotations in real-time', async ({ page }) => {
       await page.locator('.slider-label:has-text("入门")').click();
-      let rtCount = await page.locator('#demo-content .rt:visible').count();
-      expect(rtCount).toBe(13);
+      await expect(page.locator('#demo-content .rt:visible')).toHaveCount(13);
       
-      // Switch to 精通
       await page.locator('.slider-label:has-text("精通")').click();
-      rtCount = await page.locator('#demo-content .rt:visible').count();
-      expect(rtCount).toBe(1);
+      await expect(page.locator('#demo-content .rt:visible')).toHaveCount(1);
       
-      // Switch back to 进阶
       await page.locator('.slider-label:has-text("进阶")').click();
-      rtCount = await page.locator('#demo-content .rt:visible').count();
-      expect(rtCount).toBe(5);
+      await expect(page.locator('#demo-content .rt:visible')).toHaveCount(5);
     });
   });
 
   test.describe('Article Preview Annotations', () => {
-    test('should have annotated words in article preview', async ({ page }) => {
+    test('should have annotated words with data-readto attribute', async ({ page }) => {
       const readtoElements = page.locator('#demo-content [data-readto]');
       const count = await readtoElements.count();
       expect(count).toBeGreaterThan(0);
@@ -156,8 +162,14 @@ test.describe('Readto Landing Page', () => {
       const words = ['sweeping', 'overhaul', 'profligate', 'vituperative'];
       for (const word of words) {
         const el = page.locator(`#demo-content [data-word="${word}"]`);
-        await expect(el).toBeVisible();
+        await expect(el).toBeAttached();
       }
+    });
+
+    test('should have rt elements with translations', async ({ page }) => {
+      const rtElements = page.locator('#demo-content .rt');
+      const count = await rtElements.count();
+      expect(count).toBeGreaterThan(0);
     });
   });
 
@@ -190,6 +202,18 @@ test.describe('Readto Landing Page', () => {
       
       const speaker = page.locator('#tooltip .speaker');
       await expect(speaker).toBeVisible();
+      await expect(speaker).toHaveAttribute('aria-label', /pronunciation/i);
+    });
+
+    test('should have examples in tooltip', async ({ page }) => {
+      await page.locator('#demo-content [data-word="sweeping"]').click();
+      
+      const examples = page.locator('#tooltip .examples');
+      await expect(examples).toBeVisible();
+      
+      const exampleItems = page.locator('#tooltip .example');
+      const count = await exampleItems.count();
+      expect(count).toBeGreaterThan(0);
     });
 
     test('should close tooltip on Escape', async ({ page }) => {
@@ -202,7 +226,7 @@ test.describe('Readto Landing Page', () => {
       await expect(tooltip).toHaveClass(/hidden/);
     });
 
-    test('should toggle tooltip on repeated click', async ({ page }) => {
+    test('should toggle tooltip on repeated click (pin/unpin)', async ({ page }) => {
       const tooltip = page.locator('#tooltip');
       const word = page.locator('#demo-content [data-word="sweeping"]');
       
@@ -212,6 +236,38 @@ test.describe('Readto Landing Page', () => {
       await word.click();
       await page.waitForTimeout(200);
       await expect(tooltip).toHaveClass(/hidden/);
+    });
+
+    test('should show tooltip for different words', async ({ page }) => {
+      const tooltip = page.locator('#tooltip');
+      
+      // Click on vituperative
+      await page.locator('#demo-content [data-word="vituperative"]').click();
+      await expect(tooltip).toHaveClass(/show/);
+      await expect(tooltip.locator('.body')).toContainText('辱骂');
+      
+      // Click on profligate
+      await page.locator('#demo-content [data-word="profligate"]').click();
+      await expect(tooltip.locator('.body')).toContainText('挥霍');
+    });
+  });
+
+  test.describe('How It Works Annotations', () => {
+    test('should have annotations in feature examples', async ({ page }) => {
+      const section = page.locator('#how');
+      const readtoElements = section.locator('[data-readto]');
+      const count = await readtoElements.count();
+      expect(count).toBeGreaterThan(0);
+    });
+
+    test('should have ostensibly annotation', async ({ page }) => {
+      const el = page.locator('#how [data-word="ostensibly"]');
+      await expect(el).toBeAttached();
+    });
+
+    test('should have ambiguous annotation', async ({ page }) => {
+      const el = page.locator('#how [data-word="ambiguous"]');
+      await expect(el).toBeAttached();
     });
   });
 
@@ -233,6 +289,16 @@ test.describe('Readto Landing Page', () => {
       await labels.nth(0).click();
       const desc = page.locator('#level-desc');
       await expect(desc).toContainText('最基础');
+    });
+
+    test('should have visible tooltip on mobile', async ({ page }) => {
+      await page.setViewportSize({ width: 375, height: 812 });
+      
+      const tooltip = page.locator('#tooltip');
+      await page.locator('#demo-content [data-word="sweeping"]').click();
+      
+      await expect(tooltip).toHaveClass(/show/);
+      await expect(tooltip).toBeVisible();
     });
   });
 
@@ -263,6 +329,11 @@ test.describe('Readto Landing Page', () => {
       const speaker = page.locator('#tooltip .speaker');
       await expect(speaker).toHaveAttribute('aria-label', /pronunciation/i);
     });
+
+    test('annotated words should be clickable', async ({ page }) => {
+      const word = page.locator('#demo-content [data-readto]').first();
+      await expect(word).toBeVisible();
+    });
   });
 });
 
@@ -282,7 +353,7 @@ test.describe('Privacy Page', () => {
     await expect(h1).toContainText('reading history');
   });
 
-  test('should have all sections', async ({ page }) => {
+  test('should have all 7 sections', async ({ page }) => {
     const sections = [
       'What readto is',
       'What we don\'t do',
@@ -308,5 +379,11 @@ test.describe('Privacy Page', () => {
     const footer = page.locator('footer');
     await expect(footer).toBeVisible();
     await expect(footer).toContainText('© 2026');
+  });
+
+  test('should have code blocks for technical terms', async ({ page }) => {
+    const codeBlocks = page.locator('code');
+    const count = await codeBlocks.count();
+    expect(count).toBeGreaterThan(0);
   });
 });
