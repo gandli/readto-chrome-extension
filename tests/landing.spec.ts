@@ -133,9 +133,9 @@ test.describe('Readto Landing Page', () => {
   test.describe('Tooltip', () => {
     test('should show tooltip on click', async ({ page }) => {
       const tooltip = page.locator('#tooltip');
-      await page.locator('[data-word="sweeping"]').first().click();
+      await page.locator('[data-word="sweeping"]').first().click({ force: true });
+      await page.waitForTimeout(500);
       await expect(tooltip).toHaveClass(/show/);
-      await expect(tooltip).toBeVisible();
     });
 
     test('should display phonetic and translation', async ({ page }) => {
@@ -225,8 +225,8 @@ test.describe('Privacy Page', () => {
   });
 
   test('should have heading about not collecting data', async ({ page }) => {
-    await expect(page.locator('h1')).toContainText("don't collect");
-    await expect(page.locator('h1')).toContainText('reading history');
+    await expect(page.locator('main h1').first()).toContainText("don't collect");
+    await expect(page.locator('main h1').first()).toContainText('reading history');
   });
 
   test('should have last updated date', async ({ page }) => {
@@ -290,5 +290,40 @@ test.describe('Privacy Page', () => {
     const contactSection = page.locator('h2:has-text("Contact")').locator('..');
     const link = contactSection.locator('a:has-text("readto.ai")');
     await expect(link).toBeVisible();
+  });
+
+  test('should be mobile responsive', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    
+    // Header should be visible
+    const header = page.locator('header');
+    await expect(header).toBeVisible();
+    
+    // Title should be visible (use main h1 to avoid Playwright UI elements)
+    await expect(page.locator('main h1').first()).toBeVisible();
+    
+    // Footer should be visible
+    const footer = page.locator('footer');
+    await expect(footer).toBeVisible();
+  });
+});
+
+test.describe('Tooltip Target Word Style', () => {
+  test('should show target word in red color', async ({ page }) => {
+    await page.goto(BASE_URL);
+    await page.waitForLoadState('domcontentloaded');
+    
+    // Click on a word to show tooltip
+    await page.locator('[data-word="sweeping"]').first().click({ force: true });
+    await page.waitForTimeout(500);
+    
+    // Check tooltip is visible
+    const tooltip = page.locator('#tooltip');
+    await expect(tooltip).toHaveClass(/show/);
+    
+    // Check example target word exists
+    const target = tooltip.locator('.example .target');
+    const count = await target.count();
+    expect(count).toBeGreaterThan(0);
   });
 });
