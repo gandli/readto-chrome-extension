@@ -224,17 +224,71 @@ test.describe('Privacy Page', () => {
     await expect(page).toHaveTitle(/Privacy/);
   });
 
-  test('should have heading', async ({ page }) => {
+  test('should have heading about not collecting data', async ({ page }) => {
     await expect(page.locator('h1')).toContainText("don't collect");
+    await expect(page.locator('h1')).toContainText('reading history');
   });
 
-  test('should have all sections', async ({ page }) => {
-    for (const section of ['What readto is', 'What we don\'t do', 'Permissions', 'Contact']) {
+  test('should have last updated date', async ({ page }) => {
+    await expect(page.locator('text=Last updated')).toBeVisible();
+  });
+
+  test('should have all 7 sections', async ({ page }) => {
+    const sections = [
+      'What readto is',
+      'What we don\'t do',
+      'What the extension stores',
+      'Third parties',
+      'Permissions',
+      'Deleting your data',
+      'Contact',
+    ];
+    
+    for (const section of sections) {
       await expect(page.locator(`h2:has-text("${section}")`)).toBeVisible();
     }
   });
 
-  test('should have footer', async ({ page }) => {
-    await expect(page.locator('footer')).toContainText('© 2026');
+  test('should have technical terms in code blocks', async ({ page }) => {
+    // Check for chrome.storage text
+    await expect(page.locator('text=chrome.storage').first()).toBeVisible();
+  });
+
+  test('should have navigation back to home', async ({ page }) => {
+    const homeLink = page.locator('header a:has-text("readto")');
+    await expect(homeLink).toBeVisible();
+    await expect(homeLink).toHaveAttribute('href', /readto-chrome-extension\/?$/);
+  });
+
+  test('should have footer with privacy link', async ({ page }) => {
+    const footer = page.locator('footer');
+    await expect(footer).toBeVisible();
+    await expect(footer).toContainText('© 2026');
+    
+    const privacyLink = footer.locator('a:has-text("隐私政策")');
+    await expect(privacyLink).toHaveAttribute('href', /\/privacy/);
+  });
+
+  test('should have install button in header', async ({ page }) => {
+    const installBtn = page.locator('header a:has-text("安装扩展")');
+    await expect(installBtn).toBeVisible();
+    await expect(installBtn).toHaveAttribute('href', /chromewebstore/);
+  });
+
+  test('should list bullet points for what we don\'t do', async ({ page }) => {
+    const section = page.locator('h2:has-text("What we don\'t do")').locator('..');
+    const bullets = section.locator('li');
+    const count = await bullets.count();
+    expect(count).toBe(4);
+  });
+
+  test('should mention LLM and BYOK', async ({ page }) => {
+    await expect(page.locator('text=Bring Your Own Key')).toBeVisible();
+  });
+
+  test('should have link to readto.ai in contact section', async ({ page }) => {
+    const contactSection = page.locator('h2:has-text("Contact")').locator('..');
+    const link = contactSection.locator('a:has-text("readto.ai")');
+    await expect(link).toBeVisible();
   });
 });
