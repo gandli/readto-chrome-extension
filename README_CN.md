@@ -4,6 +4,8 @@
 >
 > 基于 [readto.ai](https://readto.ai) 原版 Chrome 扩展的**逆向工程**重新实现。
 
+**[English](README.md)**
+
 在任何英文网页上，根据你的英语水平（CEFR），悄悄在生词上方标好中文小注。不划词、不跳窗、不中断阅读。
 
 [原版扩展](https://chromewebstore.google.com/detail/readto/dcnmjckcjcfagfnjblkocojgpnmllcga) · [原版官网](https://readto.ai) · [本项目](https://github.com/gandli/readto-chrome-extension)

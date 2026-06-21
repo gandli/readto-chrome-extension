@@ -1,161 +1,159 @@
 # readto (Reverse-Engineered)
 
-> **Read to know. 读懂每一个词。**
->
-> 基于 [readto.ai](https://readto.ai) 原版 Chrome 扩展的**逆向工程**重新实现。
+> **Read to know.**
 
-在任何英文网页上，根据你的英语水平（CEFR），悄悄在生词上方标好中文小注。不划词、不跳窗、不中断阅读。
+A Chrome extension that adds Chinese annotations above English words you don't know — based on your CEFR level. No popups, no dictionary lookups, no interruptions. Based on the original [readto.ai](https://readto.ai) extension, rebuilt from scratch via reverse engineering.
 
-[原版扩展](https://chromewebstore.google.com/detail/readto/dcnmjckcjcfagfnjblkocojgpnmllcga) · [原版官网](https://readto.ai) · [本项目](https://github.com/gandli/readto-chrome-extension)
+[Original Extension](https://chromewebstore.google.com/detail/readto/dcnmjckcjcfagfnjblkocojgpnmllcga) · [Original Website](https://readto.ai) · [This Project](https://github.com/gandli/readto-chrome-extension) · [中文文档](README_CN.md)
 
 ---
 
-## 关于本项目
+## About
 
-本项目是对 [readto](https://readto.ai) 原版 Chrome 扩展的**逆向工程**学习项目。通过分析原版扩展的打包产物（`dist/`），还原并重构了完整的源码架构，用于：
+This project is a **reverse-engineered** reimplementation of the [readto](https://readto.ai) Chrome extension. By analyzing the original packed extension (`dist/`), we reconstructed the full source code architecture for:
 
-- **学习** — 理解 Chrome 扩展的现代开发模式（Manifest V3、Shadow DOM、Service Worker）
-- **定制** — 在原版基础上添加新功能（如 Bilibili 字幕支持）
-- **自托管** — 构建自己的版本，不依赖 Chrome Web Store
+- **Learning** — understand modern Chrome extension patterns (Manifest V3, Shadow DOM, Service Worker)
+- **Customization** — add new features on top of the original (e.g. Bilibili subtitle support)
+- **Self-hosting** — build your own version without relying on Chrome Web Store
 
-> ⚠️ 本项目仅供学习交流，原版扩展的版权归原作者所有。
+> ⚠️ This project is for educational purposes only. The original extension's copyright belongs to its author.
 
-## 工作原理
+## How It Works
 
-1. **设定英语水平** — 从 A1（入门）到 C2（精通），选择你的 CEFR 等级
-2. **正常浏览英文网页** — readto 自动扫描文本，识别超出你水平的词汇
-3. **边读边学** — 生词上方会出现小字中文翻译，类似日文的振假名注音
+1. **Set your English level** — choose from A1 (beginner) to C2 (proficient) using the CEFR framework
+2. **Browse any English page** — readto scans the text and identifies words above your level
+3. **Read with annotations** — unknown words get small Chinese translations above them, like furigana on Japanese text
 
-无需点击、无需侧栏、无需切换。读就完了。
+No clicking, no sidebar, no context switch. Just read.
 
-## 功能特性
+## Features
 
-### 核心功能
+### Core
 
-- **CEFR 智能过滤** — 内置 16 万词 CEFR 词典，精准判断哪些词"超纲"
-- **行内注音标注** — 用 `<ruby>` 元素在单词上方显示中文翻译，类似日文振假名
-- **Shadow DOM 渲染** — 标注样式与宿主页面完全隔离，零冲突
-- **悬停查看详情** — 鼠标悬停生词，查看音标、释义、例句
-- **4 源语音朗读** — Free Dictionary API → Google TTS → 有道 → 浏览器 SpeechSynthesis
+- **Automatic CEFR-based filtering** — uses a 160,000-word CEFR dictionary to determine which words are "above your level"
+- **Inline ruby annotations** — translations appear above words using `<ruby>` elements, similar to Japanese furigana
+- **Shadow DOM rendering** — annotations are isolated from the host page, no style conflicts
+- **Hover for details** — hover over any annotated word to see phonetics, definitions, and example sentences
+- **4-source pronunciation** — Free Dictionary API → Google TTS → Youdao → Browser SpeechSynthesis
 
-### AI 增强（可选）
+### AI-Enhanced (Optional)
 
-- **LLM 上下文翻译** — 配置你自己的 OpenAI 兼容 API，获得更精准的上下文感知翻译
-- **流式预览** — 本地词典翻译即时显示，LLM 翻译随后补全
+- **LLM context-aware translation** — configure your own OpenAI-compatible API for more accurate, context-sensitive translations
+- **Streaming preview** — local dictionary translations appear instantly, then LLM translations fill in gaps as they arrive
 
-### 站点适配
+### Sites
 
-- **YouTube** — 实时标注视频字幕
-- **Bilibili** — 标注视频字幕（本项目新增）
-- **GitHub、StackOverflow、Wikipedia** — 智能跳过代码块、导航栏等区域
-- **所有英文网页** — 支持任意 `http://` / `https://` 页面
+- **YouTube** — annotates video subtitles in real-time
+- **Bilibili** — annotates video subtitles (added in this project)
+- **GitHub, StackOverflow, Wikipedia** — site-specific rules to avoid annotating code blocks, navigation, etc.
+- **Every other English page** — works on any `http://` or `https://` URL
 
-### 设计
+### Design
 
-- **暗色模式** — 自动跟随系统 `prefers-color-scheme`
-- **最小权限** — 仅需 `storage` + `<all_urls>`
-- **隐私优先** — 不收集任何数据；LLM 模式直接发送到你配置的 API
+- **Dark mode** — follows system `prefers-color-scheme` automatically
+- **Minimal permissions** — only requires `storage` + `<all_urls>`
+- **Privacy-first** — no data collection; LLM mode sends text directly to your configured API
 
-## 截图
+## Screenshots
 
-| 选项页 | 网页标注 | 翻译详情 |
+| Options Page | Annotations | Tooltip |
 |:---:|:---:|:---:|
-| ![选项页](screenshots/01-options.png) | ![网页标注](screenshots/02-annotations.png) | ![翻译详情](screenshots/03-tooltip.png) |
+| ![Options](screenshots/01-options.png) | ![Annotations](screenshots/02-annotations.png) | ![Tooltip](screenshots/03-tooltip.png) |
 
-## 与原版的差异
+## Differences from Original
 
-| 特性 | 原版 | 本项目 |
-|------|------|--------|
-| 来源 | Chrome Web Store | 逆向工程重构 |
-| YouTube 字幕 | ✅ | ✅ |
-| Bilibili 字幕 | ❌ | ✅ 新增 |
-| 字体方案 | 本地 woff2 (208个, 11MB) | Google Fonts CDN (0MB) |
-| 词详情加载 | 整个 JSON (48MB) | 按首字母按需加载 |
-| 测试覆盖 | 无 | 462 个测试，81% 覆盖率 |
-| 构建工具 | 未知 | Vite + TypeScript |
-| 源码 | 闭源 | 开源 |
+| Feature | Original | This Project |
+|---------|----------|--------------|
+| Source | Chrome Web Store | Reverse-engineered |
+| YouTube subtitles | ✅ | ✅ |
+| Bilibili subtitles | ❌ | ✅ Added |
+| Font loading | Local woff2 (208 files, 11MB) | Google Fonts CDN (0MB) |
+| Detail loading | Full JSON (48MB) | Per-letter lazy load |
+| Test coverage | None | 462 tests, 81% coverage |
+| Build tool | Unknown | Vite + TypeScript |
+| Source code | Closed | Open |
 
-## 项目架构
+## Architecture
 
 ```
 src/
 ├── background/
-│   └── service-worker.ts        # 消息路由、限流、词典加载
+│   └── service-worker.ts        # Message routing, rate limiting, dict loading
 ├── content/
-│   ├── index.ts                 # 主内容脚本（所有站点）
-│   ├── youtube.ts / youtube-loader.ts   # YouTube 字幕注入
-│   ├── bilibili.ts / bilibili-world.ts  # Bilibili 字幕注入（新增）
-│   └── page-world.ts / page-world-loader.ts  # MAIN world 脚本
+│   ├── index.ts                 # Main content script (all sites)
+│   ├── youtube.ts / youtube-loader.ts   # YouTube subtitle injection
+│   ├── bilibili.ts / bilibili-world.ts  # Bilibili subtitle injection (new)
+│   └── page-world.ts / page-world-loader.ts  # MAIN world script
 ├── lib/
-│   ├── level-filter.ts          # CEFR 词级过滤、站点规则、标注渲染
-│   ├── level-data.ts            # CEFR 词典加载器（16万词，按首字母懒加载）
-│   ├── inline-renderer.ts       # Shadow DOM 标注 + LRU 缓存
-│   ├── translations.ts          # 翻译器工厂（本地 / LLM）
-│   ├── llm-stream.ts            # LLM 流式批量翻译
-│   ├── llm-url.ts               # LLM 端点 URL 规范化
-│   ├── pronunciation.ts         # 4 源语音朗读回退链
-│   ├── storage.ts               # Chrome Storage 抽象 + 数据迁移
-│   └── stream-preview.ts        # 选项页流式预览
+│   ├── level-filter.ts          # CEFR word filtering, site rules, annotation rendering
+│   ├── level-data.ts            # CEFR dictionary loader (160K words, per-letter lazy load)
+│   ├── inline-renderer.ts       # Shadow DOM annotation + LRU cache
+│   ├── translations.ts          # Translator factory (local / LLM)
+│   ├── llm-stream.ts            # LLM streaming batch translation
+│   ├── llm-url.ts               # URL normalization for LLM endpoints
+│   ├── pronunciation.ts         # 4-source pronunciation fallback
+│   ├── storage.ts               # Chrome Storage abstraction + migration
+│   └── stream-preview.ts        # Streaming preview for options page
 └── options/
-    └── App.tsx                  # 设置界面（React）
+    └── App.tsx                  # Settings UI (React)
 ```
 
-## 技术栈
+## Tech Stack
 
-- **TypeScript** + **Vite**（Manifest V3）
-- **React**（选项页）
-- **Vitest**（单元测试，462 个测试，81% 覆盖率）
-- **Playwright**（E2E 测试）
+- **TypeScript** + **Vite** (Manifest V3)
+- **React** (options page)
+- **Vitest** (unit tests, 462 tests, 81% coverage)
+- **Playwright** (E2E tests)
 
-## 开发指南
+## Development
 
 ```bash
-# 安装依赖
+# Install dependencies
 npm install
 
-# 开发构建（监听模式）
+# Development build (watch mode)
 npm run dev
 
-# 生产构建
+# Production build
 npm run build
 
-# 运行单元测试
+# Run unit tests
 npm test
 
-# 运行测试并生成覆盖率报告
+# Run tests with coverage
 npm run test:coverage
 
-# 运行 E2E 测试
+# Run E2E tests
 npm run test:e2e
 ```
 
-### 本地加载扩展
+### Loading the extension locally
 
 1. `npm run build`
-2. 打开 `chrome://extensions`
-3. 开启「开发者模式」
-4. 点击「加载已解压的扩展程序」→ 选择 `dist/` 文件夹
+2. Open `chrome://extensions`
+3. Enable "Developer mode"
+4. Click "Load unpacked" → select the `dist/` folder
 
-## 数据文件
+## Data Files
 
-| 文件 | 大小 | 用途 |
-|------|------|------|
-| `level-data-full.json` | 3.4 MB | CEFR 词→等级映射（16 万词） |
-| `translations-data.json` | 4.4 MB | 本地词典（音标、释义、例句） |
-| `public/assets/detail/` | 48 MB | 按首字母拆分的详情文件（A-Z，按需加载） |
+| File | Size | Purpose |
+|------|------|---------|
+| `level-data-full.json` | 3.4 MB | CEFR word→level mapping (160K words) |
+| `translations-data.json` | 4.4 MB | Local dictionary (phonetics, definitions, examples) |
+| `public/assets/detail/` | 48 MB | Per-letter detail files (A-Z, lazy-loaded) |
 
-## 隐私
+## Privacy
 
-- **无遥测** — 扩展不收集任何数据
-- **无外部服务器** — 所有处理均在本地完成
-- **LLM 模式** — 启用后，段落文本直接发送到你配置的 API 端点。扩展作者看不到这些数据。
+- **No telemetry** — the extension collects zero data
+- **No external servers** — all processing is local
+- **LLM mode** — if enabled, paragraph text is sent directly to your configured API endpoint. The extension author never sees this data.
 
-## 致谢
+## Credits
 
-- [readto.ai](https://readto.ai) — 原版扩展的作者，感谢创造了这个优秀的阅读辅助工具
-- [CEFR](https://www.coe.int/en/web/common-european-framework-reference-languages) — 欧洲共同语言参考标准
+- [readto.ai](https://readto.ai) — original extension author, thank you for creating this excellent reading tool
+- [CEFR](https://www.coe.int/en/web/common-european-framework-reference-languages) — Common European Framework of Reference for Languages
 
-## 许可
+## License
 
-本项目为逆向工程学习项目，原版扩展的版权归原作者。
-仅供学习交流，请勿用于商业用途。
+This project is a reverse-engineered learning project. The original extension's copyright belongs to its author.
+For educational use only. Not for commercial purposes.
