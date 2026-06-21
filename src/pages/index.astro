@@ -139,22 +139,24 @@ const base = import.meta.env.BASE_URL;
             </span>
           </div>
           <div class="p-6 text-[15px] leading-[1.75] font-sans" id="demo-content">
-            <div class="text-[12px] text-[#9a9489] uppercase tracking-[0.14em] font-semibold mb-2">Politics</div>
+            <div class="text-[12px] text-[#9a9489] uppercase tracking-[0.14em] font-semibold mb-2">News</div>
             <h2 class="font-semibold text-[22px] tracking-tight mb-1 text-[#111]">
               President Announces Sweeping Tax Reforms
             </h2>
-            <div class="text-[13px] text-[#9a9489] mb-4">By Anna Reed · April 22, 2026</div>
             <p class="text-[#141210] mb-3">
-              The president announced <span data-readto data-word="sweeping">sweeping<span class="rt">大规模的</span></span> reforms to the nation's tax system yesterday, marking the most significant <span data-readto data-word="overhaul">overhaul<span class="rt">大修</span></span> in a decade.
+              The president announced <span data-readto data-word="sweeping">sweeping<span class="rt">影响广泛的</span></span> reforms to the nation's tax system yesterday, marking the most significant <span data-readto data-word="overhaul">overhaul<span class="rt">大修</span></span> in a decade.
             </p>
             <p class="text-[#141210] mb-3">
-              Critics denounce the changes as <span data-readto data-word="disproportionately">disproportionately<span class="rt">不成比例地</span></span> benefiting wealthy citizens, accusing the administration of <span data-readto data-word="profligate">profligate<span class="rt">挥霍的</span></span> giveaways and <span data-readto data-word="austerity">austerity<span class="rt">紧缩</span></span> toward middle-class families already <span data-readto data-word="burdened">burdened<span class="rt">负担</span></span> by rising costs.
+              Critics denounce the changes as <span data-readto data-word="disproportionately">disproportionately<span class="rt">不成比例地</span></span> benefiting wealthy citizens, accusing the administration of <span data-readto data-word="profligate">profligate<span class="rt">挥霍的</span></span> giveaways and <span data-readto data-word="austerity">austerity<span class="rt">紧缩</span></span> toward middle-class families already <span data-readto data-word="burdened">burdened<span class="rt">负担沉重的</span></span> by rising costs.
             </p>
             <p class="text-[#141210] mb-3">
-              Proponents counter that lower taxes will <span data-readto data-word="stimulate">stimulate<span class="rt">刺激</span></span> investment and <span data-readto data-word="ameliorate">ameliorate<span class="rt">改善</span></span> broader <span data-readto data-word="inequities">inequities<span class="rt">不公</span></span>.
+              Proponents counter that lower taxes will <span data-readto data-word="stimulate">stimulate<span class="rt">刺激</span></span> investment and <span data-readto data-word="ameliorate">ameliorate<span class="rt">改善</span></span> broader inequities.
+            </p>
+            <p class="text-[#141210] mb-3">
+              The bill faces a difficult path through the <span data-readto data-word="fractious">fractious<span class="rt">易怒的</span></span>, <span data-readto data-word="polarized">polarized<span class="rt">极化的</span></span> legislature, where opposition lawmakers have vowed to <span data-readto data-word="obstruct">obstruct<span class="rt">阻碍</span></span> its passage with <span data-readto data-word="vituperative">vituperative<span class="rt">谩骂的</span></span> floor speeches.
             </p>
             <p class="text-[#141210]">
-              The bill faces a difficult path through the <span data-readto data-word="fractious">fractious<span class="rt">难驾驭的</span></span>, <span data-readto data-word="polarized">polarized<span class="rt">两极化的</span></span> legislature, where opposition lawmakers have vowed to <span data-readto data-word="obstruct">obstruct<span class="rt">阻挠</span></span> its passage with <span data-readto data-word="vituperative">vituperative<span class="rt">辱骂的</span></span> floor speeches.
+              Despite a flurry of grassroots rhetoric, recent polls indicate voters remain deeply skeptical of what they view as <span data-readto data-word="perfunctory">perfunctory<span class="rt">敷衍的</span></span> concessions, leaving negotiations at a fragile impasse.
             </p>
           </div>
         </div>
@@ -789,6 +791,14 @@ const base = import.meta.env.BASE_URL;
       e: [
         { en: "Different people have different {interpretations} of the poem.", zh: "不同的人对这首诗有不同的理解。" }
       ]
+    },
+    perfunctory: {
+      p: "pә'fʌŋktәri",
+      t: "adj. 敷衍的，草率的",
+      e: [
+        { en: "The manager gave a {perfunctory} apology and moved on.", zh: "经理敷衍地道了个歉就把话题带过去了。" },
+        { en: "His {perfunctory} review missed several obvious bugs.", zh: "他敷衍的审查漏掉了好几个明显的漏洞。" }
+      ]
     }
   };
 
@@ -1058,14 +1068,14 @@ const base = import.meta.env.BASE_URL;
   // 每个等级显示的单词 - 基于扩展项目 level-data-full.json 的 CEFR 等级
   // 入门(A1): 显示 B1+ 的词, 基础(A2): 显示 B1+ 的词, 进阶(B1): 显示 B2+ 的词, 熟练(B2): 显示 C1+ 的词, 精通(C1): 只显示 C2 的词
   const levelWords: string[][] = [
-    // 入门 (A1): 12 词 - B1+B2+C1+C2
-    ['sweeping', 'overhaul', 'disproportionately', 'profligate', 'austerity', 'burdened', 'stimulate', 'ameliorate', 'fractious', 'polarized', 'obstruct', 'vituperative'],
-    // 基础 (A2): 12 词 - B1+B2+C1+C2
-    ['sweeping', 'overhaul', 'disproportionately', 'profligate', 'austerity', 'burdened', 'stimulate', 'ameliorate', 'fractious', 'polarized', 'obstruct', 'vituperative'],
-    // 进阶 (B1): 9 词 - B2+C1+C2
-    ['overhaul', 'disproportionately', 'profligate', 'austerity', 'ameliorate', 'fractious', 'polarized', 'obstruct', 'vituperative'],
-    // 熟练 (B2): 5 词 - C1+C2
-    ['profligate', 'ameliorate', 'fractious', 'polarized', 'vituperative'],
+    // 入门 (A1): 13 词 - B1+B2+C1+C2
+    ['sweeping', 'overhaul', 'disproportionately', 'profligate', 'austerity', 'burdened', 'stimulate', 'ameliorate', 'fractious', 'polarized', 'obstruct', 'vituperative', 'perfunctory'],
+    // 基础 (A2): 13 词 - B1+B2+C1+C2
+    ['sweeping', 'overhaul', 'disproportionately', 'profligate', 'austerity', 'burdened', 'stimulate', 'ameliorate', 'fractious', 'polarized', 'obstruct', 'vituperative', 'perfunctory'],
+    // 进阶 (B1): 10 词 - B2+C1+C2
+    ['overhaul', 'disproportionately', 'profligate', 'austerity', 'ameliorate', 'fractious', 'polarized', 'obstruct', 'vituperative', 'perfunctory'],
+    // 熟练 (B2): 6 词 - C1+C2
+    ['profligate', 'ameliorate', 'fractious', 'polarized', 'vituperative', 'perfunctory'],
     // 精通 (C1): 3 词 - C2
     ['profligate', 'fractious', 'vituperative'],
   ];
