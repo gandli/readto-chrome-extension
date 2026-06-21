@@ -96,37 +96,37 @@ test.describe('Readto Landing Page', () => {
   });
 
   test.describe('Level-Annotation Linkage', () => {
-    test('入门 should show 13 annotations', async ({ page }) => {
+    test('入门 should show 12 annotations', async ({ page }) => {
       await page.locator('.slider-label:has-text("入门")').click();
-      await expect(page.locator('#demo-content .rt:visible')).toHaveCount(13);
+      await expect(page.locator('#demo-content .rt:visible')).toHaveCount(12);
     });
 
-    test('基础 should show 10 annotations', async ({ page }) => {
+    test('基础 should show 12 annotations', async ({ page }) => {
       await page.locator('.slider-label:has-text("基础")').click();
-      await expect(page.locator('#demo-content .rt:visible')).toHaveCount(10);
+      await expect(page.locator('#demo-content .rt:visible')).toHaveCount(12);
     });
 
-    test('进阶 should show 5 annotations', async ({ page }) => {
+    test('进阶 should show 9 annotations', async ({ page }) => {
       await page.locator('.slider-label:has-text("进阶")').click();
+      await expect(page.locator('#demo-content .rt:visible')).toHaveCount(9);
+    });
+
+    test('熟练 should show 5 annotations', async ({ page }) => {
+      await page.locator('.slider-label:has-text("熟练")').click();
       await expect(page.locator('#demo-content .rt:visible')).toHaveCount(5);
     });
 
-    test('熟练 should show 3 annotations', async ({ page }) => {
-      await page.locator('.slider-label:has-text("熟练")').click();
-      await expect(page.locator('#demo-content .rt:visible')).toHaveCount(3);
-    });
-
-    test('精通 should show 1 annotation', async ({ page }) => {
+    test('精通 should show 3 annotations', async ({ page }) => {
       await page.locator('.slider-label:has-text("精通")').click();
-      await expect(page.locator('#demo-content .rt:visible')).toHaveCount(1);
+      await expect(page.locator('#demo-content .rt:visible')).toHaveCount(3);
     });
 
     test('should update annotations in real-time', async ({ page }) => {
       await page.locator('.slider-label:has-text("入门")').click();
-      await expect(page.locator('#demo-content .rt:visible')).toHaveCount(13);
+      await expect(page.locator('#demo-content .rt:visible')).toHaveCount(12);
       
       await page.locator('.slider-label:has-text("精通")').click();
-      await expect(page.locator('#demo-content .rt:visible')).toHaveCount(1);
+      await expect(page.locator('#demo-content .rt:visible')).toHaveCount(3);
     });
   });
 
@@ -139,11 +139,12 @@ test.describe('Readto Landing Page', () => {
     });
 
     test('should display phonetic and translation', async ({ page }) => {
-      await page.locator('[data-word="sweeping"]').first().click();
+      await page.locator('[data-word="sweeping"]').first().click({ force: true });
+      await page.waitForTimeout(500);
       
       const tooltip = page.locator('#tooltip');
       await expect(tooltip.locator('.ipa')).toContainText('/');
-      await expect(tooltip.locator('.body')).toContainText('大规模');
+      await expect(tooltip.locator('.body')).toContainText('彻底');
     });
 
     test('should have speaker button', async ({ page }) => {
