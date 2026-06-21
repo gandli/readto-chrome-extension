@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #f8f6f3;
+  --color-text: #1a1a1a;
+  --color-text-secondary: #666;
+  --color-accent: #e63946;
+  --color-border: #e5e5e5;
+  --font-sans: 'Inter', 'Noto Sans SC', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Source Serif 4', 'Newsreader', Georgia, serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* 模拟浏览器窗口 */
+.browser-mockup {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+
+.browser-mockup .titlebar {
+  background: #f5f5f5;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-bottom: 1px solid #eee;
+}
+
+.browser-mockup .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.browser-mockup .address-bar {
+  background: #e8e8e8;
+  border-radius: 4px;
+  padding: 4px 12px;
+  font-size: 12px;
+  color: #666;
+  flex: 1;
+  margin-left: 8px;
+}
+
+/* readto 标注样式 */
+.rt {
+  ruby-position: over;
+  ruby-align: center;
+}
+
+rt {
+  font-size: 0.65em;
+  color: var(--color-accent);
+  font-weight: 500;
+}
+
+/* 等级滑块 */
+.level-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  background: #ddd;
+  border-radius: 2px;
+  outline: none;
+}
+
+.level-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: var(--color-text);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.level-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: var(--color-text);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
