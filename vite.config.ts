@@ -61,6 +61,22 @@ function manifestPatchPlugin() {
 
       fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
       console.log('[manifest-patch] Updated manifest.json with correct filenames');
+
+      // Generate service-worker-loader.js
+      const swFile = findFile('service-worker-');
+      if (swFile) {
+        const swLoader = `import './assets/${swFile}';`;
+        fs.writeFileSync(resolve(distDir, 'service-worker-loader.js'), swLoader);
+        console.log(`[manifest-patch] Generated service-worker-loader.js → assets/${swFile}`);
+      }
+
+      // Generate YouTube content script loader (page-world uses MAIN world)
+      const pwFile = findFile('page-world.ts-');
+      if (pwFile) {
+        const pwLoader = `import './assets/${pwFile}';`;
+        fs.writeFileSync(resolve(distDir, 'page-world-loader.js'), pwLoader);
+        console.log(`[manifest-patch] Generated page-world-loader.js → assets/${pwFile}`);
+      }
     },
   };
 }

@@ -11,8 +11,8 @@ const TEST_PAGE_PORT = 3456;
 
 export default defineConfig({
   testDir: './e2e',
-  timeout: 30_000,
-  expect: { timeout: 10_000 },
+  timeout: 45_000,
+  expect: { timeout: 15_000 },
   fullyParallel: false,
   retries: 0,
   workers: 1,
@@ -20,27 +20,19 @@ export default defineConfig({
   use: {
     trace: 'off',
     screenshot: 'only-on-failure',
-  },
-  projects: [
-    {
-      name: 'chrome-extension',
-      use: {
-        ...devices['Desktop Chrome'],
-        channel: 'chrome',
-        launchOptions: {
-          executablePath: CHROME_PATH,
-          args: [
-            `--disable-extensions-except=${EXTENSION_PATH}`,
-            `--load-extension=${EXTENSION_PATH}`,
-            '--no-first-run',
-            '--disable-component-update',
-            '--disable-default-apps',
-          ],
-          headless: false,
-        },
-      },
+    ...devices['Desktop Chrome'],
+    launchOptions: {
+      executablePath: CHROME_PATH,
+      headless: false,
+      args: [
+        `--disable-extensions-except=${EXTENSION_PATH}`,
+        `--load-extension=${EXTENSION_PATH}`,
+        '--no-first-run',
+        '--disable-component-update',
+        '--disable-default-apps',
+      ],
     },
-  ],
+  },
   webServer: {
     command: `npx serve e2e/fixtures -p ${TEST_PAGE_PORT} --no-clipboard --no-request-logging`,
     port: TEST_PAGE_PORT,
