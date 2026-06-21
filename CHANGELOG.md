@@ -9,11 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### ✨ Features
 
+- add selection tooltip + Edge TTS + docs update (`725a218`)
 - Bilibili 字幕支持 + 项目结构优化 (`ed0a324`)
 - initial reverse-engineered readto extension (`09e1b25`)
 
 ### 🐛 Bug Fixes
 
+- 选项页加载 Tailwind CSS + 使用 readto.ai 示例文章截图 (`f5fbbb5`)
 - 标注功能修复 + E2E 测试框架 + manifest-patch 改进 (`fa87fa8`)
 - manifest-patch plugin generates service-worker-loader.js (`15b88ed`)
 
@@ -25,6 +27,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 📚 Documentation
 
+- 添加完整截图（选项页、暗色模式、标注、Tooltip、全页） (`7068513`)
+- 英文 README 为主，中文为辅 (`d1f971e`)
+- 更新 README 体现逆向工程性质 (`daf097e`)
 - 添加中英文 README (`48d0238`)
 
 ### 🧪 Tests
