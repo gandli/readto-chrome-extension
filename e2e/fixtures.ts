@@ -1,50 +1,32 @@
-/**
- * Playwright fixtures for Chrome extension testing.
- *
- * Uses chromium.launchPersistentContext (NOT Chrome) — Playwright's bundled
- * Chromium supports --load-extension, while Chrome/Edge removed it.
- */
-import { test as base, chromium, type BrowserContext, type Page } from '@playwright/test';
-import path from 'path';
+import { test as base, chromium, type BrowserContext } from '@playwright/test';
 import { fileURLToPath } from 'url';
+import path from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const dist = path.resolve(__dirname, '../dist');
 
-const EXTENSION_PATH = path.resolve(__dirname, '..', 'dist');
-
-export const test = base.extend<{
-  context: BrowserContext;
-  extensionId: string;
-  extPage: Page;
-}>({
-  context: async ({ }, use) => {
+export const test = base.extend<{ context: BrowserContext; extensionId: string }>({
+  context: async ({}, use) => {
     const context = await chromium.launchPersistentContext('', {
+      headless: false,
       args: [
-        `--disable-extensions-except=${EXTENSION_PATH}`,
-        `--load-extension=${EXTENSION_PATH}`,
+        `--disable-extensions-except=${dist}`,
+        `--load-extension=${dist}`,
         '--no-first-run',
-        '--disable-component-update',
+        '--disable-default-apps',
       ],
     });
+    // Wait for service worker
+    await context.waitForEvent('serviceworker', { timeout: 15000 });
     await use(context);
     await context.close();
   },
-
   extensionId: async ({ context }, use) => {
-    // MV3: wait for service worker
-    let [serviceWorker] = context.serviceWorkers();
-    if (!serviceWorker)
-      serviceWorker = await context.waitForEvent('serviceworker', { timeout: 15_000 });
-    const extensionId = serviceWorker.url().split('/')[2];
-    await use(extensionId);
-  },
-
-  extPage: async ({ context }, use) => {
-    // Reuse existing page or create new one
-    const page = context.pages()[0] || await context.newPage();
-    await use(page);
+    const sw = context.serviceWorkers()[0];
+    if (!sw) throw new Error('No service worker found');
+    const id = sw.url().split('/')[2];
+    await use(id);
   },
 });
-
-export const expect = test.expect;
+export { expect } from '@playwright/test';

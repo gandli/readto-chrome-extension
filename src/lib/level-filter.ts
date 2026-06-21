@@ -830,6 +830,7 @@ export function getTranslator(config: { level: CefrLevel; translationMode: strin
         if (response?.ok && Array.isArray(response.results)) {
           return (response.results[0] ?? []).map((r: any) => ({
             word: r.word,
+            occurrence: r.occurrence,
             translation: r.translation,
           }));
         }

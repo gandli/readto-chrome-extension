@@ -7,3 +7,7 @@ src/lib/level-data-full.json
 src/lib/translations-data.json
 test-results/
 test-results/
+.test-profile/
+test-*.cjs
+skills-lock.json
+.agents/

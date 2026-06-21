@@ -25,10 +25,9 @@ function manifestPatchPlugin() {
       const findFile = (prefix: string) =>
         files.find(f => f.startsWith(prefix) && f.endsWith('.js')) ?? null;
 
-      const loader = findFile('index.ts-');
-      const contentMain = files.find(f => f.startsWith('index.ts-') && f !== loader && !f.includes('youtube')) ?? null;
+      // Find the main content script module (not youtube, not loader)
+      const contentMain = files.find(f => f.startsWith('index.ts-') && f.endsWith('.js') && !f.includes('youtube')) ?? null;
       const youtube = findFile('index.ts-youtube-');
-      const youtubeLoader = files.find(f => f.startsWith('index.ts-youtube-') && f !== youtube) ?? null;
       const pageWorld = findFile('page-world.ts-');
       const storage = findFile('storage-');
       const levelFilter = findFile('level-filter-');
@@ -63,8 +62,28 @@ function manifestPatchPlugin() {
                 newJs.push(loaderName);
               }
             } else if (jsFile.includes('-loader') && jsFile.includes('index.ts')) {
-              // Main content script loader (non-YouTube)
-              if (loader) newJs.push(`assets/${loader}`);
+              // Main content script loader (non-YouTube) — create a loader for the ES module
+              if (contentMain) {
+                const loaderName = `index.ts-loader.js`;
+                if (!fs.existsSync(resolve(distDir, loaderName))) {
+                  const loaderCode = `(function(){'use strict';const t=performance.now();(async()=>{const{onExecute}=await import(chrome.runtime.getURL(\"assets/${contentMain}\"));onExecute?.({perf:{injectTime:t,loadTime:performance.now()-t}})})().catch(console.error)})();`;
+                  fs.writeFileSync(resolve(distDir, loaderName), loaderCode);
+                  console.log(`[manifest-patch] Generated ${loaderName} → assets/${contentMain}`);
+                }
+                newJs.push(loaderName);
+              }
+            } else if (jsFile.startsWith('assets/index.ts-') && !jsFile.includes('-loader')) {
+              // Main content script (ES module) — need to create a loader
+              if (contentMain) {
+                const loaderName = `index.ts-loader.js`;
+                if (!fs.existsSync(resolve(distDir, loaderName))) {
+                  // Create a classic script loader that dynamically imports the ES module
+                  const loaderCode = `(function(){'use strict';const t=performance.now();(async()=>{const{onExecute}=await import(chrome.runtime.getURL("assets/${contentMain}"));onExecute?.({perf:{injectTime:t,loadTime:performance.now()-t}})})().catch(console.error)})();`;
+                  fs.writeFileSync(resolve(distDir, loaderName), loaderCode);
+                  console.log(`[manifest-patch] Generated ${loaderName} → assets/${contentMain}`);
+                }
+                newJs.push(loaderName);
+              }
             } else {
               newJs.push(jsFile);
             }
@@ -85,6 +104,7 @@ function manifestPatchPlugin() {
             else if (res.includes('index.ts-') && !res.includes('youtube') && !res.includes('loader')) { if (contentMain) newResources.push(`assets/${contentMain}`); }
             else if (res.includes('types-')) { if (types) newResources.push(`assets/${types}`); }
             else if (res.includes('page-world.ts-')) { if (pageWorld) newResources.push(`assets/${pageWorld}`); }
+            else if (res === 'assets/level-data-full.json') newResources.push('assets/level-data-full.json');
             else newResources.push(res); // keep as-is
           }
           group.resources = newResources;
@@ -108,6 +128,16 @@ function manifestPatchPlugin() {
         const pwLoader = `import './assets/${pwFile}';`;
         fs.writeFileSync(resolve(distDir, 'page-world-loader.js'), pwLoader);
         console.log(`[manifest-patch] Generated page-world-loader.js → assets/${pwFile}`);
+      }
+
+      // Fix options_page path: Vite outputs to src/options/index.html
+      if (manifest.options_page === 'options.html') {
+        const optionsPath = resolve(distDir, 'src/options/index.html');
+        if (fs.existsSync(optionsPath)) {
+          // Copy to root level for manifest compatibility
+          fs.copyFileSync(optionsPath, resolve(distDir, 'options.html'));
+          console.log('[manifest-patch] Copied options.html to dist root');
+        }
       }
     },
   };

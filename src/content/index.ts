@@ -277,7 +277,7 @@ export async function onExecute(perf?: { injectTime: number; loadTime: number })
   autoSpeakEnabled = config.autoSpeak ?? false;
 
   // 3. Initialize site config
-  const siteRule = parseSiteConfig(config.level);
+  const siteRule = parseSiteConfig(window.location.href);
   if (siteRule) setSiteConfig({ excludeSelectors: siteRule.excludeSelectors ?? [], stayOriginalSelectors: siteRule.stayOriginalSelectors ?? [] });
 
   // 4. Load CEFR wordlist
