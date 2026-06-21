@@ -26,9 +26,11 @@ function manifestPatchPlugin() {
         files.find(f => f.startsWith(prefix) && f.endsWith('.js')) ?? null;
 
       // Find the main content script module (not youtube, not loader)
-      const contentMain = files.find(f => f.startsWith('index.ts-') && f.endsWith('.js') && !f.includes('youtube')) ?? null;
+      const contentMain = files.find(f => f.startsWith('index.ts-') && f.endsWith('.js') && !f.includes('youtube') && !f.includes('bilibili')) ?? null;
       const youtube = findFile('index.ts-youtube-');
+      const bilibili = findFile('index.ts-bilibili-');
       const pageWorld = findFile('page-world.ts-');
+      const bilibiliWorld = findFile('bilibili-world.ts-');
       const storage = findFile('storage-');
       const levelFilter = findFile('level-filter-');
       const inlineRenderer = findFile('inline-renderer-');
@@ -39,6 +41,7 @@ function manifestPatchPlugin() {
       if (manifest.content_scripts) {
         for (const cs of manifest.content_scripts) {
           const isYouTube = cs.matches?.some((m: string) => m.includes('youtube'));
+          const isBilibili = cs.matches?.some((m: string) => m.includes('bilibili'));
           const isMainWorld = cs.world === 'MAIN';
 
           const newJs: string[] = [];
@@ -58,11 +61,31 @@ function manifestPatchPlugin() {
                 const loaderName = `index.ts-youtube-loader.js`;
                 if (!fs.existsSync(resolve(distDir, loaderName))) {
                   fs.writeFileSync(resolve(distDir, loaderName), `import './assets/${youtube}';`);
+                  console.log(`[manifest-patch] Generated ${loaderName} → assets/${youtube}`);
+                }
+                newJs.push(loaderName);
+              }
+            } else if (isBilibili && !isMainWorld && jsFile.includes('-loader')) {
+              // Bilibili content script loader
+              if (bilibili) {
+                const loaderName = `index.ts-bilibili-loader.js`;
+                if (!fs.existsSync(resolve(distDir, loaderName))) {
+                  fs.writeFileSync(resolve(distDir, loaderName), `import './assets/${bilibili}';`);
+                  console.log(`[manifest-patch] Generated ${loaderName} → assets/${bilibili}`);
+                }
+                newJs.push(loaderName);
+              }
+            } else if (isBilibili && isMainWorld && jsFile.includes('-loader')) {
+              // Bilibili MAIN world loader
+              if (bilibiliWorld) {
+                const loaderName = `bilibili-world-loader.js`;
+                if (!fs.existsSync(resolve(distDir, loaderName))) {
+                  fs.writeFileSync(resolve(distDir, loaderName), `import './assets/${bilibiliWorld}';`);
+                  console.log(`[manifest-patch] Generated ${loaderName} → assets/${bilibiliWorld}`);
                 }
                 newJs.push(loaderName);
               }
             } else if (jsFile.includes('-loader') && jsFile.includes('index.ts')) {
-              // Main content script loader (non-YouTube) — create a loader for the ES module
               if (contentMain) {
                 const loaderName = `index.ts-loader.js`;
                 if (!fs.existsSync(resolve(distDir, loaderName))) {
@@ -153,6 +176,8 @@ export default defineConfig({
         'options': resolve(__dirname, 'src/options/index.html'),
         'index.ts-youtube': resolve(__dirname, 'src/content/youtube.ts'),
         'page-world.ts': resolve(__dirname, 'src/content/page-world.ts'),
+        'index.ts-bilibili': resolve(__dirname, 'src/content/bilibili.ts'),
+        'bilibili-world.ts': resolve(__dirname, 'src/content/bilibili-world.ts'),
       },
       output: {
         entryFileNames: (chunkInfo) => {

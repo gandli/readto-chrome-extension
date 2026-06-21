@@ -40,7 +40,8 @@
       ],
       "exclude_matches": [
         "https://*.youtube.com/*",
-        "https://*.youtube-nocookie.com/*"
+        "https://*.youtube-nocookie.com/*",
+        "https://*.bilibili.com/*"
       ],
       "run_at": "document_idle"
     },
@@ -65,6 +66,25 @@
       ],
       "run_at": "document_start",
       "all_frames": true,
+      "world": "MAIN"
+    },
+    {
+      "js": [
+        "index.ts-bilibili-loader.js"
+      ],
+      "matches": [
+        "https://*.bilibili.com/*"
+      ],
+      "run_at": "document_idle"
+    },
+    {
+      "js": [
+        "bilibili-world-loader.js"
+      ],
+      "matches": [
+        "https://*.bilibili.com/*"
+      ],
+      "run_at": "document_start",
       "world": "MAIN"
     }
   ],
