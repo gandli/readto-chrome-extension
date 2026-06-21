@@ -12,7 +12,7 @@ import { initStorage, getReadableConfig, isFullConfig } from '../lib/storage';
 
 // ─── Constants ─────────────────────────────────────────────────────
 
-const TRANSLATIONS_DETAIL_URL = '/assets/translations-detail.json';
+const DETAIL_DIR = '/assets/detail';
 
 const RATE_LIMIT_MAX = 60; // requests per minute
 const RATE_LIMIT_WINDOW_MS = 60_000;
@@ -30,32 +30,39 @@ interface WordDetail {
   e?: Array<{ en: string; zh: string }>; // examples
 }
 
-let detailCache: Map<string, WordDetail> | null = null;
-let detailPromise: Promise<Map<string, WordDetail>> | null = null;
+/** Per-letter cache: 'a' → Map of word→detail */
+const letterCaches = new Map<string, Map<string, WordDetail>>();
+const letterPromises = new Map<string, Promise<Map<string, WordDetail>>>();
 
-async function loadTranslationsDetail(): Promise<Map<string, WordDetail>> {
-  if (detailCache) return detailCache;
-  if (detailPromise) return detailPromise;
+async function loadLetter(letter: string): Promise<Map<string, WordDetail>> {
+  const key = letter.toLowerCase();
+  if (letterCaches.has(key)) return letterCaches.get(key)!;
+  if (letterPromises.has(key)) return letterPromises.get(key)!;
 
-  detailPromise = (async () => {
+  const promise = (async () => {
     try {
-      const resp = await fetch(TRANSLATIONS_DETAIL_URL);
-      if (!resp.ok) throw new Error(`fetch ${TRANSLATIONS_DETAIL_URL} → ${resp.status}`);
+      const resp = await fetch(chrome.runtime.getURL(`${DETAIL_DIR}/${key}.json`));
+      if (!resp.ok) throw new Error(`fetch ${key}.json → ${resp.status}`);
       const data = await resp.json();
-      detailCache = new Map(Object.entries(data));
-      return detailCache;
+      const map = new Map(Object.entries(data));
+      letterCaches.set(key, map);
+      return map;
     } catch (err) {
-      detailPromise = null;
+      letterPromises.delete(key);
       throw err;
     }
   })();
 
-  return detailPromise;
+  letterPromises.set(key, promise);
+  return promise;
 }
 
 async function getWordDetail(word: string): Promise<WordDetail | null> {
-  const map = await loadTranslationsDetail();
-  return map.get(word.toLowerCase()) ?? null;
+  const w = word.toLowerCase();
+  if (!w) return null;
+  const letter = w[0];
+  const map = await loadLetter(letter);
+  return map.get(w) ?? null;
 }
 
 // ─── Rate Limiting ─────────────────────────────────────────────────
