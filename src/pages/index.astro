@@ -145,16 +145,16 @@ const base = import.meta.env.BASE_URL;
             </h2>
             <div class="text-[13px] text-[#9a9489] mb-4">By Anna Reed · April 22, 2026</div>
             <p class="text-[#141210] mb-3">
-              The president announced sweeping reforms to the nation's tax system yesterday, marking the most significant overhaul in a decade.
+              The president announced <span data-readto data-word="sweeping">sweeping<span class="rt">大规模的</span></span> reforms to the nation's tax system yesterday, marking the most significant <span data-readto data-word="overhaul">overhaul<span class="rt">大修</span></span> in a decade.
             </p>
             <p class="text-[#141210] mb-3">
-              Critics denounce the changes as disproportionately benefiting wealthy citizens, accusing the administration of profligate giveaways and austerity toward middle-class families already burdened by rising costs.
+              Critics denounce the changes as <span data-readto data-word="disproportionately">disproportionately<span class="rt">不成比例地</span></span> benefiting wealthy citizens, accusing the administration of <span data-readto data-word="profligate">profligate<span class="rt">挥霍的</span></span> giveaways and <span data-readto data-word="austerity">austerity<span class="rt">紧缩</span></span> toward middle-class families already <span data-readto data-word="burdened">burdened<span class="rt">负担</span></span> by rising costs.
             </p>
             <p class="text-[#141210] mb-3">
-              Proponents counter that lower taxes will stimulate investment and ameliorate broader inequities.
+              Proponents counter that lower taxes will <span data-readto data-word="stimulate">stimulate<span class="rt">刺激</span></span> investment and <span data-readto data-word="ameliorate">ameliorate<span class="rt">改善</span></span> broader <span data-readto data-word="inequities">inequities<span class="rt">不公</span></span>.
             </p>
             <p class="text-[#141210]">
-              The bill faces a difficult path through the fractious, polarized legislature, where opposition lawmakers have vowed to obstruct its passage with vituperative floor speeches.
+              The bill faces a difficult path through the <span data-readto data-word="fractious">fractious<span class="rt">难驾驭的</span></span>, <span data-readto data-word="polarized">polarized<span class="rt">两极化的</span></span> legislature, where opposition lawmakers have vowed to <span data-readto data-word="obstruct">obstruct<span class="rt">阻挠</span></span> its passage with <span data-readto data-word="vituperative">vituperative<span class="rt">辱骂的</span></span> floor speeches.
             </p>
           </div>
         </div>
@@ -243,7 +243,7 @@ const base = import.meta.env.BASE_URL;
         readto<span class="text-[#b2462a]">.</span><span class="text-[0.7em] text-[#9a9489]">ai</span>
       </a>
       <div class="flex items-center gap-6">
-        <a href="#" class="text-[12px] text-[#9a9489] hover:text-[#141210]">
+        <a href={`${base}privacy`} class="text-[12px] text-[#9a9489] hover:text-[#141210]">
           隐私政策
         </a>
         <span class="text-[12px] text-[#9a9489]">© 2026 · 读懂</span>
@@ -777,7 +777,7 @@ const base = import.meta.env.BASE_URL;
     return 10 + (level / 4) * 80;
   }
 
-  function updateSlider(level: number) {
+  function updateSlider(level: number, save = true) {
     currentLevel = level;
     const percent = getPercent(level);
 
@@ -798,6 +798,13 @@ const base = import.meta.env.BASE_URL;
     if (slider) {
       slider.setAttribute('aria-valuenow', String(level + 1));
       slider.setAttribute('aria-valuetext', ['入门', '基础', '进阶', '熟练', '精通'][level]);
+    }
+
+    // 持久化到 localStorage
+    if (save) {
+      try {
+        localStorage.setItem('readto-level', String(level));
+      } catch {}
     }
   }
 
@@ -862,5 +869,16 @@ const base = import.meta.env.BASE_URL;
     label.addEventListener('click', () => updateSlider(i));
   });
 
-  updateSlider(2);
+  // 初始化：从 localStorage 读取保存的等级
+  let savedLevel = 2; // 默认进阶
+  try {
+    const stored = localStorage.getItem('readto-level');
+    if (stored !== null) {
+      const parsed = parseInt(stored, 10);
+      if (parsed >= 0 && parsed <= 4) {
+        savedLevel = parsed;
+      }
+    }
+  } catch {}
+  updateSlider(savedLevel, false);
 </script>
