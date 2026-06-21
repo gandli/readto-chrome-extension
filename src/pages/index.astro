@@ -308,23 +308,23 @@ const base = import.meta.env.BASE_URL;
     user-select: none;
   }
 
-  /* Tooltip - 紧凑布局 */
+  /* Tooltip - 匹配扩展样式 */
   .tooltip {
     position: fixed;
-    background: rgb(248, 247, 247);
+    background: #ffffff;
     color: rgb(28, 25, 23);
     border: 1px solid rgb(219, 216, 214);
     border-radius: 6px;
-    padding: 10px 12px;
-    font-family: Charter, "Iowan Old Style", "Source Serif 4", Georgia, serif;
+    padding: 8px 10px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
     font-size: 14px;
-    line-height: 1.55;
+    line-height: 1.5;
     font-weight: 400;
     text-align: left;
     white-space: normal;
     min-width: 180px;
     max-width: 340px;
-    box-shadow: rgba(24, 20, 18, 0.05) 0px 1px 2px, rgba(24, 20, 18, 0.06) 0px 6px 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
     z-index: 2147483647;
     user-select: text;
     pointer-events: auto;
@@ -340,41 +340,41 @@ const base = import.meta.env.BASE_URL;
   .tooltip .phonetic {
     display: flex;
     align-items: center;
-    gap: 5px;
-    color: hsl(25 5% 45%);
-    margin-bottom: 2px;
+    gap: 4px;
+    color: #666666;
+    margin-bottom: 4px;
   }
 
   .tooltip .ipa {
     font-style: italic;
-    font-size: 13px;
+    font-size: 12px;
   }
 
   .tooltip .speaker {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     padding: 2px;
     margin: 0;
     background: transparent;
     border: none;
-    border-radius: 4px;
-    color: inherit;
+    border-radius: 3px;
+    color: #666666;
     cursor: pointer;
     transition: background 0.15s, color 0.15s, transform 0.08s;
   }
 
   .tooltip .speaker svg {
-    width: 13px;
-    height: 13px;
+    width: 14px;
+    height: 14px;
     display: block;
   }
 
   .tooltip .speaker:hover {
-    background: rgba(24, 20, 18, 0.06);
-    color: hsl(24 10% 10%);
+    background: rgba(0, 0, 0, 0.06);
+    color: #333333;
   }
 
   .tooltip .speaker:active {
@@ -394,18 +394,19 @@ const base = import.meta.env.BASE_URL;
 
   .tooltip .body {
     font-size: 14px;
-    line-height: 1.4;
+    line-height: 1.5;
     margin-bottom: 0;
+    color: #000000;
   }
 
   .tooltip .examples {
-    margin-top: 2px;
-    padding-top: 2px;
-    border-top: 1px dashed hsl(25 6% 85%);
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px dashed #e0e0e0;
   }
 
   .tooltip .example {
-    margin-top: 2px;
+    margin-top: 6px;
   }
 
   .tooltip .example:first-child {
@@ -413,21 +414,21 @@ const base = import.meta.env.BASE_URL;
   }
 
   .tooltip .example .en {
-    font-size: 13px;
-    line-height: 1.4;
-    color: hsl(24 10% 18%);
+    font-size: 14px;
+    line-height: 1.5;
+    color: #000000;
   }
 
   .tooltip .example .target {
     font-weight: 600;
-    color: #b2462a;
+    color: #e05020;
   }
 
   .tooltip .example .zh {
     font-size: 12px;
-    line-height: 1.35;
-    color: hsl(25 5% 50%);
-    margin-top: 0;
+    line-height: 1.4;
+    color: #888888;
+    margin-top: 2px;
   }
 
   .slider-label {
