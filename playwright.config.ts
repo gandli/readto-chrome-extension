@@ -4,18 +4,22 @@ export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  retries: 0,
+  workers: 2,
+  timeout: 30000,
+  expect: {
+    timeout: 10000,
+  },
   reporter: [
-    ['html'],
-    ['json', { outputFile: 'test-results/results.json' }],
     ['list'],
+    ['html', { open: 'never' }],
   ],
   use: {
     baseURL: 'http://localhost:4321/readto-chrome-extension',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
+    actionTimeout: 10000,
+    navigationTimeout: 15000,
   },
   projects: [
     {
@@ -30,6 +34,7 @@ export default defineConfig({
   webServer: {
     command: 'bun dev --port 4321',
     url: 'http://localhost:4321/readto-chrome-extension',
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: true,
+    timeout: 30000,
   },
 });

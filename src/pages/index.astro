@@ -431,6 +431,36 @@ const base = import.meta.env.BASE_URL;
 
   /* 移动端适配 */
   @media (max-width: 768px) {
+    /* Header */
+    header .flex.items-center.justify-between {
+      flex-wrap: wrap;
+    }
+    
+    header nav {
+      gap: 4px;
+    }
+    
+    header nav a {
+      font-size: 13px;
+      padding: 6px 10px;
+    }
+
+    /* Hero Section */
+    h1 {
+      font-size: 36px;
+      line-height: 1.1;
+    }
+
+    /* Level Slider */
+    .slider-label {
+      font-size: 11px;
+    }
+
+    #level-slider {
+      height: 44px; /* 更大的触摸区域 */
+    }
+
+    /* Tooltip */
     .tooltip {
       min-width: 160px;
       max-width: 280px;
@@ -439,13 +469,13 @@ const base = import.meta.env.BASE_URL;
     }
 
     .tooltip .speaker {
-      width: 20px;
-      height: 20px;
+      width: 24px;
+      height: 24px;
     }
 
     .tooltip .speaker svg {
-      width: 12px;
-      height: 12px;
+      width: 14px;
+      height: 14px;
     }
 
     .tooltip .example .en {
@@ -456,8 +486,46 @@ const base = import.meta.env.BASE_URL;
       font-size: 11px;
     }
 
+    /* Annotated Words */
     [data-readto] {
       -webkit-tap-highlight-color: transparent;
+      padding: 2px 0; /* 更大的触摸区域 */
+    }
+
+    .rt {
+      font-size: 0.55em;
+    }
+
+    /* Article Preview */
+    #demo-content {
+      font-size: 14px;
+      line-height: 1.65;
+      padding: 12px;
+    }
+
+    #demo-content h2 {
+      font-size: 18px;
+    }
+
+    /* How It Works */
+    #how .grid {
+      gap: 0;
+    }
+
+    #how .grid > div {
+      padding: 24px 16px;
+      min-height: auto;
+    }
+
+    #how h3 {
+      font-size: 20px;
+    }
+
+    /* Footer */
+    footer .flex.items-center.justify-between {
+      flex-direction: column;
+      gap: 12px;
+      text-align: center;
     }
   }
 

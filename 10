@@ -1,0 +1,10 @@
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\landing-Readto-Landing-Pag-d8f0f-hould-show-tooltip-on-click-Mobile-Chrome\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\landing-Readto-Landing-Pag-d8f0f-hould-show-tooltip-on-click-Mobile-Chrome\error-context.md
+
+  2 failed
+    [chromium] › tests\landing.spec.ts:192:5 › Readto Landing Page › Responsive › should show tooltip on mobile 
+    [Mobile Chrome] › tests\landing.spec.ts:134:5 › Readto Landing Page › Tooltip › should show tooltip on click 
+  58 passed (43.8s)
