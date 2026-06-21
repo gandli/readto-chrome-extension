@@ -705,3 +705,231 @@ describe('lifecycle', () => {
     expect(mockOpenOptionsPage).toHaveBeenCalled();
   });
 });
+
+// ═══════════════════════════════════════════════════════════════════════
+// Gap: session.get throwing an error in getRateTimestamps
+// ═══════════════════════════════════════════════════════════════════════
+
+describe('getRateTimestamps error handling', () => {
+  it('returns [] when session.get throws (catch block)', async () => {
+    const now = 1_000_000_000;
+    vi.spyOn(Date, 'now').mockReturnValue(now);
+    mockSessionGet.mockRejectedValue(new Error('session storage corrupted'));
+
+    const response = await callHandler({
+      type: 'TRANSLATE_MANY',
+      items: [{ context: 'test', targets: [{ word: 'hello', occurrence: 0 }] }],
+      cfg: LLM_CFG,
+    });
+
+    // Should succeed — getRateTimestamps returns [] on error, so no rate limit hit
+    expect(response.ok).toBe(true);
+    expect(mockStreamBatch).toHaveBeenCalled();
+  });
+});
+
+// ═══════════════════════════════════════════════════════════════════════
+// Gap: session.set throwing an error (catch block, silent)
+// ═══════════════════════════════════════════════════════════════════════
+
+describe('setRateTimestamps error handling', () => {
+  it('succeeds silently when session.set throws', async () => {
+    const now = 1_000_000_000;
+    vi.spyOn(Date, 'now').mockReturnValue(now);
+    mockSessionSet.mockRejectedValue(new Error('storage write failed'));
+
+    const response = await callHandler({
+      type: 'TRANSLATE_MANY',
+      items: [{ context: 'test', targets: [{ word: 'hello', occurrence: 0 }] }],
+      cfg: LLM_CFG,
+    });
+
+    // The LLM call should still succeed — setRateTimestamps error is swallowed
+    expect(response.ok).toBe(true);
+    expect(mockStreamBatch).toHaveBeenCalled();
+  });
+});
+
+// ═══════════════════════════════════════════════════════════════════════
+// Gap: loadLocalDict non-OK response (resp.ok === false)
+// ═══════════════════════════════════════════════════════════════════════
+
+describe('loadLocalDict non-OK response', () => {
+  it('returns empty results when fetch returns non-OK status', async () => {
+    mockFetch.mockResolvedValue({ ok: false, status: 500 });
+
+    const response = await callHandler({
+      type: 'TRANSLATE_MANY',
+      items: [
+        {
+          context: 'hello world',
+          targets: [
+            { word: 'hello', occurrence: 0 },
+            { word: 'world', occurrence: 0 },
+          ],
+        },
+      ],
+      cfg: { translationMode: 'local' },
+    });
+
+    // loadLocalDict catches the non-OK and returns empty Map
+    expect(response.ok).toBe(true);
+    expect(response.results).toEqual([[]]);
+  });
+
+  it('returns empty results when fetch returns 404', async () => {
+    mockFetch.mockResolvedValue({ ok: false, status: 404 });
+
+    const response = await callHandler({
+      type: 'TRANSLATE_MANY',
+      items: [{ context: 'hello', targets: [{ word: 'hello', occurrence: 0 }] }],
+      cfg: { translationMode: 'local' },
+    });
+
+    expect(response.ok).toBe(true);
+    expect(response.results).toEqual([[]]);
+  });
+});
+
+// ═══════════════════════════════════════════════════════════════════════
+// Gap: Concurrent letter fetch deduplication
+// ═══════════════════════════════════════════════════════════════════════
+
+describe('GET_WORD_DETAIL concurrent deduplication', () => {
+  it('two concurrent GET_WORD_DETAIL for same letter share one fetch', async () => {
+    let resolveFetch!: (v: any) => void;
+    const fetchPromise = new Promise((resolve) => {
+      resolveFetch = resolve;
+    });
+
+    mockFetch.mockReturnValue(fetchPromise);
+
+    // Fire two requests for same letter concurrently
+    const p1 = callHandler({ type: 'GET_WORD_DETAIL', word: 'apple' });
+    const p2 = callHandler({ type: 'GET_WORD_DETAIL', word: 'avocado' });
+
+    // Resolve the shared fetch
+    resolveFetch({
+      ok: true,
+      json: async () => ({
+        apple: { p: 'ˈæp.əl' },
+        avocado: { p: 'ˌæv.əˈkɑː.doʊ' },
+      }),
+    });
+
+    const [r1, r2] = await Promise.all([p1, p2]);
+
+    expect(r1).toEqual({ ok: true, detail: { p: 'ˈæp.əl' } });
+    expect(r2).toEqual({ ok: true, detail: { p: 'ˌæv.əˈkɑː.doʊ' } });
+
+    // Only ONE fetch for 'a.json' despite two concurrent lookups
+    const detailFetches = mockFetch.mock.calls.filter((c: any[]) =>
+      c[0].includes('/assets/detail/'),
+    );
+    expect(detailFetches).toHaveLength(1);
+  });
+});
+
+// ═══════════════════════════════════════════════════════════════════════
+// Gap: TRANSLATE_MANY with empty items: [] (valid but empty)
+// ═══════════════════════════════════════════════════════════════════════
+
+describe('TRANSLATE_MANY with empty items', () => {
+  it('returns ok with empty results for empty items in local mode', async () => {
+    mockFetch.mockResolvedValue({ ok: true, json: async () => ({}) });
+
+    const response = await callHandler({
+      type: 'TRANSLATE_MANY',
+      items: [],
+      cfg: { translationMode: 'local' },
+    });
+
+    expect(response.ok).toBe(true);
+    expect(response.results).toEqual([]);
+  });
+
+  it('returns ok with empty results for empty items in LLM mode', async () => {
+    mockStreamBatch.mockResolvedValue([]);
+
+    const response = await callHandler({
+      type: 'TRANSLATE_MANY',
+      items: [],
+      cfg: LLM_CFG,
+    });
+
+    expect(response.ok).toBe(true);
+    expect(response.results).toEqual([]);
+  });
+});
+
+// ═══════════════════════════════════════════════════════════════════════
+// Gap: Rate limit session.get returning malformed data
+// ═══════════════════════════════════════════════════════════════════════
+
+describe('rate limit with malformed session data', () => {
+  it('treats non-array llmRateTimestamps as empty (string)', async () => {
+    const now = 1_000_000_000;
+    vi.spyOn(Date, 'now').mockReturnValue(now);
+    mockSessionGet.mockResolvedValue({ llmRateTimestamps: 'not-an-array' });
+
+    const response = await callHandler({
+      type: 'TRANSLATE_MANY',
+      items: [{ context: 'test', targets: [{ word: 'hello', occurrence: 0 }] }],
+      cfg: LLM_CFG,
+    });
+
+    // Should succeed — malformed data is treated as empty, no rate limit hit
+    expect(response.ok).toBe(true);
+    expect(mockStreamBatch).toHaveBeenCalled();
+    // Should save [now] since the existing data was discarded
+    expect(mockSessionSet).toHaveBeenCalledWith({ llmRateTimestamps: [now] });
+  });
+
+  it('treats non-array llmRateTimestamps as empty (number)', async () => {
+    const now = 1_000_000_000;
+    vi.spyOn(Date, 'now').mockReturnValue(now);
+    mockSessionGet.mockResolvedValue({ llmRateTimestamps: 42 });
+
+    const response = await callHandler({
+      type: 'TRANSLATE_MANY',
+      items: [{ context: 'test', targets: [{ word: 'hello', occurrence: 0 }] }],
+      cfg: LLM_CFG,
+    });
+
+    expect(response.ok).toBe(true);
+    expect(mockStreamBatch).toHaveBeenCalled();
+    expect(mockSessionSet).toHaveBeenCalledWith({ llmRateTimestamps: [now] });
+  });
+
+  it('treats non-array llmRateTimestamps as empty (object)', async () => {
+    const now = 1_000_000_000;
+    vi.spyOn(Date, 'now').mockReturnValue(now);
+    mockSessionGet.mockResolvedValue({ llmRateTimestamps: { foo: 'bar' } });
+
+    const response = await callHandler({
+      type: 'TRANSLATE_MANY',
+      items: [{ context: 'test', targets: [{ word: 'hello', occurrence: 0 }] }],
+      cfg: LLM_CFG,
+    });
+
+    expect(response.ok).toBe(true);
+    expect(mockStreamBatch).toHaveBeenCalled();
+    expect(mockSessionSet).toHaveBeenCalledWith({ llmRateTimestamps: [now] });
+  });
+
+  it('treats non-array llmRateTimestamps as empty (null)', async () => {
+    const now = 1_000_000_000;
+    vi.spyOn(Date, 'now').mockReturnValue(now);
+    mockSessionGet.mockResolvedValue({ llmRateTimestamps: null });
+
+    const response = await callHandler({
+      type: 'TRANSLATE_MANY',
+      items: [{ context: 'test', targets: [{ word: 'hello', occurrence: 0 }] }],
+      cfg: LLM_CFG,
+    });
+
+    expect(response.ok).toBe(true);
+    expect(mockStreamBatch).toHaveBeenCalled();
+    expect(mockSessionSet).toHaveBeenCalledWith({ llmRateTimestamps: [now] });
+  });
+});

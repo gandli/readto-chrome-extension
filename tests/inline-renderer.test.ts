@@ -121,35 +121,34 @@ describe('getWordDetail', () => {
     expect(sendMessageMock).not.toHaveBeenCalled();
   });
 
-  it.skip('evicts oldest entry when cache exceeds 100 entries', async () => {
-    // Use a fresh module instance to avoid cache pollution from other tests
-    vi.resetModules();
-    const { getWordDetail: freshGet } = await import('../src/lib/inline-renderer');
+  it('evicts oldest entry when cache exceeds 100 entries', async () => {
+    // Fill cache well beyond capacity with unique entries to guarantee eviction
+    // regardless of how many entries prior tests may have added.
+    const prefix = `lru_evict_${Date.now()}_`;
 
-    // Fill cache to 100 entries
-    for (let i = 0; i < 100; i++) {
-      sendMessageMock.mockResolvedValueOnce({ ok: true, detail: { p: `/${i}/`, t: `t${i}`, e: [] } });
-      await freshGet(`lru_evict_${i}`);
+    for (let i = 0; i < 200; i++) {
+      sendMessageMock.mockResolvedValueOnce({
+        ok: true,
+        detail: { p: `/${i}/`, t: `t${i}`, e: [] },
+      });
+      await getWordDetail(`${prefix}${i}`);
     }
 
-    expect(sendMessageMock).toHaveBeenCalledTimes(100);
-
-    // The first word should still be cached
+    // The earliest entry should have been evicted (cache max is 100)
     sendMessageMock.mockClear();
-    const cached = await freshGet('lru_evict_0');
-    expect(cached).toEqual({ p: '/0/', t: 't0', e: [] });
-    expect(sendMessageMock).not.toHaveBeenCalled();
-
-    // Add one more to trigger eviction of the oldest (lru_evict_0)
-    sendMessageMock.mockResolvedValueOnce({ ok: true, detail: { p: '/new/', t: 'new', e: [] } });
-    await freshGet('lru_evict_new');
-
-    // Now lru_evict_0 should have been evicted
-    sendMessageMock.mockClear();
-    sendMessageMock.mockResolvedValueOnce({ ok: true, detail: { p: '/evicted/', t: 'was evicted', e: [] } });
-    const evicted = await freshGet('lru_evict_0');
-    expect(sendMessageMock).toHaveBeenCalled(); // had to re-fetch
+    sendMessageMock.mockResolvedValueOnce({
+      ok: true,
+      detail: { p: '/evicted/', t: 'was evicted', e: [] },
+    });
+    const evicted = await getWordDetail(`${prefix}0`);
+    expect(sendMessageMock).toHaveBeenCalledTimes(1); // had to re-fetch
     expect(evicted).toEqual({ p: '/evicted/', t: 'was evicted', e: [] });
+
+    // A recent entry should still be cached
+    sendMessageMock.mockClear();
+    const cached = await getWordDetail(`${prefix}199`);
+    expect(sendMessageMock).not.toHaveBeenCalled();
+    expect(cached).toEqual({ p: '/199/', t: 't199', e: [] });
   });
 
   it('does not cache failed lookups (SW returns non-ok)', async () => {
@@ -191,6 +190,51 @@ describe('getWordDetail', () => {
     const result = await getWordDetail(uniqueWord);
     expect(sendMessageMock).not.toHaveBeenCalled();
     expect(result).toBeNull();
+  });
+
+  it('context invalidation: sendMessage rejects → returns null and does NOT cache', async () => {
+    const uniqueWord = `ctxinvalid_${Date.now()}`;
+    // Simulate extension context invalidation
+    sendMessageMock.mockRejectedValueOnce(
+      new Error('Extension context invalidated.'),
+    );
+
+    const result = await getWordDetail(uniqueWord);
+    expect(result).toBeNull();
+
+    // The failure must not be cached — next call should retry
+    sendMessageMock.mockClear();
+    const detail = { p: '/retry/', t: 'retry worked', e: [] };
+    sendMessageMock.mockResolvedValueOnce({ ok: true, detail });
+
+    const retry = await getWordDetail(uniqueWord);
+    expect(sendMessageMock).toHaveBeenCalledTimes(1);
+    expect(retry).toEqual(detail);
+  });
+
+  it('concurrent calls for the same word each make a separate sendMessage', async () => {
+    const uniqueWord = `concurrent_${Date.now()}`;
+    const detail = { p: '/c/', t: 'concurrent', e: [] };
+
+    // Both calls fire before either resolves — each should independently
+    // miss the cache and call sendMessage (no request dedup in current impl).
+    sendMessageMock.mockResolvedValue({ ok: true, detail });
+
+    const [r1, r2] = await Promise.all([
+      getWordDetail(uniqueWord),
+      getWordDetail(uniqueWord),
+    ]);
+
+    expect(r1).toEqual(detail);
+    expect(r2).toEqual(detail);
+    // Both made separate sendMessage calls (no dedup)
+    expect(sendMessageMock).toHaveBeenCalledTimes(2);
+
+    // After both resolve, the word should be cached
+    sendMessageMock.mockClear();
+    const r3 = await getWordDetail(uniqueWord);
+    expect(r3).toEqual(detail);
+    expect(sendMessageMock).not.toHaveBeenCalled();
   });
 });
 
