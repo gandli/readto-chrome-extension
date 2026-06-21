@@ -56,31 +56,9 @@ No clicking, no sidebar, no context switch. Just read.
 
 ## Screenshots
 
-### Options Page
-
-Set your English level (A1–C2), preview how annotations look, and configure optional features like AI-enhanced translation and auto-pronunciation.
-
-| Light Mode | Dark Mode |
-|:---:|:---:|
-| ![Options](screenshots/01-options.png) | ![Options Dark](screenshots/05-options-dark.png) |
-
-### Web Page Annotations
-
-Unknown words get small Chinese translations above them, like furigana on Japanese text. No clicking, no popups — just read.
-
-![Annotations](screenshots/02-annotations.png)
-
-### Translation Tooltip
-
-Hover over any annotated word to see phonetics, definitions, and example sentences. Click the speaker icon to hear pronunciation.
-
-![Tooltip](screenshots/03-tooltip.png)
-
-### Full Page View
-
-The extension works on any English page. Annotations blend naturally into the reading flow.
-
-![Full Page](screenshots/04-fullpage.png)
+| Options Page | Annotations | Translation Tooltip |
+|:---:|:---:|:---:|
+| ![Options](screenshots/01-options.png) | ![Annotations](screenshots/02-annotations.png) | ![Tooltip](screenshots/03-tooltip.png) |
 
 ## Differences from Original
 

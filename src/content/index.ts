@@ -23,6 +23,7 @@ import {
   isInStayOriginal,
 } from '../lib/level-filter';
 import { applyAnnotations, getWordDetail } from '../lib/inline-renderer';
+import { setupSelectionTooltip } from '../lib/selection-tooltip';
 import type { CefrLevel, Translator } from '../lib/types';
 import type { WordMatch } from '../lib/level-filter';
 
@@ -291,4 +292,7 @@ export async function onExecute(perf?: { injectTime: number; loadTime: number })
 
   // 7. Observe future DOM changes
   observeMutations(config.level, translator);
+
+  // 8. Setup selection tooltip (select a word → translation popup)
+  setupSelectionTooltip();
 }

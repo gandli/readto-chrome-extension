@@ -4,11 +4,14 @@
  * Fallback chain:
  *   1. Free Dictionary API (api.dictionaryapi.dev) → real human MP3
  *   2. Google Translate TTS → synthetic MP3
- *   3. Youdao Dictionary → Chinese TTS service
- *   4. Browser SpeechSynthesis → local TTS (voice priority: Natural > Neural > Google > Microsoft)
+ *   3. Edge TTS (Microsoft Neural) → high quality synthetic MP3
+ *   4. Youdao Dictionary → Chinese TTS service
+ *   5. Browser SpeechSynthesis → local TTS (voice priority: Natural > Neural > Google > Microsoft)
  */
 
 /* ── Voice priority for SpeechSynthesis ── */
+
+import { playEdgeTts } from './edge-tts';
 
 const VOICE_PATTERNS: RegExp[] = [
   /\bNatural\b/i,
@@ -189,10 +192,13 @@ export async function speakWord(word: string, signal?: AbortSignal): Promise<voi
   // 2. Google Translate TTS
   if (await playAudioUrl(googleTtsUrl(word), signal)) return;
 
-  // 3. Youdao Dictionary
+  // 3. Edge TTS (Microsoft Neural voice)
+  if (await playEdgeTts(word, signal)) return;
+
+  // 4. Youdao Dictionary
   if (await playAudioUrl(youdaoTtsUrl(word), signal)) return;
 
-  // 4. Browser SpeechSynthesis (fallback)
+  // 5. Browser SpeechSynthesis (fallback)
   await speakWithSynthesis(word, signal);
 }
 

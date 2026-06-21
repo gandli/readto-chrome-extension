@@ -60,31 +60,9 @@
 
 ## 截图
 
-### 选项页
-
-设定英语水平（A1–C2），预览标注效果，配置 AI 增强翻译和自动朗读等可选功能。
-
-| 亮色模式 | 暗色模式 |
-|:---:|:---:|
-| ![选项页](screenshots/01-options.png) | ![选项页暗色](screenshots/05-options-dark.png) |
-
-### 网页标注
-
-生词上方自动显示小字中文翻译，类似日文振假名注音。无需点击、无需弹窗——读就完了。
-
-![网页标注](screenshots/02-annotations.png)
-
-### 翻译详情弹窗
-
-鼠标悬停生词，查看音标、释义、例句。点击喇叭图标听发音。
-
-![翻译详情](screenshots/03-tooltip.png)
-
-### 全页效果
-
-扩展适用于任何英文网页。标注自然融入阅读流。
-
-![全页效果](screenshots/04-fullpage.png)
+| 选项页 | 网页标注 | 翻译详情 |
+|:---:|:---:|:---:|
+| ![选项页](screenshots/01-options.png) | ![网页标注](screenshots/02-annotations.png) | ![翻译详情](screenshots/03-tooltip.png) |
 
 ## 与原版的差异
 
