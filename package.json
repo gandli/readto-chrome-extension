@@ -10,7 +10,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "test:e2e": "npx playwright test --project=chrome-extension"
+    "test:e2e": "node e2e/inject-test.mjs"
   },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.73",
