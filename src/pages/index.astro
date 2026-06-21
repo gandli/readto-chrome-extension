@@ -431,101 +431,215 @@ const base = import.meta.env.BASE_URL;
 
   /* 移动端适配 */
   @media (max-width: 768px) {
-    /* Header */
-    header .flex.items-center.justify-between {
-      flex-wrap: wrap;
+    /* Header - 移动端简化 */
+    header {
+      padding: 12px 0;
+    }
+    
+    header .max-w-\[1180px\] {
+      padding: 0 16px;
+      gap: 8px;
+    }
+    
+    header .hidden.sm\:inline-block {
+      display: none !important;
     }
     
     header nav {
-      gap: 4px;
+      gap: 2px;
     }
     
-    header nav a {
-      font-size: 13px;
-      padding: 6px 10px;
+    header nav a:not([class*="bg-"]) {
+      font-size: 12px;
+      padding: 4px 8px;
+    }
+    
+    header nav a[class*="bg-"] {
+      font-size: 12px;
+      padding: 6px 12px;
     }
 
-    /* Hero Section */
+    /* Hero Section - 垂直堆叠 */
+    section:first-of-type {
+      padding-top: 48px;
+      padding-bottom: 48px;
+    }
+    
+    section:first-of-type > div {
+      gap: 32px;
+    }
+
     h1 {
-      font-size: 36px;
-      line-height: 1.1;
+      font-size: 32px;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
     }
 
-    /* Level Slider */
+    h1 + p {
+      font-size: 14px;
+      max-width: 100%;
+    }
+
+    /* 安装按钮 */
+    a[class*="bg-\[#111\]"][class*="text-white"] {
+      display: inline-block;
+      padding: 12px 24px;
+      font-size: 14px;
+    }
+
+    /* Level Selector */
     .slider-label {
-      font-size: 11px;
+      font-size: 10px;
+      padding: 8px 0;
     }
 
     #level-slider {
-      height: 44px; /* 更大的触摸区域 */
+      height: 48px;
+      margin-top: 8px;
     }
 
-    /* Tooltip */
-    .tooltip {
-      min-width: 160px;
-      max-width: 280px;
-      font-size: 13px;
-      padding: 8px 10px;
-    }
-
-    .tooltip .speaker {
-      width: 24px;
-      height: 24px;
-    }
-
-    .tooltip .speaker svg {
-      width: 14px;
-      height: 14px;
-    }
-
-    .tooltip .example .en {
+    #level-desc {
       font-size: 12px;
     }
 
-    .tooltip .example .zh {
-      font-size: 11px;
+    /* Article Preview - 移动端优化 */
+    .bg-white.rounded-lg {
+      border-radius: 8px;
     }
 
-    /* Annotated Words */
-    [data-readto] {
-      -webkit-tap-highlight-color: transparent;
-      padding: 2px 0; /* 更大的触摸区域 */
-    }
-
-    .rt {
-      font-size: 0.55em;
-    }
-
-    /* Article Preview */
     #demo-content {
       font-size: 14px;
-      line-height: 1.65;
-      padding: 12px;
+      line-height: 1.7;
+      padding: 16px;
     }
 
     #demo-content h2 {
-      font-size: 18px;
+      font-size: 17px;
+      margin-bottom: 4px;
     }
 
-    /* How It Works */
+    #demo-content .text-\[13px\] {
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+
+    #demo-content p {
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+
+    /* Tooltip - 移动端适配 */
+    .tooltip {
+      min-width: 200px;
+      max-width: calc(100vw - 32px);
+      font-size: 14px;
+      padding: 12px;
+      border-radius: 8px;
+    }
+
+    .tooltip .phonetic {
+      margin-bottom: 8px;
+    }
+
+    .tooltip .speaker {
+      width: 28px;
+      height: 28px;
+    }
+
+    .tooltip .speaker svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .tooltip .body {
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .tooltip .example .en {
+      font-size: 13px;
+    }
+
+    .tooltip .example .zh {
+      font-size: 12px;
+    }
+
+    /* Annotated Words - 增大触摸区域 */
+    [data-readto] {
+      -webkit-tap-highlight-color: transparent;
+      padding: 4px 2px;
+      margin: -4px -2px;
+      display: inline;
+    }
+
+    .rt {
+      font-size: 0.5em;
+      margin-left: 0;
+    }
+
+    /* How It Works - 垂直堆叠 */
+    #how {
+      padding-top: 64px;
+      padding-bottom: 48px;
+      margin-top: 48px;
+    }
+
+    #how .max-w-\[1180px\] > .flex {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    #how h2 {
+      font-size: 28px;
+      line-height: 1.2;
+    }
+
     #how .grid {
-      gap: 0;
+      grid-template-columns: 1fr;
     }
 
     #how .grid > div {
-      padding: 24px 16px;
+      padding: 24px 0;
       min-height: auto;
+      border-right: none !important;
+      border-bottom: 1px solid #ebe7df;
+    }
+
+    #how .grid > div:last-child {
+      border-bottom: none;
     }
 
     #how h3 {
-      font-size: 20px;
+      font-size: 18px;
     }
 
-    /* Footer */
+    #how p {
+      font-size: 14px;
+    }
+
+    /* Why Read This Way */
+    section:has(blockquote) {
+      padding: 48px 0;
+    }
+
+    blockquote {
+      font-size: 24px;
+      line-height: 1.35;
+    }
+
+    blockquote + cite {
+      font-size: 12px;
+      margin-top: 16px;
+    }
+
+    /* Footer - 垂直堆叠 */
     footer .flex.items-center.justify-between {
       flex-direction: column;
-      gap: 12px;
+      gap: 16px;
       text-align: center;
+      padding: 24px 16px;
     }
   }
 
