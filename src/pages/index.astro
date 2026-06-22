@@ -16,7 +16,7 @@ const base = import.meta.env.BASE_URL;
           读懂每一个词 · Read to know
         </div>
       </div>
-      <nav class="hidden md:flex items-center gap-6">
+      <nav class="flex items-center gap-6">
         <a href="#how" class="text-sm text-readto-fg-2 hover:text-readto-ink transition-colors">
           工作原理
         </a>
@@ -30,10 +30,7 @@ const base = import.meta.env.BASE_URL;
           安装扩展 →
         </a>
       </nav>
-      <button class="md:hidden p-2 text-readto-fg-2" aria-label="菜单">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5h14M3 10h14M3 15h14"/></svg>
-      </button>
-    </div>
+      </div>
   </header>
 
   <main>
@@ -45,17 +42,17 @@ const base = import.meta.env.BASE_URL;
           <p class="text-[11px] text-readto-muted tracking-[0.14em] uppercase font-semibold mb-6">
             A CHROME EXTENSION · 浏览器扩展
           </p>
-          <h1 class="font-serif font-normal text-5xl sm:text-7xl leading-[1.05] tracking-tight m-0 mb-6 sm:mb-8">
+          <h1 class="font-serif font-normal text-[32px] sm:text-[48px] md:text-[68px] leading-[1.05] tracking-tight m-0 mb-6 sm:mb-8">
             Read to know.<br />
             <span class="whitespace-nowrap font-medium">读懂每一个词。</span>
           </h1>
-          <p class="text-base text-readto-fg-2 leading-relaxed mb-8 max-w-md">
+          <p class="text-[15px] sm:text-[16px] text-readto-fg-2 leading-[1.65] mb-6 sm:mb-8 max-w-md">
             在任何英文网页上，readto
             会根据你的英语水平，悄悄在生词上方标好中文小注。不划词、不跳窗、不中断阅读。
           </p>
           <a
             href="https://chromewebstore.google.com/detail/readto/hmoifnkckggncdpoplpoiifjafffmkof"
-            class="inline-block bg-readto-ink text-white px-6 py-3 rounded-full text-sm font-medium hover:opacity-90 transition-opacity w-full sm:w-auto text-center"
+            class="inline-block bg-readto-ink text-white px-6 py-3 rounded-full text-[14px] font-medium hover:opacity-90 transition-opacity text-center"
           >
             安装 Chrome 扩展 →
           </a>
@@ -68,7 +65,7 @@ const base = import.meta.env.BASE_URL;
 
             <!-- Slider Labels -->
             <div class="flex justify-between mb-1 px-[4%] sm:px-[8%]">
-              <span class="text-sm slider-label" data-index="0">入门</span>
+              <span class="text-[13px] sm:text-[14px] slider-label" data-index="0">入门</span>
               <span class="text-sm slider-label" data-index="1">基础</span>
               <span class="text-sm slider-label" data-index="2">进阶</span>
               <span class="text-sm slider-label" data-index="3">熟练</span>
@@ -130,7 +127,7 @@ const base = import.meta.env.BASE_URL;
               ></div>
             </div>
 
-            <p class="text-sm text-readto-muted mt-3" id="level-desc">
+            <p class="text-[13px] sm:text-[14px] text-readto-muted mt-3" id="level-desc">
               只标大学四六级以上的词。
             </p>
           </div>
@@ -146,11 +143,11 @@ const base = import.meta.env.BASE_URL;
               /politics/tax-reform-bill.html
             </span>
           </div>
-          <div class="p-4 sm:p-6 text-sm sm:text-base leading-relaxed font-sans" id="demo-content">
+          <div class="p-4 sm:p-6 text-[13px] sm:text-[15px] leading-[1.65] font-sans" id="demo-content">
             <div class="text-xs text-readto-muted uppercase tracking-[0.14em] font-semibold mb-2">
               News
             </div>
-            <h2 class="font-semibold text-lg tracking-tight mb-1 text-readto-ink">
+            <h2 class="font-semibold text-[15px] sm:text-[17px] tracking-tight mb-1 text-readto-ink">
               President Announces Sweeping Tax Reforms
             </h2>
 
@@ -182,7 +179,7 @@ const base = import.meta.env.BASE_URL;
             <span class="inline-block w-6 h-px bg-readto-accent"></span>
             原理 · How it works
           </div>
-          <h2 class="font-serif font-normal text-4xl tracking-tight m-0 leading-[1.1] max-w-lg">
+          <h2 class="font-serif font-normal text-[28px] sm:text-[36px] md:text-[44px] tracking-tight m-0 leading-[1.1] max-w-lg">
             读你本来就想读的，<br />生词在<span class="not-italic text-readto-accent">阅读中</span>自然沉淀。
           </h2>
         </div>
@@ -193,10 +190,10 @@ const base = import.meta.env.BASE_URL;
             <div class="font-serif text-sm text-readto-accent font-medium tracking-[0.02em]">
               No. 01
             </div>
-            <h3 class="font-serif font-medium text-xl m-0 tracking-tight leading-snug">
+            <h3 class="font-serif font-medium text-[18px] sm:text-[20px] m-0 tracking-tight leading-snug">
               只标你不会的词
             </h3>
-            <p class="mt-1.5 text-readto-fg-2 text-sm leading-relaxed max-w-xs">
+            <p class="mt-1.5 text-readto-fg-2 text-[13px] sm:text-[14px] leading-[1.65] max-w-xs">
               根据你选择的英语水平，跳过你已经会的，只在真正超纲的词上方加注。
             </p>
             <div class="font-serif text-sm text-readto-fg mt-auto pt-6 leading-8 border-t border-dotted border-readto-rule w-full">
@@ -249,7 +246,7 @@ const base = import.meta.env.BASE_URL;
           Why read this way
         </div>
         <div>
-          <blockquote class="m-0 font-serif font-normal text-4xl leading-snug tracking-tight">
+          <blockquote class="m-0 font-serif font-normal text-[24px] sm:text-[32px] md:text-[44px] leading-[1.2] tracking-tight">
             背单词的最好方式，<br />
             是在<span class="not-italic text-readto-accent">真实阅读</span>里反复遇到它。
           </blockquote>
@@ -264,14 +261,14 @@ const base = import.meta.env.BASE_URL;
   <!-- Footer -->
   <footer class="border-t border-readto-rule">
     <div class="max-w-content mx-auto px-4 sm:px-6 py-6 sm:py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <a href={base} class="text-sm font-medium font-serif tracking-tight">
+      <a href={base} class="text-[14px] font-medium font-serif tracking-tight">
         readto<span class="text-readto-accent">.</span><span class="text-[0.7em] text-readto-muted">ai</span>
       </a>
       <div class="flex items-center gap-6">
-        <a href={`${base}/privacy`} class="text-xs text-readto-muted hover:text-readto-fg">
+        <a href={`${base}/privacy`} class="text-[12px] text-readto-muted hover:text-readto-fg">
           隐私政策
         </a>
-        <span class="text-xs text-readto-muted">© 2026 · 读懂</span>
+        <span class="text-[12px] text-readto-muted">© 2026 · 读懂</span>
       </div>
     </div>
   </footer>
