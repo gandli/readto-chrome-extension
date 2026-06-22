@@ -6,8 +6,8 @@
 
 # Test info
 
-- Name: landing.spec.ts >> Readto Landing Page >> Tooltip >> should close on Escape
-- Location: tests\landing.spec.ts:159:5
+- Name: landing.spec.ts >> Readto Landing Page >> Tooltip >> should show tooltip on click
+- Location: tests\landing.spec.ts:134:5
 
 # Error details
 
@@ -80,6 +80,31 @@ Call log:
 # Test source
 
 ```ts
+  38  |       await expect(section).toBeVisible();
+  39  |       await expect(section.locator('h3:has-text("只标你不会的词")')).toBeVisible();
+  40  |       await expect(section.locator('h3:has-text("不打断你的阅读节奏")')).toBeVisible();
+  41  |       await expect(section.locator('h3:has-text("任何英文页面都能用")')).toBeVisible();
+  42  |     });
+  43  | 
+  44  |     test('should have Why Read This Way section', async ({ page }) => {
+  45  |       const quote = page.locator('blockquote');
+  46  |       await expect(quote).toBeVisible();
+  47  |       await expect(quote).toContainText('背单词的最好方式');
+  48  |     });
+  49  | 
+  50  |     test('should have footer with privacy link', async ({ page }) => {
+  51  |       const footer = page.locator('footer');
+  52  |       await expect(footer).toBeVisible();
+  53  |       await expect(footer).toContainText('© 2026');
+  54  |       const privacyLink = footer.locator('a:has-text("隐私政策")');
+  55  |       await expect(privacyLink).toHaveAttribute('href', /\/privacy/);
+  56  |     });
+  57  |   });
+  58  | 
+  59  |   test.describe('Level Slider', () => {
+  60  |     test('should have 5 level options', async ({ page }) => {
+  61  |       const labels = page.locator('.slider-label');
+  62  |       await expect(labels).toHaveCount(5);
   63  |       await expect(labels.nth(0)).toHaveText('入门');
   64  |       await expect(labels.nth(4)).toHaveText('精通');
   65  |     });
@@ -92,10 +117,10 @@ Call log:
   72  |     test('should update description when clicking levels', async ({ page }) => {
   73  |       const desc = page.locator('#level-desc');
   74  |       
-  75  |       await page.locator('.slider-label:has-text("入门")').click();
+  75  |       await page.locator('.slider-label:has-text("入门")').click({ force: true });
   76  |       await expect(desc).toContainText('最基础');
   77  |       
-  78  |       await page.locator('.slider-label:has-text("精通")').click();
+  78  |       await page.locator('.slider-label:has-text("精通")').click({ force: true });
   79  |       await expect(desc).toContainText('最生僻');
   80  |     });
   81  | 
@@ -137,15 +162,15 @@ Call log:
   117 |     });
   118 | 
   119 |     test('精通 should show 3 annotations', async ({ page }) => {
-  120 |       await page.locator('.slider-label:has-text("精通")').click();
+  120 |       await page.locator('.slider-label:has-text("精通")').click({ force: true });
   121 |       await expect(page.locator('#demo-content .rt:visible')).toHaveCount(3);
   122 |     });
   123 | 
   124 |     test('should update annotations in real-time', async ({ page }) => {
-  125 |       await page.locator('.slider-label:has-text("入门")').click();
+  125 |       await page.locator('.slider-label:has-text("入门")').click({ force: true });
   126 |       await expect(page.locator('#demo-content .rt:visible')).toHaveCount(13);
   127 |       
-  128 |       await page.locator('.slider-label:has-text("精通")').click();
+  128 |       await page.locator('.slider-label:has-text("精通")').click({ force: true });
   129 |       await expect(page.locator('#demo-content .rt:visible')).toHaveCount(3);
   130 |     });
   131 |   });
@@ -155,7 +180,8 @@ Call log:
   135 |       const tooltip = page.locator('#tooltip');
   136 |       await page.locator('[data-word="sweeping"]').first().click({ force: true });
   137 |       await page.waitForTimeout(500);
-  138 |       await expect(tooltip).toHaveClass(/show/);
+> 138 |       await expect(tooltip).toHaveClass(/show/);
+      |                             ^ Error: expect(locator).toHaveClass(expected) failed
   139 |     });
   140 | 
   141 |     test('should display phonetic and translation', async ({ page }) => {
@@ -180,8 +206,7 @@ Call log:
   160 |       const tooltip = page.locator('#tooltip');
   161 |       await page.locator('[data-word="sweeping"]').first().click({ force: true });
   162 |       await page.waitForTimeout(500);
-> 163 |       await expect(tooltip).toHaveClass(/show/);
-      |                             ^ Error: expect(locator).toHaveClass(expected) failed
+  163 |       await expect(tooltip).toHaveClass(/show/);
   164 |       
   165 |       await page.keyboard.press('Escape');
   166 |       await page.waitForTimeout(300);
@@ -257,29 +282,4 @@ Call log:
   236 | 
   237 |   test('should have all 7 sections', async ({ page }) => {
   238 |     const sections = [
-  239 |       'What readto is',
-  240 |       'What we don\'t do',
-  241 |       'What the extension stores',
-  242 |       'Third parties',
-  243 |       'Permissions',
-  244 |       'Deleting your data',
-  245 |       'Contact',
-  246 |     ];
-  247 |     
-  248 |     for (const section of sections) {
-  249 |       await expect(page.locator(`h2:has-text("${section}")`)).toBeVisible();
-  250 |     }
-  251 |   });
-  252 | 
-  253 |   test('should have technical terms in code blocks', async ({ page }) => {
-  254 |     // Check for chrome.storage text
-  255 |     await expect(page.locator('text=chrome.storage').first()).toBeVisible();
-  256 |   });
-  257 | 
-  258 |   test('should have navigation back to home', async ({ page }) => {
-  259 |     const homeLink = page.locator('header a:has-text("readto")');
-  260 |     await expect(homeLink).toBeVisible();
-  261 |     await expect(homeLink).toHaveAttribute('href', /readto-chrome-extension\/?$/);
-  262 |   });
-  263 | 
 ```

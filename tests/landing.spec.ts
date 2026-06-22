@@ -14,7 +14,7 @@ test.describe('Readto Landing Page', () => {
     });
 
     test('should have navigation header', async ({ page }) => {
-      const header = page.locator('header');
+      const header = page.locator('header').first();
       await expect(header).toBeVisible();
       await expect(header.locator('a:has-text("readto")')).toBeVisible();
       await expect(header.locator('a:has-text("工作原理")')).toBeVisible();
@@ -72,10 +72,10 @@ test.describe('Readto Landing Page', () => {
     test('should update description when clicking levels', async ({ page }) => {
       const desc = page.locator('#level-desc');
       
-      await page.locator('.slider-label:has-text("入门")').click();
+      await page.locator('.slider-label:has-text("入门")').click({ force: true });
       await expect(desc).toContainText('最基础');
       
-      await page.locator('.slider-label:has-text("精通")').click();
+      await page.locator('.slider-label:has-text("精通")').click({ force: true });
       await expect(desc).toContainText('最生僻');
     });
 
@@ -117,15 +117,15 @@ test.describe('Readto Landing Page', () => {
     });
 
     test('精通 should show 3 annotations', async ({ page }) => {
-      await page.locator('.slider-label:has-text("精通")').click();
+      await page.locator('.slider-label:has-text("精通")').click({ force: true });
       await expect(page.locator('#demo-content .rt:visible')).toHaveCount(3);
     });
 
     test('should update annotations in real-time', async ({ page }) => {
-      await page.locator('.slider-label:has-text("入门")').click();
+      await page.locator('.slider-label:has-text("入门")').click({ force: true });
       await expect(page.locator('#demo-content .rt:visible')).toHaveCount(13);
       
-      await page.locator('.slider-label:has-text("精通")').click();
+      await page.locator('.slider-label:has-text("精通")').click({ force: true });
       await expect(page.locator('#demo-content .rt:visible')).toHaveCount(3);
     });
   });

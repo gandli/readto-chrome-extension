@@ -6,8 +6,8 @@
 
 # Test info
 
-- Name: landing.spec.ts >> Readto Landing Page >> Dark Mode >> should work in dark mode
-- Location: tests\landing.spec.ts:206:5
+- Name: landing.spec.ts >> Readto Landing Page >> Tooltip >> should toggle on repeated click
+- Location: tests\landing.spec.ts:170:5
 
 # Error details
 
@@ -80,6 +80,43 @@ Call log:
 # Test source
 
 ```ts
+  76  |       await expect(desc).toContainText('最基础');
+  77  |       
+  78  |       await page.locator('.slider-label:has-text("精通")').click({ force: true });
+  79  |       await expect(desc).toContainText('最生僻');
+  80  |     });
+  81  | 
+  82  |     test('should persist level in localStorage', async ({ page }) => {
+  83  |       await page.locator('.slider-label:has-text("熟练")').click();
+  84  |       await page.reload();
+  85  |       await page.waitForLoadState('domcontentloaded');
+  86  |       
+  87  |       const desc = page.locator('#level-desc');
+  88  |       await expect(desc).toContainText('雅思托福');
+  89  |     });
+  90  | 
+  91  |     test('should have correct ARIA attributes', async ({ page }) => {
+  92  |       const slider = page.locator('#level-slider');
+  93  |       await expect(slider).toHaveAttribute('role', 'slider');
+  94  |       await expect(slider).toHaveAttribute('aria-label', '英语水平');
+  95  |     });
+  96  |   });
+  97  | 
+  98  |   test.describe('Level-Annotation Linkage', () => {
+  99  |     test('入门 should show 13 annotations', async ({ page }) => {
+  100 |       await page.locator('.slider-label:has-text("入门")').click();
+  101 |       await expect(page.locator('#demo-content .rt:visible')).toHaveCount(13);
+  102 |     });
+  103 | 
+  104 |     test('基础 should show 13 annotations', async ({ page }) => {
+  105 |       await page.locator('.slider-label:has-text("基础")').click();
+  106 |       await expect(page.locator('#demo-content .rt:visible')).toHaveCount(13);
+  107 |     });
+  108 | 
+  109 |     test('进阶 should show 10 annotations', async ({ page }) => {
+  110 |       await page.locator('.slider-label:has-text("进阶")').click();
+  111 |       await expect(page.locator('#demo-content .rt:visible')).toHaveCount(10);
+  112 |     });
   113 | 
   114 |     test('熟练 should show 6 annotations', async ({ page }) => {
   115 |       await page.locator('.slider-label:has-text("熟练")').click();
@@ -143,7 +180,8 @@ Call log:
   173 |       
   174 |       await word.click({ force: true });
   175 |       await page.waitForTimeout(500);
-  176 |       await expect(tooltip).toHaveClass(/show/);
+> 176 |       await expect(tooltip).toHaveClass(/show/);
+      |                             ^ Error: expect(locator).toHaveClass(expected) failed
   177 |       
   178 |       await word.click({ force: true });
   179 |       await page.waitForTimeout(500);
@@ -180,8 +218,7 @@ Call log:
   210 |       await page.waitForTimeout(500);
   211 |       
   212 |       const tooltip = page.locator('#tooltip');
-> 213 |       await expect(tooltip).toHaveClass(/show/);
-      |                             ^ Error: expect(locator).toHaveClass(expected) failed
+  213 |       await expect(tooltip).toHaveClass(/show/);
   214 |     });
   215 |   });
   216 | });
@@ -245,41 +282,4 @@ Call log:
   274 |     const installBtn = page.locator('header a:has-text("安装扩展")');
   275 |     await expect(installBtn).toBeVisible();
   276 |     await expect(installBtn).toHaveAttribute('href', /chromewebstore/);
-  277 |   });
-  278 | 
-  279 |   test('should list bullet points for what we don\'t do', async ({ page }) => {
-  280 |     const section = page.locator('h2:has-text("What we don\'t do")').locator('..');
-  281 |     const bullets = section.locator('li');
-  282 |     const count = await bullets.count();
-  283 |     expect(count).toBe(4);
-  284 |   });
-  285 | 
-  286 |   test('should mention LLM and BYOK', async ({ page }) => {
-  287 |     await expect(page.locator('text=Bring Your Own Key')).toBeVisible();
-  288 |   });
-  289 | 
-  290 |   test('should have link to readto.ai in contact section', async ({ page }) => {
-  291 |     const contactSection = page.locator('h2:has-text("Contact")').locator('..');
-  292 |     const link = contactSection.locator('a:has-text("readto.ai")');
-  293 |     await expect(link).toBeVisible();
-  294 |   });
-  295 | 
-  296 |   test('should be mobile responsive', async ({ page }) => {
-  297 |     await page.setViewportSize({ width: 375, height: 812 });
-  298 |     
-  299 |     // Header should be visible
-  300 |     const header = page.locator('header');
-  301 |     await expect(header).toBeVisible();
-  302 |     
-  303 |     // Title should be visible (use main h1 to avoid Playwright UI elements)
-  304 |     await expect(page.locator('main h1').first()).toBeVisible();
-  305 |     
-  306 |     // Footer should be visible
-  307 |     const footer = page.locator('footer');
-  308 |     await expect(footer).toBeVisible();
-  309 |   });
-  310 | });
-  311 | 
-  312 | test.describe('Tooltip Target Word Style', () => {
-  313 |   test('should show target word in red color', async ({ page }) => {
 ```
