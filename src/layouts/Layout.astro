@@ -1,4 +1,6 @@
 ---
+import '../styles/global.css';
+
 interface Props {
   title?: string;
   description?: string;
@@ -28,7 +30,3 @@ const base = import.meta.env.BASE_URL;
     <slot />
   </body>
 </html>
-
-<style is:global>
-  @import '../styles/global.css';
-</style>
