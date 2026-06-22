@@ -180,6 +180,29 @@ test.describe('Readto Landing Page', () => {
       await expect(labels.nth(2)).not.toHaveClass(/active/);
       await expect(labels.nth(2)).toHaveClass(/text-readto-muted-2/);
     });
+
+    test('should update track fill width with slider', async ({ page }) => {
+      const trackFill = page.locator('#track-fill');
+      const labels = page.locator('.slider-label');
+      
+      // Default: 进阶 (50%)
+      await expect(trackFill).toHaveAttribute('style', /width:\s*50%/);
+      
+      // Click 入门 (10%)
+      await labels.nth(0).click({ force: true });
+      await page.waitForTimeout(300);
+      await expect(trackFill).toHaveAttribute('style', /width:\s*10%/);
+      
+      // Click 精通 (90%)
+      await labels.nth(4).click({ force: true });
+      await page.waitForTimeout(300);
+      await expect(trackFill).toHaveAttribute('style', /width:\s*90%/);
+      
+      // Click 进阶 (50%)
+      await labels.nth(2).click({ force: true });
+      await page.waitForTimeout(300);
+      await expect(trackFill).toHaveAttribute('style', /width:\s*50%/);
+    });
   });
 
   test.describe('Level-Annotation Linkage', () => {
