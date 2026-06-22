@@ -88,11 +88,11 @@
   "wordDetails": {
     "the": {
       "p": "ðә",
-      "t": "art. 定冠词（特指）"
+      "t": "定冠词（特指）"
     },
     "president": {
       "p": "'prezidәnt",
-      "t": "n. 总统，主席\nn. 校长；总裁",
+      "t": "总统，主席；校长；总裁",
       "e": [
         {
           "en": "The {president} addressed the nation on live television.",
@@ -106,7 +106,7 @@
     },
     "announced": {
       "p": "ә'nauns",
-      "t": "v. 宣布（过去式）",
+      "t": "宣布（过去式）",
       "e": [
         {
           "en": "She {announced} her resignation in a short email.",
@@ -120,7 +120,7 @@
     },
     "sweeping": {
       "p": "'swi:piŋ",
-      "t": "adj. 影响广泛的；彻底的\nn. 清扫",
+      "t": "影响广泛的；彻底的；清扫",
       "e": [
         {
           "en": "The new law brought {sweeping} changes to healthcare policy.",
@@ -134,7 +134,7 @@
     },
     "reforms": {
       "p": "ri'fɒ:m",
-      "t": "n./v. 改革（reform 的复数/第三人称单数）",
+      "t": "/v. 改革（reform 的复数/第三人称单数）",
       "e": [
         {
           "en": "The new healthcare {reforms} take effect next January.",
@@ -148,7 +148,7 @@
     },
     "nation": {
       "p": "'neiʃәn",
-      "t": "n. 国家，民族",
+      "t": "国家，民族",
       "e": [
         {
           "en": "The whole {nation} watched the World Cup final on television.",
@@ -162,11 +162,11 @@
     },
     "tax": {
       "p": "tæks",
-      "t": "n. 税；税款\nv. 征税；使负担重"
+      "t": "税；税款；征税；使负担重"
     },
     "system": {
       "p": "'sistәm",
-      "t": "n. 系统；体系；制度",
+      "t": "系统；体系；制度",
       "e": [
         {
           "en": "The new payment {system} processes thousands of transactions per second.",
@@ -180,11 +180,11 @@
     },
     "yesterday": {
       "p": "'jestәdi",
-      "t": "n./adv. 昨天"
+      "t": "/adv. 昨天"
     },
     "marking": {
       "p": "'mɑ:kiŋ",
-      "t": "n. 标记；斑纹\nv. 标记（mark 进行式）",
+      "t": "标记；斑纹；标记（mark 进行式）",
       "e": [
         {
           "en": "The teacher spent the weekend {marking} exam papers.",
@@ -198,7 +198,7 @@
     },
     "most": {
       "p": "mәust",
-      "t": "adj. 大多数的\nadv. 最",
+      "t": "大多数的；最",
       "e": [
         {
           "en": "{Most} students finished the exam before time was up.",
@@ -212,7 +212,7 @@
     },
     "significant": {
       "p": "sig'nifikәnt",
-      "t": "adj. 重要的，显著的",
+      "t": "重要的，显著的",
       "e": [
         {
           "en": "There has been {significant} progress on the climate bill.",
@@ -226,7 +226,7 @@
     },
     "overhaul": {
       "p": ".әuvә'hɒ:l",
-      "t": "v. 彻底检修；全面改革\nn. 大修",
+      "t": "彻底检修；全面改革；大修",
       "e": [
         {
           "en": "The company plans a complete {overhaul} of its mobile app.",
@@ -240,7 +240,7 @@
     },
     "decade": {
       "p": "'dekeid",
-      "t": "n. 十年；年代",
+      "t": "十年；年代",
       "e": [
         {
           "en": "Smartphones have transformed daily life over the past {decade}.",
@@ -254,7 +254,7 @@
     },
     "critics": {
       "p": "'kritik",
-      "t": "n. 评论家们（复数）",
+      "t": "评论家们（复数）",
       "e": [
         {
           "en": "{Critics} loved the show's witty dialogue and pacing.",
@@ -268,7 +268,7 @@
     },
     "denounce": {
       "p": "di'nauns",
-      "t": "v. 公开谴责；告发",
+      "t": "公开谴责；告发",
       "e": [
         {
           "en": "World leaders quickly moved to {denounce} the violent attack.",
@@ -282,7 +282,7 @@
     },
     "changes": {
       "p": "tʃeindʒ",
-      "t": "n. 变化（复数）\nv. change 的第三人称单数",
+      "t": "变化（复数）；change 的第三人称单数",
       "e": [
         {
           "en": "The team {changes} its strategy after every loss.",
@@ -295,7 +295,7 @@
       ]
     },
     "disproportionately": {
-      "t": "adv. 不成比例地；过度地",
+      "t": "不成比例地；过度地",
       "e": [
         {
           "en": "The pandemic affected low-income workers {disproportionately}.",
@@ -309,7 +309,7 @@
     },
     "benefiting": {
       "p": "'benifit",
-      "t": "v. 受益（现在分词）",
+      "t": "受益（现在分词）",
       "e": [
         {
           "en": "The charity is {benefiting} families across the entire region.",
@@ -323,7 +323,7 @@
     },
     "wealthy": {
       "p": "'welθi",
-      "t": "adj. 富有的",
+      "t": "富有的",
       "e": [
         {
           "en": "Only the most {wealthy} families could afford private tutors.",
@@ -337,7 +337,7 @@
     },
     "citizens": {
       "p": "'sitizn",
-      "t": "n. 公民（citizen 的复数）",
+      "t": "公民（citizen 的复数）",
       "e": [
         {
           "en": "Concerned {citizens} gathered to protest the new law.",
@@ -351,7 +351,7 @@
     },
     "accusing": {
       "p": "ә'kju:ziŋ",
-      "t": "adj. 责备的\nv. 指控中",
+      "t": "责备的；指控中",
       "e": [
         {
           "en": "He shot her an {accusing} look across the room.",
@@ -365,7 +365,7 @@
     },
     "administration": {
       "p": "әd.mini'streiʃәn",
-      "t": "n. 管理；行政\nn. 政府；当局",
+      "t": "管理；行政；政府；当局",
       "e": [
         {
           "en": "The new {administration} promised tax cuts for small businesses.",
@@ -379,7 +379,7 @@
     },
     "profligate": {
       "p": "'prɒfligit",
-      "t": "adj. 挥霍的；放荡的",
+      "t": "挥霍的；放荡的",
       "e": [
         {
           "en": "He led a {profligate} lifestyle and went bankrupt at thirty.",
@@ -393,7 +393,7 @@
     },
     "giveaways": {
       "p": "'givә.wei",
-      "t": "n. giveaway 的复数",
+      "t": "giveaway 的复数",
       "e": [
         {
           "en": "Influencers often run {giveaways} to grow their followers.",
@@ -407,7 +407,7 @@
     },
     "and": {
       "p": "ænd",
-      "t": "conj. 和；与；并且",
+      "t": "和；与；并且",
       "e": [
         {
           "en": "I'd like a coffee {and} a croissant, please.",
@@ -421,7 +421,7 @@
     },
     "austerity": {
       "p": "ɒ'sterәti",
-      "t": "n. 经济紧缩；朴素",
+      "t": "经济紧缩；朴素",
       "e": [
         {
           "en": "The government imposed {austerity} measures to cut the deficit.",
@@ -435,7 +435,7 @@
     },
     "toward": {
       "p": "tә'wɒ:d",
-      "t": "prep. 朝；对于；接近",
+      "t": "朝；对于；接近",
       "e": [
         {
           "en": "She walked {toward} the exit without looking back.",
@@ -449,7 +449,7 @@
     },
     "middle": {
       "p": "'midl",
-      "t": "n. 中间，中部\nadj. 中间的",
+      "t": "中间，中部；中间的",
       "e": [
         {
           "en": "She sat in the {middle} seat of the row.",
@@ -463,7 +463,7 @@
     },
     "class": {
       "p": "klɑ:s",
-      "t": "n. 班级；课程；类别",
+      "t": "班级；课程；类别",
       "e": [
         {
           "en": "I have a math {class} at nine tomorrow morning.",
@@ -477,7 +477,7 @@
     },
     "families": {
       "p": "'fæmәli",
-      "t": "n. family 的复数",
+      "t": "family 的复数",
       "e": [
         {
           "en": "Many {families} gather for dinner during the holidays.",
@@ -491,7 +491,7 @@
     },
     "already": {
       "p": "ɒ:l'redi",
-      "t": "adv. 已经",
+      "t": "已经",
       "e": [
         {
           "en": "I've {already} finished the report you asked for.",
@@ -505,7 +505,7 @@
     },
     "burdened": {
       "p": "'bә:dn",
-      "t": "adj. 负担沉重的；受累的",
+      "t": "负担沉重的；受累的",
       "e": [
         {
           "en": "She felt {burdened} by the responsibility of caring for her parents.",
@@ -519,7 +519,7 @@
     },
     "rising": {
       "p": "'raiziŋ",
-      "t": "v. 上升中（rise 的现在分词）\nadj. 上升的；新兴的",
+      "t": "上升中（rise 的现在分词）；上升的；新兴的",
       "e": [
         {
           "en": "She's a {rising} star in the tech industry.",
@@ -533,7 +533,7 @@
     },
     "costs": {
       "p": "kɒst",
-      "t": "n. 费用（复数）\nv. 花费（第三人称单数）",
+      "t": "费用（复数）；花费（第三人称单数）",
       "e": [
         {
           "en": "Rising fuel {costs} are affecting small businesses.",
@@ -547,7 +547,7 @@
     },
     "proponents": {
       "p": "prә'pәunәnt",
-      "t": "n. 支持者（复数）",
+      "t": "支持者（复数）",
       "e": [
         {
           "en": "{Proponents} of the new bill say it will create jobs.",
@@ -561,7 +561,7 @@
     },
     "counter": {
       "p": "'kauntә",
-      "t": "n. 柜台；计数器\nv. 反驳",
+      "t": "柜台；计数器；反驳",
       "e": [
         {
           "en": "Please pay at the {counter} near the entrance.",
@@ -575,7 +575,7 @@
     },
     "that": {
       "p": "ðæt",
-      "t": "pron. 那个\nconj. 引导从句",
+      "t": "那个；引导从句",
       "e": [
         {
           "en": "I can't believe {that} she finished the marathon.",
@@ -589,7 +589,7 @@
     },
     "lower": {
       "p": "'lәuә",
-      "t": "v. 降低；放下\nadj. 较低的",
+      "t": "降低；放下；较低的",
       "e": [
         {
           "en": "Please {lower} the volume; the baby is sleeping.",
@@ -603,7 +603,7 @@
     },
     "taxes": {
       "p": "tæks",
-      "t": "n. 税款（复数）\nv. 征税（第三人称）",
+      "t": "税款（复数）；征税（第三人称）",
       "e": [
         {
           "en": "Don't forget to file your {taxes} before April 15.",
@@ -617,7 +617,7 @@
     },
     "will": {
       "p": "wil",
-      "t": "aux. 将，会\nn. 意志；遗嘱",
+      "t": "将，会；意志；遗嘱",
       "e": [
         {
           "en": "I {will} call you as soon as I land.",
@@ -631,7 +631,7 @@
     },
     "stimulate": {
       "p": "'stimjuleit",
-      "t": "v. 刺激；促进；激发",
+      "t": "刺激；促进；激发",
       "e": [
         {
           "en": "Tax cuts are meant to {stimulate} consumer spending.",
@@ -645,7 +645,7 @@
     },
     "investment": {
       "p": "in'vestmәnt",
-      "t": "n. 投资；投资额",
+      "t": "投资；投资额",
       "e": [
         {
           "en": "Real estate is often considered a safe long-term {investment}.",
@@ -659,7 +659,7 @@
     },
     "ameliorate": {
       "p": "ә'mi:ljәreit",
-      "t": "v. 改善，改良",
+      "t": "改善，改良",
       "e": [
         {
           "en": "New policies aim to {ameliorate} working conditions in the factory.",
@@ -673,7 +673,7 @@
     },
     "bill": {
       "p": "bil",
-      "t": "n. 账单；法案；钞票\nv. 开账单；宣传",
+      "t": "账单；法案；钞票；开账单；宣传",
       "e": [
         {
           "en": "Could we have the {bill}, please? We need to leave.",
@@ -687,7 +687,7 @@
     },
     "faces": {
       "p": "feis",
-      "t": "n. 脸（复数）\nv. 面对（第三人称单数）",
+      "t": "脸（复数）；面对（第三人称单数）",
       "e": [
         {
           "en": "The crowd had thousands of unfamiliar {faces}.",
@@ -701,7 +701,7 @@
     },
     "difficult": {
       "p": "'difikәlt",
-      "t": "adj. 困难的；棘手的",
+      "t": "困难的；棘手的",
       "e": [
         {
           "en": "Learning a new language is {difficult} but rewarding.",
@@ -715,7 +715,7 @@
     },
     "path": {
       "p": "pɑ:θ",
-      "t": "n. 路径；小路\nn. (文件) 路径",
+      "t": "路径；小路；(文件) 路径",
       "e": [
         {
           "en": "We followed a narrow {path} through the forest.",
@@ -729,7 +729,7 @@
     },
     "through": {
       "p": "θru:",
-      "t": "prep. 穿过；通过\nadv. 从头到尾",
+      "t": "穿过；通过；从头到尾",
       "e": [
         {
           "en": "We walked {through} the park on the way home.",
@@ -743,7 +743,7 @@
     },
     "fractious": {
       "p": "'frækʃәs",
-      "t": "adj. 易怒的；爱闹的",
+      "t": "易怒的；爱闹的",
       "e": [
         {
           "en": "The {fractious} toddler refused to put on his shoes.",
@@ -757,7 +757,7 @@
     },
     "polarized": {
       "p": "'pəʊləraɪzd",
-      "t": "adj. 极化的；两极分化的",
+      "t": "极化的；两极分化的",
       "e": [
         {
           "en": "The country has rarely been more {polarized} than it is today.",
@@ -771,7 +771,7 @@
     },
     "legislature": {
       "p": "'ledʒisleitʃә",
-      "t": "n. 立法机关；议会",
+      "t": "立法机关；议会",
       "e": [
         {
           "en": "The state {legislature} convenes every January in the capital.",
@@ -785,7 +785,7 @@
     },
     "where": {
       "p": "hwєә",
-      "t": "adv. 在哪里\nconj. 在…的地方",
+      "t": "在哪里；在…的地方",
       "e": [
         {
           "en": "Do you know {where} the nearest pharmacy is?",
@@ -799,7 +799,7 @@
     },
     "opposition": {
       "p": ".ɒpә'ziʃәn",
-      "t": "n. 反对；反对派",
+      "t": "反对；反对派",
       "e": [
         {
           "en": "The bill faced strong {opposition} from environmental groups nationwide.",
@@ -813,7 +813,7 @@
     },
     "lawmakers": {
       "p": "lɒ:'meikә",
-      "t": "n. 立法者们；议员们",
+      "t": "立法者们；议员们",
       "e": [
         {
           "en": "{Lawmakers} debated the climate bill late into the night.",
@@ -827,7 +827,7 @@
     },
     "have": {
       "p": "hæv",
-      "t": "v. 有、拥有；(助动词) 构成完成时",
+      "t": "有、拥有；(助动词) 构成完成时",
       "e": [
         {
           "en": "Do you {have} a moment to discuss the project?",
@@ -841,7 +841,7 @@
     },
     "vowed": {
       "p": "vau",
-      "t": "v. 发了誓（过去式）",
+      "t": "发了誓（过去式）",
       "e": [
         {
           "en": "He {vowed} to never lie to his partner again.",
@@ -855,7 +855,7 @@
     },
     "obstruct": {
       "p": "әb'strʌkt",
-      "t": "v. 阻碍，阻挡；妨碍",
+      "t": "阻碍，阻挡；妨碍",
       "e": [
         {
           "en": "Don't park here — you'll {obstruct} the fire exit.",
@@ -869,7 +869,7 @@
     },
     "its": {
       "p": "its",
-      "t": "pron. 它的",
+      "t": "它的",
       "e": [
         {
           "en": "The cat licked {its} paws after the meal.",
@@ -883,7 +883,7 @@
     },
     "passage": {
       "p": "'pæsidʒ",
-      "t": "n. 段落；通道；通行",
+      "t": "段落；通道；通行",
       "e": [
         {
           "en": "Read the highlighted {passage} aloud to the class.",
@@ -897,7 +897,7 @@
     },
     "with": {
       "p": "wið",
-      "t": "prep. 和；带着；用",
+      "t": "和；带着；用",
       "e": [
         {
           "en": "I went to the concert {with} my younger sister.",
@@ -911,7 +911,7 @@
     },
     "vituperative": {
       "p": "vi'tju:pәreitiv",
-      "t": "adj. 谩骂的；辱骂性的",
+      "t": "谩骂的；辱骂性的",
       "e": [
         {
           "en": "The debate turned into a {vituperative} shouting match.",
@@ -925,7 +925,7 @@
     },
     "floor": {
       "p": "flɒ:",
-      "t": "n. 地板；楼层\nv. 击倒；难倒",
+      "t": "地板；楼层；击倒；难倒",
       "e": [
         {
           "en": "Please don't leave wet towels on the bathroom {floor}.",
@@ -939,7 +939,7 @@
     },
     "speeches": {
       "p": "spi:tʃ",
-      "t": "n. speech 的复数",
+      "t": "speech 的复数",
       "e": [
         {
           "en": "The senator gave several {speeches} during the campaign tour.",
@@ -953,7 +953,7 @@
     },
     "despite": {
       "p": "di'spait",
-      "t": "prep. 尽管、虽然",
+      "t": "尽管、虽然",
       "e": [
         {
           "en": "{Despite} the rain, the concert went ahead as planned.",
@@ -967,7 +967,7 @@
     },
     "flurry": {
       "p": "'flә:ri",
-      "t": "n. 一阵（骚动、风雪）",
+      "t": "一阵（骚动、风雪）",
       "e": [
         {
           "en": "The announcement caused a {flurry} of activity on social media.",
@@ -980,7 +980,7 @@
       ]
     },
     "grassroots": {
-      "t": "adj. 草根的；基层的\nn. 基层民众",
+      "t": "草根的；基层的；基层民众",
       "e": [
         {
           "en": "The campaign began as a small {grassroots} movement.",
@@ -994,7 +994,7 @@
     },
     "rhetoric": {
       "p": "'retәrik",
-      "t": "n. 修辞、华丽辞藻；花言巧语",
+      "t": "修辞、华丽辞藻；花言巧语",
       "e": [
         {
           "en": "His campaign speeches were full of fiery {rhetoric} but few details.",
@@ -1008,7 +1008,7 @@
     },
     "recent": {
       "p": "'ri:snt",
-      "t": "adj. 最近的；新近发生的",
+      "t": "最近的；新近发生的",
       "e": [
         {
           "en": "Have you read any {recent} news about the merger?",
@@ -1022,7 +1022,7 @@
     },
     "polls": {
       "p": "pәul",
-      "t": "n. 民意调查；投票（poll 复数）",
+      "t": "民意调查；投票（poll 复数）",
       "e": [
         {
           "en": "Recent {polls} show the candidate gaining ground.",
@@ -1036,7 +1036,7 @@
     },
     "indicate": {
       "p": "'indikeit",
-      "t": "v. 表明；显示；暗示",
+      "t": "表明；显示；暗示",
       "e": [
         {
           "en": "Recent studies {indicate} that exercise improves memory.",
@@ -1050,7 +1050,7 @@
     },
     "voters": {
       "p": "'vәutә",
-      "t": "n. 选民（复数）",
+      "t": "选民（复数）",
       "e": [
         {
           "en": "Young {voters} turned out in record numbers this year.",
@@ -1064,7 +1064,7 @@
     },
     "remain": {
       "p": "ri'mein",
-      "t": "v. 保持；留下；剩下",
+      "t": "保持；留下；剩下",
       "e": [
         {
           "en": "Please {remain} seated until the plane comes to a stop.",
@@ -1078,7 +1078,7 @@
     },
     "deeply": {
       "p": "'di:pli",
-      "t": "adv. 深深地；极其",
+      "t": "深深地；极其",
       "e": [
         {
           "en": "He was {deeply} moved by the speech.",
@@ -1092,7 +1092,7 @@
     },
     "skeptical": {
       "p": "'skeptikәl",
-      "t": "adj. 怀疑的；不轻信的",
+      "t": "怀疑的；不轻信的",
       "e": [
         {
           "en": "I'm {skeptical} that the new feature will ship on time.",
@@ -1106,7 +1106,7 @@
     },
     "what": {
       "p": "hwɒt",
-      "t": "pron. 什么\nadj. 多么",
+      "t": "什么；多么",
       "e": [
         {
           "en": "{What} are you planning to do this weekend?",
@@ -1120,7 +1120,7 @@
     },
     "they": {
       "p": "ðei",
-      "t": "pron. 他们；她们；它们",
+      "t": "他们；她们；它们",
       "e": [
         {
           "en": "{They} are launching the new app next week.",
@@ -1134,7 +1134,7 @@
     },
     "view": {
       "p": "vju:",
-      "t": "v. 查看；浏览\nn. 视图；观点",
+      "t": "查看；浏览；视图；观点",
       "e": [
         {
           "en": "The hotel room has a stunning {view} of the ocean.",
@@ -1148,7 +1148,7 @@
     },
     "perfunctory": {
       "p": "pә'fʌŋktәri",
-      "t": "adj. 敷衍的，草率的",
+      "t": "敷衍的，草率的",
       "e": [
         {
           "en": "The manager gave a {perfunctory} apology and moved on.",
@@ -1162,7 +1162,7 @@
     },
     "concessions": {
       "p": "kən'seʃənz",
-      "t": "n. 让步；特许权（复数）",
+      "t": "让步；特许权（复数）",
       "e": [
         {
           "en": "Both sides made {concessions} to reach the deal.",
@@ -1176,7 +1176,7 @@
     },
     "leaving": {
       "p": "'li:viŋ",
-      "t": "v. 离开（-ing 形式）\nn. 离去",
+      "t": "离开（-ing 形式）；离去",
       "e": [
         {
           "en": "I'm {leaving} for the airport in ten minutes.",
@@ -1190,7 +1190,7 @@
     },
     "negotiations": {
       "p": "ni.gәuʃi'eiʃәn",
-      "t": "n. 谈判（复数）",
+      "t": "谈判（复数）",
       "e": [
         {
           "en": "Trade {negotiations} between the two countries broke down.",
@@ -1204,7 +1204,7 @@
     },
     "fragile": {
       "p": "'frædʒail",
-      "t": "adj. 易碎的；脆弱的",
+      "t": "易碎的；脆弱的",
       "e": [
         {
           "en": "Please handle this box carefully—it contains {fragile} glassware.",
@@ -1218,7 +1218,7 @@
     },
     "impasse": {
       "p": "'impɑ:s",
-      "t": "n. 僵局；死路",
+      "t": "僵局；死路",
       "e": [
         {
           "en": "Salary talks reached an {impasse} after six long hours.",
