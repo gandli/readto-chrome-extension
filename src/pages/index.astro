@@ -6,31 +6,31 @@ const base = import.meta.env.BASE_URL;
 
 <Layout>
   <!-- Navigation -->
-  <header class="sticky top-0 z-50 bg-readto-bg/95 backdrop-blur-sm border-b border-readto-rule">
-    <div class="max-w-content mx-auto flex items-center justify-between gap-6 py-4 px-6">
+  <header class="sticky top-0 z-50 bg-[#f5f2eb]/95 backdrop-blur-sm border-b border-[#e3dfd8]">
+    <div class="max-w-[1180px] mx-auto flex items-center justify-between gap-6 py-4 px-6">
       <div class="flex items-baseline gap-[18px] min-w-0">
-        <a href={base} class="inline-flex items-baseline text-2xl font-medium font-serif tracking-tight">
-          readto<span class="text-readto-accent font-semibold">.</span><span class="ml-0.5 text-[0.7em] tracking-normal font-normal text-readto-muted">ai</span>
+        <a href={base} class="inline-flex items-baseline text-[24px] font-medium font-serif tracking-tight">
+          readto<span class="text-[#b2462a] font-semibold">.</span><span class="ml-[2px] text-[0.7em] tracking-normal font-normal text-[#9a9489]">ai</span>
         </a>
-        <div class="hidden sm:inline-block text-xs text-readto-muted">
+        <div class="hidden sm:inline-block text-[12px] text-[#9a9489]">
           读懂每一个词 · Read to know
         </div>
       </div>
       <nav class="flex items-center gap-6">
-        <a href="#how" class="text-sm text-readto-fg-2 hover:text-readto-ink transition-colors">
+        <a href="#how" class="text-[14px] text-[#2b2824] hover:text-[#111] transition-colors">
           工作原理
         </a>
-        <a href={base} class="text-sm text-readto-fg-2 hover:text-readto-ink transition-colors">
-          安装
+        <a href={`${base}/privacy`} class="text-[14px] text-[#2b2824] hover:text-[#111] transition-colors">
+          隐私政策
         </a>
         <a
           href="https://chromewebstore.google.com/detail/readto/hmoifnkckggncdpoplpoiifjafffmkof"
-          class="text-sm bg-readto-ink text-white px-4 py-2 rounded-full hover:opacity-90 transition-opacity"
+          class="text-[14px] bg-[#111] text-white px-4 py-2 rounded-full hover:opacity-90 transition-opacity"
         >
           安装扩展 →
         </a>
       </nav>
-      </div>
+    </div>
   </header>
 
   <main>
@@ -144,12 +144,15 @@ const base = import.meta.env.BASE_URL;
             </span>
           </div>
           <div class="p-4 sm:p-6 text-[13px] sm:text-[15px] leading-[1.65] font-sans" id="demo-content">
-            <div class="text-xs text-readto-muted uppercase tracking-[0.14em] font-semibold mb-2">
-              News
+            <div class="text-[11px] text-readto-muted uppercase tracking-[0.14em] font-semibold mb-2">
+              Politics
             </div>
-            <h2 class="font-semibold text-[15px] sm:text-[17px] tracking-tight mb-1 text-readto-ink">
+            <h2 class="font-semibold text-[15px] sm:text-[17px] tracking-tight mb-0.5 text-readto-ink">
               President Announces Sweeping Tax Reforms
             </h2>
+            <p class="text-[12px] text-readto-muted-2 mb-3">
+              By Anna Reed · April 22, 2026
+            </p>
 
             <p class="text-readto-fg mb-3">
               <span data-readto data-word="the">The<span class="rt">定冠词</span></span> <span data-readto data-word="president">president<span class="rt">总统</span></span> <span data-readto data-word="announced">announced<span class="rt">宣布</span></span> <span data-readto data-word="sweeping">sweeping<span class="rt">影响广泛的</span></span> <span data-readto data-word="reforms">reforms<span class="rt">改革</span></span> to the <span data-readto data-word="nation">nation<span class="rt">国家</span></span>'s <span data-readto data-word="tax">tax<span class="rt">税</span></span> <span data-readto data-word="system">system<span class="rt">系统</span></span> <span data-readto data-word="yesterday">yesterday<span class="rt">昨天</span></span>, <span data-readto data-word="marking">marking<span class="rt">标记</span></span> the most <span data-readto data-word="significant">significant<span class="rt">重要的</span></span> <span data-readto data-word="overhaul">overhaul<span class="rt">彻底检修</span></span> in a <span data-readto data-word="decade">decade<span class="rt">十年</span></span>.
