@@ -206,19 +206,19 @@ test.describe('Readto Landing Page', () => {
   });
 
   test.describe('Level-Annotation Linkage', () => {
-    test('入门 should show 13 annotations', async ({ page }) => {
+    test('入门 should show 53 annotations', async ({ page }) => {
       await page.locator('.slider-label:has-text("入门")').click();
-      await expect(page.locator('#demo-content .rt:visible')).toHaveCount(13);
+      await expect(page.locator('#demo-content .rt:visible')).toHaveCount(53);
     });
 
-    test('基础 should show 13 annotations', async ({ page }) => {
+    test('基础 should show 36 annotations', async ({ page }) => {
       await page.locator('.slider-label:has-text("基础")').click();
-      await expect(page.locator('#demo-content .rt:visible')).toHaveCount(13);
+      await expect(page.locator('#demo-content .rt:visible')).toHaveCount(36);
     });
 
-    test('进阶 should show 10 annotations', async ({ page }) => {
+    test('进阶 should show 20 annotations', async ({ page }) => {
       await page.locator('.slider-label:has-text("进阶")').click();
-      await expect(page.locator('#demo-content .rt:visible')).toHaveCount(10);
+      await expect(page.locator('#demo-content .rt:visible')).toHaveCount(20);
     });
 
     test('熟练 should show 6 annotations', async ({ page }) => {
@@ -233,7 +233,7 @@ test.describe('Readto Landing Page', () => {
 
     test('should update annotations in real-time', async ({ page }) => {
       await page.locator('.slider-label:has-text("入门")').click({ force: true });
-      await expect(page.locator('#demo-content .rt:visible')).toHaveCount(13);
+      await expect(page.locator('#demo-content .rt:visible')).toHaveCount(53);
       
       await page.locator('.slider-label:has-text("精通")').click({ force: true });
       await expect(page.locator('#demo-content .rt:visible')).toHaveCount(3);
