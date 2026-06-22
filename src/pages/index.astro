@@ -7,7 +7,7 @@ const base = import.meta.env.BASE_URL;
 <Layout>
   <!-- Navigation -->
   <header
-    class="sticky top-0 z-50 bg-[#f5f2eb]/95 backdrop-blur-sm border-b border-[#e3dfd8]"
+    class="sticky top-0 z-50 bg-readto-bg/95 backdrop-blur-sm border-b border-readto-rule"
   >
     <div
       class="max-w-[1180px] mx-auto flex items-center justify-between gap-6 py-4 px-6"
@@ -17,31 +17,31 @@ const base = import.meta.env.BASE_URL;
           href={base}
           class="inline-flex items-baseline text-[24px] font-medium font-serif tracking-tight"
         >
-          readto<span class="text-[#b2462a] font-semibold">.</span><span
-            class="ml-[2px] text-[0.7em] tracking-normal font-normal text-[#9a9489]"
+          readto<span class="text-readto-accent font-semibold">.</span><span
+            class="ml-[2px] text-[0.7em] tracking-normal font-normal text-readto-muted"
             >ai</span
           >
         </a>
-        <div class="hidden sm:inline-block text-[12px] text-[#9a9489]">
+        <div class="hidden sm:inline-block text-[12px] text-readto-muted">
           读懂每一个词 · Read to know
         </div>
       </div>
       <nav class="flex items-center gap-6">
         <a
           href="#how"
-          class="text-[14px] text-[#2b2824] hover:text-[#111] transition-colors"
+          class="text-[14px] text-readto-fg-2 hover:text-readto-ink transition-colors"
         >
           工作原理
         </a>
         <a
           href={base}
-          class="text-[14px] text-[#2b2824] hover:text-[#111] transition-colors"
+          class="text-[14px] text-readto-fg-2 hover:text-readto-ink transition-colors"
         >
           安装
         </a>
         <a
           href="https://chromewebstore.google.com/detail/readto/hmoifnkckggncdpoplpoiifjafffmkof"
-          class="text-[14px] bg-[#111] text-white px-4 py-2 rounded-full hover:opacity-90 transition-opacity"
+          class="text-[14px] bg-readto-ink text-white px-4 py-2 rounded-full hover:opacity-90 transition-opacity"
         >
           安装扩展 →
         </a>
@@ -56,7 +56,7 @@ const base = import.meta.env.BASE_URL;
         <!-- Left: Description -->
         <div>
           <p
-            class="text-[11px] text-[#9a9489] tracking-[0.14em] uppercase font-semibold mb-6"
+            class="text-[11px] text-readto-muted tracking-[0.14em] uppercase font-semibold mb-6"
           >
             A CHROME EXTENSION · 浏览器扩展
           </p>
@@ -67,14 +67,14 @@ const base = import.meta.env.BASE_URL;
             <span class="whitespace-nowrap font-medium">读懂每一个词。</span>
           </h1>
           <p
-            class="text-[15px] text-[#2b2824] leading-[1.7] mb-8 max-w-[400px]"
+            class="text-[15px] text-readto-fg-2 leading-[1.7] mb-8 max-w-[400px]"
           >
             在任何英文网页上，readto
             会根据你的英语水平，悄悄在生词上方标好中文小注。不划词、不跳窗、不中断阅读。
           </p>
           <a
             href="https://chromewebstore.google.com/detail/readto/hmoifnkckggncdpoplpoiifjafffmkof"
-            class="inline-block bg-[#111] text-white px-6 py-3 rounded-full text-[14px] font-medium hover:opacity-90 transition-opacity"
+            class="inline-block bg-readto-ink text-white px-6 py-3 rounded-full text-[14px] font-medium hover:opacity-90 transition-opacity"
           >
             安装 Chrome 扩展 →
           </a>
@@ -82,7 +82,7 @@ const base = import.meta.env.BASE_URL;
           <!-- Level Selector -->
           <div class="mt-14">
             <p
-              class="text-[11px] text-[#9a9489] tracking-[0.14em] uppercase font-semibold mb-4"
+              class="text-[11px] text-readto-muted tracking-[0.14em] uppercase font-semibold mb-4"
             >
               YOUR LEVEL · 你的水平
             </p>
@@ -90,23 +90,23 @@ const base = import.meta.env.BASE_URL;
             <!-- Slider Labels -->
             <div class="flex justify-between mb-1 px-[8%]">
               <span
-                class="text-[13px] text-[#111] font-medium slider-label active"
+                class="text-[13px] text-readto-ink font-medium slider-label active"
                 data-index="0">入门</span
               >
               <span
-                class="text-[13px] text-[#b8b3ac] slider-label"
+                class="text-[13px] text-readto-muted-2 slider-label"
                 data-index="1">基础</span
               >
               <span
-                class="text-[13px] text-[#b8b3ac] slider-label"
+                class="text-[13px] text-readto-muted-2 slider-label"
                 data-index="2">进阶</span
               >
               <span
-                class="text-[13px] text-[#b8b3ac] slider-label"
+                class="text-[13px] text-readto-muted-2 slider-label"
                 data-index="3">熟练</span
               >
               <span
-                class="text-[13px] text-[#b8b3ac] slider-label"
+                class="text-[13px] text-readto-muted-2 slider-label"
                 data-index="4">精通</span
               >
             </div>
@@ -127,38 +127,38 @@ const base = import.meta.env.BASE_URL;
               <div
                 class="absolute left-[10%] right-[10%] top-1/2 h-3.5 -translate-y-1/2 flex justify-between items-center pointer-events-none"
               >
-                <div class="w-px h-3.5 bg-[#9a9489]"></div>
-                <div class="w-px h-2 bg-[#e3dfd8]"></div>
-                <div class="w-px h-2 bg-[#e3dfd8]"></div>
-                <div class="w-px h-2 bg-[#e3dfd8]"></div>
-                <div class="w-px h-2 bg-[#e3dfd8]"></div>
-                <div class="w-px h-3.5 bg-[#9a9489]"></div>
-                <div class="w-px h-2 bg-[#e3dfd8]"></div>
-                <div class="w-px h-2 bg-[#e3dfd8]"></div>
-                <div class="w-px h-2 bg-[#e3dfd8]"></div>
-                <div class="w-px h-2 bg-[#e3dfd8]"></div>
-                <div class="w-px h-3.5 bg-[#9a9489]"></div>
-                <div class="w-px h-2 bg-[#e3dfd8]"></div>
-                <div class="w-px h-2 bg-[#e3dfd8]"></div>
-                <div class="w-px h-2 bg-[#e3dfd8]"></div>
-                <div class="w-px h-2 bg-[#e3dfd8]"></div>
-                <div class="w-px h-3.5 bg-[#9a9489]"></div>
-                <div class="w-px h-2 bg-[#e3dfd8]"></div>
-                <div class="w-px h-2 bg-[#e3dfd8]"></div>
-                <div class="w-px h-2 bg-[#e3dfd8]"></div>
-                <div class="w-px h-2 bg-[#e3dfd8]"></div>
-                <div class="w-px h-3.5 bg-[#9a9489]"></div>
+                <div class="w-px h-3.5 bg-readto-muted"></div>
+                <div class="w-px h-2 bg-readto-rule"></div>
+                <div class="w-px h-2 bg-readto-rule"></div>
+                <div class="w-px h-2 bg-readto-rule"></div>
+                <div class="w-px h-2 bg-readto-rule"></div>
+                <div class="w-px h-3.5 bg-readto-muted"></div>
+                <div class="w-px h-2 bg-readto-rule"></div>
+                <div class="w-px h-2 bg-readto-rule"></div>
+                <div class="w-px h-2 bg-readto-rule"></div>
+                <div class="w-px h-2 bg-readto-rule"></div>
+                <div class="w-px h-3.5 bg-readto-muted"></div>
+                <div class="w-px h-2 bg-readto-rule"></div>
+                <div class="w-px h-2 bg-readto-rule"></div>
+                <div class="w-px h-2 bg-readto-rule"></div>
+                <div class="w-px h-2 bg-readto-rule"></div>
+                <div class="w-px h-3.5 bg-readto-muted"></div>
+                <div class="w-px h-2 bg-readto-rule"></div>
+                <div class="w-px h-2 bg-readto-rule"></div>
+                <div class="w-px h-2 bg-readto-rule"></div>
+                <div class="w-px h-2 bg-readto-rule"></div>
+                <div class="w-px h-3.5 bg-readto-muted"></div>
               </div>
 
               <!-- Track -->
               <div
-                class="absolute inset-x-0 top-1/2 h-px bg-[#e3dfd8] -translate-y-1/2"
+                class="absolute inset-x-0 top-1/2 h-px bg-readto-rule -translate-y-1/2"
               >
               </div>
 
               <!-- Track Fill -->
               <div
-                class="absolute left-0 top-1/2 h-0.5 bg-[#111] -translate-y-1/2 transition-[width] duration-[350ms] ease-[cubic-bezier(0.2,0.7,0.2,1)]"
+                class="absolute left-0 top-1/2 h-0.5 bg-readto-ink -translate-y-1/2 transition-[width] duration-[350ms] ease-[cubic-bezier(0.2,0.7,0.2,1)]"
                 id="track-fill"
                 style="width:50%"
               >
@@ -166,14 +166,14 @@ const base = import.meta.env.BASE_URL;
 
               <!-- Knob -->
               <div
-                class="absolute top-1/2 w-3.5 h-3.5 bg-[#111] rounded-full -translate-x-1/2 -translate-y-1/2 transition-[left,box-shadow] duration-[350ms] ease-[cubic-bezier(0.2,0.7,0.2,1)] cursor-grab shadow-[0_0_0_4px_#f5f2eb,0_0_0_5px_rgba(17,17,17,0.08)] hover:shadow-[0_0_0_4px_#f5f2eb,0_0_0_8px_rgba(17,17,17,0.12)]"
+                class="absolute top-1/2 w-3.5 h-3.5 bg-readto-ink rounded-full -translate-x-1/2 -translate-y-1/2 transition-[left,box-shadow] duration-[350ms] ease-[cubic-bezier(0.2,0.7,0.2,1)] cursor-grab shadow-[0_0_0_4px_var(--color-readto-bg),0_0_0_5px_rgba(17,17,17,0.08)] hover:shadow-[0_0_0_4px_var(--color-readto-bg),0_0_0_8px_rgba(17,17,17,0.12)]"
                 id="knob"
                 style="left:50%"
               >
               </div>
             </div>
 
-            <p class="text-[13px] text-[#9a9489] mt-3" id="level-desc">
+            <p class="text-[13px] text-readto-muted mt-3" id="level-desc">
               只标大学四六级以上的词。
             </p>
           </div>
@@ -184,13 +184,13 @@ const base = import.meta.env.BASE_URL;
           class="bg-white rounded-lg shadow-[0_4px_24px_rgba(0,0,0,0.08)] overflow-hidden"
         >
           <div
-            class="bg-[#f5f2eb] px-3 py-2 flex items-center gap-2 border-b border-[#e3dfd8]"
+            class="bg-readto-bg px-3 py-2 flex items-center gap-2 border-b border-readto-rule"
           >
             <span class="w-[10px] h-[10px] rounded-full bg-[#ff5f57]"></span>
             <span class="w-[10px] h-[10px] rounded-full bg-[#febc2e]"></span>
             <span class="w-[10px] h-[10px] rounded-full bg-[#28c840]"></span>
             <span
-              class="flex-1 bg-[#ebe7df] rounded px-3 py-1 text-[12px] text-[#9a9489] ml-2"
+              class="flex-1 bg-readto-rule-2 rounded px-3 py-1 text-[12px] text-readto-muted ml-2"
             >
               /politics/tax-reform-bill.html
             </span>
@@ -200,16 +200,16 @@ const base = import.meta.env.BASE_URL;
             id="demo-content"
           >
             <div
-              class="text-[12px] text-[#9a9489] uppercase tracking-[0.14em] font-semibold mb-2"
+              class="text-[12px] text-readto-muted uppercase tracking-[0.14em] font-semibold mb-2"
             >
               News
             </div>
             <h2
-              class="font-semibold text-[22px] tracking-tight mb-1 text-[#111]"
+              class="font-semibold text-[22px] tracking-tight mb-1 text-readto-ink"
             >
               President Announces Sweeping Tax Reforms
             </h2>
-            <p class="text-[#141210] mb-3">
+            <p class="text-readto-fg mb-3">
               The president announced <span data-readto data-word="sweeping"
                 >sweeping<span class="rt">影响广泛的</span></span
               > reforms to the nation's tax system yesterday, marking the most significant
@@ -217,7 +217,7 @@ const base = import.meta.env.BASE_URL;
                 >overhaul<span class="rt">大修</span></span
               > in a decade.
             </p>
-            <p class="text-[#141210] mb-3">
+            <p class="text-readto-fg mb-3">
               Critics denounce the changes as <span
                 data-readto
                 data-word="disproportionately"
@@ -234,7 +234,7 @@ const base = import.meta.env.BASE_URL;
                 >burdened<span class="rt">负担沉重的</span></span
               > by rising costs.
             </p>
-            <p class="text-[#141210] mb-3">
+            <p class="text-readto-fg mb-3">
               Proponents counter that lower taxes will <span
                 data-readto
                 data-word="stimulate"
@@ -243,7 +243,7 @@ const base = import.meta.env.BASE_URL;
                 >ameliorate<span class="rt">改善</span></span
               > broader inequities.
             </p>
-            <p class="text-[#141210] mb-3">
+            <p class="text-readto-fg mb-3">
               The bill faces a difficult path through the <span
                 data-readto
                 data-word="fractious"
@@ -257,7 +257,7 @@ const base = import.meta.env.BASE_URL;
                 >vituperative<span class="rt">谩骂的</span></span
               > floor speeches.
             </p>
-            <p class="text-[#141210]">
+            <p class="text-readto-fg">
               Despite a flurry of grassroots rhetoric, recent polls indicate
               voters remain deeply skeptical of what they view as <span
                 data-readto
@@ -271,31 +271,31 @@ const base = import.meta.env.BASE_URL;
     </section>
 
     <!-- How It Works -->
-    <section id="how" class="pt-[120px] pb-24 border-t border-[#e3dfd8] mt-20">
+    <section id="how" class="pt-[120px] pb-24 border-t border-readto-rule mt-20">
       <div class="max-w-[1180px] mx-auto px-6">
         <div class="flex items-baseline justify-between mb-14 gap-6">
           <div
-            class="flex items-center gap-3 text-[11px] text-[#9a9489] tracking-[0.14em] uppercase font-semibold"
+            class="flex items-center gap-3 text-[11px] text-readto-muted tracking-[0.14em] uppercase font-semibold"
           >
-            <span class="inline-block w-6 h-px bg-[#b2462a]"></span>
+            <span class="inline-block w-6 h-px bg-readto-accent"></span>
             原理 · How it works
           </div>
           <h2
             class="font-serif font-normal text-[44px] tracking-tight m-0 leading-[1.1] max-w-[580px]"
           >
             读你本来就想读的，<br />生词在<span
-              class="not-italic text-[#b2462a]">阅读中</span
+              class="not-italic text-readto-accent">阅读中</span
             >自然沉淀。
           </h2>
         </div>
 
-        <div class="grid md:grid-cols-3 border-t border-[#ebe7df]">
+        <div class="grid md:grid-cols-3 border-t border-readto-rule-2">
           <!-- Feature 1 -->
           <div
-            class="py-10 px-8 pb-2 min-h-[260px] flex flex-col gap-3 relative border-b md:border-b-0 md:border-r border-[#ebe7df] first:pl-0 last:pr-0 last:border-r-0"
+            class="py-10 px-8 pb-2 min-h-[260px] flex flex-col gap-3 relative border-b md:border-b-0 md:border-r border-readto-rule-2 first:pl-0 last:pr-0 last:border-r-0"
           >
             <div
-              class="font-serif text-[13px] text-[#b2462a] font-medium tracking-[0.02em]"
+              class="font-serif text-[13px] text-readto-accent font-medium tracking-[0.02em]"
             >
               No. 01
             </div>
@@ -305,12 +305,12 @@ const base = import.meta.env.BASE_URL;
               只标你不会的词
             </h3>
             <p
-              class="mt-1.5 text-[#2b2824] text-[14px] leading-[1.65] max-w-[320px]"
+              class="mt-1.5 text-readto-fg-2 text-[14px] leading-[1.65] max-w-[320px]"
             >
               根据你选择的英语水平，跳过你已经会的，只在真正超纲的词上方加注。
             </p>
             <div
-              class="font-serif text-[14px] text-[#141210] mt-auto pt-6 leading-[2] border-t border-dotted border-[#e3dfd8] w-full"
+              class="font-serif text-[14px] text-readto-fg mt-auto pt-6 leading-[2] border-t border-dotted border-readto-rule w-full"
             >
               He was <span data-readto class="annot-word" data-word="ostensibly"
                 >ostensibly<span class="rt">表面上</span></span
@@ -325,10 +325,10 @@ const base = import.meta.env.BASE_URL;
 
           <!-- Feature 2 -->
           <div
-            class="py-10 px-8 pb-2 min-h-[260px] flex flex-col gap-3 relative border-b md:border-b-0 md:border-r border-[#ebe7df] first:pl-0 last:pr-0 last:border-r-0"
+            class="py-10 px-8 pb-2 min-h-[260px] flex flex-col gap-3 relative border-b md:border-b-0 md:border-r border-readto-rule-2 first:pl-0 last:pr-0 last:border-r-0"
           >
             <div
-              class="font-serif text-[13px] text-[#b2462a] font-medium tracking-[0.02em]"
+              class="font-serif text-[13px] text-readto-accent font-medium tracking-[0.02em]"
             >
               No. 02
             </div>
@@ -338,12 +338,12 @@ const base = import.meta.env.BASE_URL;
               不打断你的阅读节奏
             </h3>
             <p
-              class="mt-1.5 text-[#2b2824] text-[14px] leading-[1.65] max-w-[320px]"
+              class="mt-1.5 text-readto-fg-2 text-[14px] leading-[1.65] max-w-[320px]"
             >
               中文释义以小字标注在单词上方，不需要划词、点击或跳转词典。
             </p>
             <div
-              class="font-serif text-[14px] text-[#141210] mt-auto pt-6 leading-[2] border-t border-dotted border-[#e3dfd8] w-full"
+              class="font-serif text-[14px] text-readto-fg mt-auto pt-6 leading-[2] border-t border-dotted border-readto-rule w-full"
             >
               The findings were <span
                 data-readto
@@ -364,7 +364,7 @@ const base = import.meta.env.BASE_URL;
             class="py-10 px-8 pb-2 min-h-[260px] flex flex-col gap-3 relative first:pl-0 last:pr-0 last:border-r-0"
           >
             <div
-              class="font-serif text-[13px] text-[#b2462a] font-medium tracking-[0.02em]"
+              class="font-serif text-[13px] text-readto-accent font-medium tracking-[0.02em]"
             >
               No. 03
             </div>
@@ -374,27 +374,27 @@ const base = import.meta.env.BASE_URL;
               任何英文页面都能用
             </h3>
             <p
-              class="mt-1.5 text-[#2b2824] text-[14px] leading-[1.65] max-w-[320px]"
+              class="mt-1.5 text-readto-fg-2 text-[14px] leading-[1.65] max-w-[320px]"
             >
               新闻、博客、论文、小说——所有英文网页都支持。
             </p>
             <div
-              class="flex flex-wrap gap-2 mt-auto pt-6 border-t border-dotted border-[#e3dfd8]"
+              class="flex flex-wrap gap-2 mt-auto pt-6 border-t border-dotted border-readto-rule"
             >
               <span
-                class="text-[12px] bg-[#ebe7df] px-2 py-1 rounded text-[#2b2824]"
+                class="text-[12px] bg-readto-rule-2 px-2 py-1 rounded text-readto-fg-2"
                 >nytimes.com</span
               >
               <span
-                class="text-[12px] bg-[#ebe7df] px-2 py-1 rounded text-[#2b2824]"
+                class="text-[12px] bg-readto-rule-2 px-2 py-1 rounded text-readto-fg-2"
                 >medium.com</span
               >
               <span
-                class="text-[12px] bg-[#ebe7df] px-2 py-1 rounded text-[#2b2824]"
+                class="text-[12px] bg-readto-rule-2 px-2 py-1 rounded text-readto-fg-2"
                 >arxiv.org</span
               >
               <span
-                class="text-[12px] bg-[#ebe7df] px-2 py-1 rounded text-[#2b2824]"
+                class="text-[12px] bg-readto-rule-2 px-2 py-1 rounded text-readto-fg-2"
                 >wikipedia.org</span
               >
             </div>
@@ -405,13 +405,13 @@ const base = import.meta.env.BASE_URL;
 
     <!-- Why Read This Way -->
     <section
-      class="py-24 border-t border-[#e3dfd8] bg-gradient-to-b from-[#f5f2eb] to-[#ebe7df]"
+      class="py-24 border-t border-readto-rule bg-gradient-to-b from-readto-bg to-readto-rule-2"
     >
       <div
         class="max-w-[1180px] mx-auto px-6 grid md:grid-cols-[1fr_2fr] gap-14 items-start"
       >
         <div
-          class="text-[11px] text-[#9a9489] tracking-[0.14em] uppercase font-semibold"
+          class="text-[11px] text-readto-muted tracking-[0.14em] uppercase font-semibold"
         >
           Why read this way
         </div>
@@ -420,11 +420,11 @@ const base = import.meta.env.BASE_URL;
             class="m-0 font-serif font-normal text-[36px] leading-[1.25] tracking-tight"
           >
             背单词的最好方式，<br />
-            是在<span class="not-italic text-[#b2462a]">真实阅读</span
+            是在<span class="not-italic text-readto-accent">真实阅读</span
             >里反复遇到它。
           </blockquote>
           <cite
-            class="block mt-5 text-[13px] text-[#9a9489] tracking-[0.02em] not-italic"
+            class="block mt-5 text-[13px] text-readto-muted tracking-[0.02em] not-italic"
           >
             — readto 的设计前提
           </cite>
@@ -434,28 +434,28 @@ const base = import.meta.env.BASE_URL;
   </main>
 
   <!-- Footer -->
-  <footer class="border-t border-[#e3dfd8]">
+  <footer class="border-t border-readto-rule">
     <div
       class="max-w-[1180px] mx-auto px-6 py-8 flex items-center justify-between"
     >
       <a href={base} class="text-[14px] font-medium font-serif tracking-tight">
-        readto<span class="text-[#b2462a]">.</span><span
-          class="text-[0.7em] text-[#9a9489]">ai</span
+        readto<span class="text-readto-accent">.</span><span
+          class="text-[0.7em] text-readto-muted">ai</span
         >
       </a>
       <div class="flex items-center gap-6">
         <a
           href={`${base}/privacy`}
-          class="text-[12px] text-[#9a9489] hover:text-[#141210]"
+          class="text-[12px] text-readto-muted hover:text-readto-fg"
         >
           隐私政策
         </a>
-        <span class="text-[12px] text-[#9a9489]">© 2026 · 读懂</span>
+        <span class="text-[12px] text-readto-muted">© 2026 · 读懂</span>
       </div>
     </div>
   </footer>
 
-  <!-- Translation Tooltip - 匹配扩展结构 -->
+  <!-- Translation Tooltip -->
   <div id="tooltip" class="tooltip hidden">
     <div class="phonetic">
       <button class="speaker" type="button" aria-label="Play pronunciation">
@@ -478,417 +478,6 @@ const base = import.meta.env.BASE_URL;
     <div class="examples"></div>
   </div>
 </Layout>
-
-<style is:global>
-  /* 标注样式 - 完全匹配 readto 扩展 */
-  :root {
-    --readto-fg: #141210;
-    --readto-fg-2: #2b2824;
-    --readto-muted-2: #b8b3ac;
-    --readto-rule: #e3dfd8;
-    --readto-rule-2: #ebe7df;
-    --readto-bg: #f5f2eb;
-    --readto-card: #fbf9f4;
-    --readto-ink: #111;
-    --readto-annot: #9a9489;
-    --readto-accent: #b2462a;
-  }
-
-  [data-readto] {
-    white-space: nowrap;
-    position: relative;
-    cursor: pointer;
-  }
-
-  [data-readto]:hover {
-    background: rgba(178, 70, 42, 0.08);
-    border-radius: 2px;
-  }
-
-  .rt {
-    display: inline;
-    font-size: 0.6em;
-    vertical-align: super;
-    line-height: 0;
-    font-weight: 400;
-    color: inherit;
-    opacity: 0.85;
-    margin-left: 1px;
-    pointer-events: none;
-    user-select: none;
-  }
-
-  /* Tooltip - 匹配扩展样式 */
-  .tooltip {
-      position: fixed;
-  background: hsl(30 7% 97%);
-  color: hsl(24 10% 10%);
-  border: 1px solid hsl(25 6% 85%);
-  border-radius: 6px;
-  padding: 10px 12px;
-  font-family: Charter, 'Iowan Old Style', 'Source Serif 4', Georgia, serif;
-  font-size: 14px;
-  line-height: 1;
-  font-weight: 400;
-  text-align: left;
-  white-space: pre-wrap;
-  min-width: 180px;
-  max-width: 340px;
-  box-shadow: 0 1px 2px rgba(24, 20, 18, 0.05), 0 6px 16px rgba(24, 20, 18, 0.06);
-  z-index: 2147483647;
-  user-select: text;
-  pointer-events: auto;
-  }
-
-  .tooltip.show {
-    display: block;
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .tooltip .phonetic {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    color: hsl(25 5% 45%);
-    margin-bottom: 6px;
-  }
-
-  .tooltip .ipa {
-    font-style: italic;
-  }
-
-  .tooltip .speaker {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 22px;
-    height: 22px;
-    padding: 2px;
-    margin: 0;
-    background: transparent;
-    border: none;
-    border-radius: 4px;
-    color: inherit;
-    cursor: pointer;
-    transition: background 0.15s, color 0.15s, transform 0.08s;
-  }
-
-  .tooltip .speaker svg {
-    width: 14px;
-    height: 14px;
-    display: block;
-  }
-
-  .tooltip .speaker:hover {
-    background: rgba(24, 20, 18, 0.06);
-    color: hsl(24 10% 10%);
-  }
-
-  .tooltip .speaker:active {
-    transform: scale(0.9);
-  }
-
-  .tooltip .speaker.playing {
-    color: #1a73e8;
-    animation: readto-speaker-pulse 0.4s ease-out;
-  }
-
-  @keyframes readto-speaker-pulse {
-    0%   { transform: scale(1); }
-    45%  { transform: scale(1.18); }
-    100% { transform: scale(1); }
-  }
-
-  .tooltip .examples {
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px dashed hsl(25 6% 85%);
-  }
-
-  .tooltip .example {
-    margin-top: 8px;
-  }
-
-  .tooltip .example:first-child {
-    margin-top: 0;
-  }
-
-  .tooltip .example .en {
-    font-size: 13px;
-    line-height: 1.5;
-    color: hsl(24 10% 18%);
-  }
-
-  .tooltip .example .target {
-    font-weight: 600;
-    color: hsl(24 80% 35%);
-  }
-
-  .tooltip .example .zh {
-    font-size: 12px;
-    line-height: 1.45;
-    color: hsl(25 5% 50%);
-    margin-top: 2px;
-  }
-
-  .slider-label {
-    transition:
-      color 0.2s,
-      font-weight 0.2s;
-  }
-  .slider-label.active {
-    color: #111;
-    font-weight: 500;
-  }
-
-  /* 移动端适配 */
-  @media (max-width: 768px) {
-    /* Header - 移动端简化 */
-    header {
-      padding: 12px 0;
-    }
-
-    header .max-w-\[1180px\] {
-      padding: 0 16px;
-      gap: 8px;
-    }
-
-    header .hidden.sm\:inline-block {
-      display: none !important;
-    }
-
-    header nav {
-      gap: 2px;
-    }
-
-    header nav a:not([class*="bg-"]) {
-      font-size: 12px;
-      padding: 4px 8px;
-    }
-
-    header nav a[class*="bg-"] {
-      font-size: 12px;
-      padding: 6px 12px;
-    }
-
-    /* Hero Section - 垂直堆叠 */
-    section:first-of-type {
-      padding-top: 48px;
-      padding-bottom: 48px;
-    }
-
-    section:first-of-type > div {
-      gap: 32px;
-    }
-
-    h1 {
-      font-size: 32px;
-      line-height: 1.15;
-      letter-spacing: -0.02em;
-    }
-
-    h1 + p {
-      font-size: 14px;
-      max-width: 100%;
-    }
-
-    /* 安装按钮 */
-    a[class*="bg-\[#111\]"][class*="text-white"] {
-      display: inline-block;
-      padding: 12px 24px;
-      font-size: 14px;
-    }
-
-    /* Level Selector */
-    .slider-label {
-      font-size: 10px;
-      padding: 8px 0;
-    }
-
-    #level-slider {
-      height: 48px;
-      margin-top: 8px;
-    }
-
-    #level-desc {
-      font-size: 12px;
-    }
-
-    /* Article Preview - 移动端优化 */
-    .bg-white.rounded-lg {
-      border-radius: 8px;
-    }
-
-    #demo-content {
-      font-size: 14px;
-      line-height: 1.7;
-      padding: 16px;
-    }
-
-    #demo-content h2 {
-      font-size: 17px;
-      margin-bottom: 4px;
-    }
-
-    #demo-content .text-\[13px\] {
-      font-size: 12px;
-      margin-bottom: 12px;
-    }
-
-    #demo-content p {
-      margin-bottom: 12px;
-      font-size: 14px;
-    }
-
-    /* Tooltip - 移动端适配 */
-    .tooltip {
-      min-width: 200px;
-      max-width: calc(100vw - 32px);
-      font-size: 14px;
-      padding: 12px;
-      border-radius: 8px;
-    }
-
-    .tooltip .phonetic {
-      margin-bottom: 8px;
-    }
-
-    .tooltip .speaker {
-      width: 28px;
-      height: 28px;
-    }
-
-    .tooltip .speaker svg {
-      width: 16px;
-      height: 16px;
-    }
-
-    .tooltip .body {
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    .tooltip .example .en {
-      font-size: 13px;
-    }
-
-    .tooltip .example .zh {
-      font-size: 12px;
-    }
-
-    /* Annotated Words - 增大触摸区域 */
-    [data-readto] {
-      -webkit-tap-highlight-color: transparent;
-      padding: 4px 2px;
-      margin: -4px -2px;
-      display: inline;
-    }
-
-    .rt {
-      font-size: 0.5em;
-      margin-left: 0;
-    }
-
-    /* How It Works - 垂直堆叠 */
-    #how {
-      padding-top: 64px;
-      padding-bottom: 48px;
-      margin-top: 48px;
-    }
-
-    #how .max-w-\[1180px\] > .flex {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 16px;
-      margin-bottom: 32px;
-    }
-
-    #how h2 {
-      font-size: 28px;
-      line-height: 1.2;
-    }
-
-    #how .grid {
-      grid-template-columns: 1fr;
-    }
-
-    #how .grid > div {
-      padding: 24px 0;
-      min-height: auto;
-      border-right: none !important;
-      border-bottom: 1px solid #ebe7df;
-    }
-
-    #how .grid > div:last-child {
-      border-bottom: none;
-    }
-
-    #how h3 {
-      font-size: 18px;
-    }
-
-    #how p {
-      font-size: 14px;
-    }
-
-    /* Why Read This Way */
-    section:has(blockquote) {
-      padding: 48px 0;
-    }
-
-    blockquote {
-      font-size: 24px;
-      line-height: 1.35;
-    }
-
-    blockquote + cite {
-      font-size: 12px;
-      margin-top: 16px;
-    }
-
-    /* Footer - 垂直堆叠 */
-    footer .flex.items-center.justify-between {
-      flex-direction: column;
-      gap: 16px;
-      text-align: center;
-      padding: 24px 16px;
-    }
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .tooltip {
-      background: hsl(24 10% 6%);
-      color: hsl(30 7% 95%);
-      border-color: hsl(24 6% 18%);
-      box-shadow:
-        0 1px 2px rgba(0, 0, 0, 0.4),
-        0 6px 16px rgba(0, 0, 0, 0.45);
-    }
-    .tooltip .phonetic {
-      color: hsl(25 5% 65%);
-    }
-    .tooltip .speaker:hover {
-      background: rgba(245, 243, 240, 0.08);
-      color: hsl(30 7% 95%);
-    }
-    .tooltip .speaker.playing {
-      color: #66b1ff;
-    }
-    .tooltip .examples {
-      border-top-color: hsl(24 6% 18%);
-    }
-    .tooltip .example .en {
-      color: hsl(30 7% 90%);
-    }
-    .tooltip .example .target {
-      color: #e07a5f;
-    }
-    .tooltip .example .zh {
-      color: hsl(25 5% 65%);
-    }
-  }
-</style>
 
 <script>
   // 单词详情数据 - 从扩展项目 translations-detail 获取
@@ -1120,7 +709,7 @@ const base = import.meta.env.BASE_URL;
     },
   };
 
-  // Tooltip 元素 - 使用类名选择器匹配扩展结构
+  // Tooltip 元素
   const tooltip = document.getElementById("tooltip");
   const phonetic = tooltip?.querySelector(".phonetic");
   const ipa = tooltip?.querySelector(".ipa");
@@ -1130,7 +719,7 @@ const base = import.meta.env.BASE_URL;
 
   let activeTooltipWord: string | null = null;
 
-  // 朗读功能 - 匹配扩展实现
+  // 朗读功能
   function speakWord(word: string) {
     if (!("speechSynthesis" in window)) return;
 
@@ -1391,10 +980,6 @@ const base = import.meta.env.BASE_URL;
 
   let currentLevel = 2;
 
-  function getPercent(level: number): number {
-    return 10 + (level / 4) * 80;
-  }
-
   // 单词 CEFR 等级映射 - 从扩展项目 level-data-full.json 获取
   const wordLevels: Record<string, string> = {
     sweeping: "B1",
@@ -1455,6 +1040,10 @@ const base = import.meta.env.BASE_URL;
     });
   }
 
+  function getPercent(level: number): number {
+    return 10 + (level / 4) * 80;
+  }
+
   function updateSlider(level: number, save = true) {
     currentLevel = level;
     const percent = getPercent(level);
@@ -1464,11 +1053,11 @@ const base = import.meta.env.BASE_URL;
 
     sliderLabels.forEach((label, i) => {
       if (i === level) {
-        label.classList.add("active", "text-[#111]", "font-medium");
-        label.classList.remove("text-[#b8b3ac]");
+        label.classList.add("active", "text-readto-ink", "font-medium");
+        label.classList.remove("text-readto-muted-2");
       } else {
-        label.classList.remove("active", "text-[#111]", "font-medium");
-        label.classList.add("text-[#b8b3ac]");
+        label.classList.remove("active", "text-readto-ink", "font-medium");
+        label.classList.add("text-readto-muted-2");
       }
     });
 
