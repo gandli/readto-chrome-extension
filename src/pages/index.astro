@@ -65,11 +65,11 @@ const base = import.meta.env.BASE_URL;
 
             <!-- Slider Labels -->
             <div class="flex justify-between mb-1 px-[8%]">
-              <span class="text-sm text-readto-ink font-medium slider-label active" data-index="0">入门</span>
-              <span class="text-sm text-readto-muted-2 slider-label" data-index="1">基础</span>
-              <span class="text-sm text-readto-muted-2 slider-label" data-index="2">进阶</span>
-              <span class="text-sm text-readto-muted-2 slider-label" data-index="3">熟练</span>
-              <span class="text-sm text-readto-muted-2 slider-label" data-index="4">精通</span>
+              <span class="text-sm slider-label" data-index="0">入门</span>
+              <span class="text-sm slider-label" data-index="1">基础</span>
+              <span class="text-sm slider-label" data-index="2">进阶</span>
+              <span class="text-sm slider-label" data-index="3">熟练</span>
+              <span class="text-sm slider-label" data-index="4">精通</span>
             </div>
 
             <!-- Custom Slider -->
@@ -593,8 +593,13 @@ const base = import.meta.env.BASE_URL;
     const percent = getPercent(level);
     if (knob) knob.style.left = `${percent}%`;
     sliderLabels.forEach((label, i) => {
-      if (i === level) { label.classList.add("active"); label.classList.remove("text-readto-muted-2"); }
-      else { label.classList.remove("active"); label.classList.add("text-readto-muted-2"); }
+      if (i === level) {
+        label.classList.add("active", "text-readto-ink", "font-medium");
+        label.classList.remove("text-readto-muted-2");
+      } else {
+        label.classList.remove("active", "text-readto-ink", "font-medium");
+        label.classList.add("text-readto-muted-2");
+      }
     });
     if (levelDesc) levelDesc.textContent = levelDescs[level];
     if (slider) { slider.setAttribute("aria-valuenow", String(level + 1)); slider.setAttribute("aria-valuetext", ["入门", "基础", "进阶", "熟练", "精通"][level]); }
