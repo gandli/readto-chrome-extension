@@ -93,6 +93,93 @@ test.describe('Readto Landing Page', () => {
       await expect(slider).toHaveAttribute('role', 'slider');
       await expect(slider).toHaveAttribute('aria-label', '英语水平');
     });
+
+    test('should move knob when clicking on slider track', async ({ page }) => {
+      const slider = page.locator('#level-slider');
+      const knob = page.locator('#knob');
+      
+      // Get initial knob position
+      const initialLeft = await knob.evaluate(el => el.style.left);
+      
+      // Click on the left side of the slider (should move to 入门)
+      const box = await slider.boundingBox();
+      if (box) {
+        await page.mouse.click(box.x + 20, box.y + box.height / 2);
+        await page.waitForTimeout(500);
+        
+        const newLeft = await knob.evaluate(el => el.style.left);
+        expect(newLeft).not.toBe(initialLeft);
+        
+        // Check description updated
+        const desc = page.locator('#level-desc');
+        await expect(desc).toContainText('最基础');
+      }
+    });
+
+    test('should move knob when dragging', async ({ page }) => {
+      const slider = page.locator('#level-slider');
+      const knob = page.locator('#knob');
+      
+      const box = await slider.boundingBox();
+      if (box) {
+        // Start from center, drag to right
+        const startX = box.x + box.width / 2;
+        const endX = box.x + box.width * 0.8;
+        const y = box.y + box.height / 2;
+        
+        await page.mouse.move(startX, y);
+        await page.mouse.down();
+        await page.mouse.move(endX, y, { steps: 10 });
+        await page.mouse.up();
+        await page.waitForTimeout(500);
+        
+        // Should be at 熟练 or 精通 level
+        const desc = page.locator('#level-desc');
+        const descText = await desc.textContent();
+        expect(descText).toMatch(/雅思托福|最生僻/);
+      }
+    });
+
+    test('should respond to keyboard arrows', async ({ page }) => {
+      const slider = page.locator('#level-slider');
+      const desc = page.locator('#level-desc');
+      
+      // Focus the slider
+      await slider.focus();
+      
+      // Press right arrow (should go to 熟练)
+      await page.keyboard.press('ArrowRight');
+      await expect(desc).toContainText('雅思托福');
+      
+      // Press right arrow again (should go to 精通)
+      await page.keyboard.press('ArrowRight');
+      await expect(desc).toContainText('最生僻');
+      
+      // Press left arrow twice (should go back to 进阶)
+      await page.keyboard.press('ArrowLeft');
+      await page.keyboard.press('ArrowLeft');
+      await expect(desc).toContainText('大学四六级');
+    });
+
+    test('should update active label style', async ({ page }) => {
+      const labels = page.locator('.slider-label');
+      
+      // Default: 进阶 should be active
+      await expect(labels.nth(2)).toHaveClass(/active/);
+      await expect(labels.nth(2)).toHaveClass(/text-readto-ink/);
+      
+      // Click 入门
+      await labels.nth(0).click({ force: true });
+      await page.waitForTimeout(300);
+      
+      // 入门 should now be active
+      await expect(labels.nth(0)).toHaveClass(/active/);
+      await expect(labels.nth(0)).toHaveClass(/text-readto-ink/);
+      
+      // 进阶 should not be active
+      await expect(labels.nth(2)).not.toHaveClass(/active/);
+      await expect(labels.nth(2)).toHaveClass(/text-readto-muted-2/);
+    });
   });
 
   test.describe('Level-Annotation Linkage', () => {
