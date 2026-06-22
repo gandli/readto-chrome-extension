@@ -6,8 +6,8 @@
 
 # Test info
 
-- Name: landing.spec.ts >> Readto Landing Page >> Tooltip >> should close on Escape
-- Location: tests\landing.spec.ts:269:5
+- Name: landing.spec.ts >> Readto Landing Page >> Tooltip >> should show tooltip on click
+- Location: tests\landing.spec.ts:244:5
 
 # Error details
 
@@ -33,7 +33,7 @@ Call log:
     - /url: /readto-chrome-extension
   - navigation:
     - link "工作原理":
-      - /url: "#how"
+      - /url: /readto-chrome-extension#how
     - link "隐私政策":
       - /url: /readto-chrome-extension/privacy
     - link "安装扩展 →":
@@ -81,6 +81,31 @@ Call log:
 # Test source
 
 ```ts
+  148 |       await slider.focus();
+  149 |       
+  150 |       // Press right arrow (should go to 熟练)
+  151 |       await page.keyboard.press('ArrowRight');
+  152 |       await expect(desc).toContainText('雅思托福');
+  153 |       
+  154 |       // Press right arrow again (should go to 精通)
+  155 |       await page.keyboard.press('ArrowRight');
+  156 |       await expect(desc).toContainText('最生僻');
+  157 |       
+  158 |       // Press left arrow twice (should go back to 进阶)
+  159 |       await page.keyboard.press('ArrowLeft');
+  160 |       await page.keyboard.press('ArrowLeft');
+  161 |       await expect(desc).toContainText('大学四六级');
+  162 |     });
+  163 | 
+  164 |     test('should update active label style', async ({ page }) => {
+  165 |       const labels = page.locator('.slider-label');
+  166 |       
+  167 |       // Default: 进阶 should be active
+  168 |       await expect(labels.nth(2)).toHaveClass(/active/);
+  169 |       await expect(labels.nth(2)).toHaveClass(/text-readto-ink/);
+  170 |       
+  171 |       // Click 入门
+  172 |       await labels.nth(0).click({ force: true });
   173 |       await page.waitForTimeout(300);
   174 |       
   175 |       // 入门 should now be active
@@ -156,7 +181,8 @@ Call log:
   245 |       const tooltip = page.locator('#tooltip');
   246 |       await page.locator('[data-word="sweeping"]').first().click({ force: true });
   247 |       await page.waitForTimeout(500);
-  248 |       await expect(tooltip).toHaveClass(/show/);
+> 248 |       await expect(tooltip).toHaveClass(/show/);
+      |                             ^ Error: expect(locator).toHaveClass(expected) failed
   249 |     });
   250 | 
   251 |     test('should display phonetic and translation', async ({ page }) => {
@@ -181,8 +207,7 @@ Call log:
   270 |       const tooltip = page.locator('#tooltip');
   271 |       await page.locator('[data-word="sweeping"]').first().click({ force: true });
   272 |       await page.waitForTimeout(500);
-> 273 |       await expect(tooltip).toHaveClass(/show/);
-      |                             ^ Error: expect(locator).toHaveClass(expected) failed
+  273 |       await expect(tooltip).toHaveClass(/show/);
   274 |       
   275 |       await page.keyboard.press('Escape');
   276 |       await page.waitForTimeout(300);
@@ -258,29 +283,4 @@ Call log:
   346 | 
   347 |   test('should have all 7 sections', async ({ page }) => {
   348 |     const sections = [
-  349 |       'What readto is',
-  350 |       'What we don\'t do',
-  351 |       'What the extension stores',
-  352 |       'Third parties',
-  353 |       'Permissions',
-  354 |       'Deleting your data',
-  355 |       'Contact',
-  356 |     ];
-  357 |     
-  358 |     for (const section of sections) {
-  359 |       await expect(page.locator(`h2:has-text("${section}")`)).toBeVisible();
-  360 |     }
-  361 |   });
-  362 | 
-  363 |   test('should have technical terms in code blocks', async ({ page }) => {
-  364 |     // Check for chrome.storage text
-  365 |     await expect(page.locator('text=chrome.storage').first()).toBeVisible();
-  366 |   });
-  367 | 
-  368 |   test('should have navigation back to home', async ({ page }) => {
-  369 |     const homeLink = page.locator('header a:has-text("readto")');
-  370 |     await expect(homeLink).toBeVisible();
-  371 |     await expect(homeLink).toHaveAttribute('href', /readto-chrome-extension\/?$/);
-  372 |   });
-  373 | 
 ```

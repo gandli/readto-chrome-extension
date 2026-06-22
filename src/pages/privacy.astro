@@ -1,27 +1,46 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
 
 const base = import.meta.env.BASE_URL;
 ---
 
-<Layout title="Privacy Policy · readto" description="readto 隐私政策 - 我们不收集你的阅读历史">
+<Layout
+  title="Privacy Policy · readto"
+  description="readto 隐私政策 - 我们不收集你的阅读历史"
+>
   <!-- Navigation -->
-  <header class="sticky top-0 z-50 bg-[#f5f2eb]/95 backdrop-blur-sm border-b border-[#e3dfd8]">
-    <div class="max-w-[1180px] mx-auto flex items-center justify-between gap-6 py-4 px-6">
+  <header
+    class="sticky top-0 z-50 bg-[#f5f2eb]/95 backdrop-blur-sm border-b border-[#e3dfd8]"
+  >
+    <div
+      class="max-w-[1180px] mx-auto flex items-center justify-between gap-6 py-4 px-6"
+    >
       <div class="flex items-baseline gap-[18px] min-w-0">
-        <a href={base} class="inline-flex items-baseline text-[24px] font-medium font-serif tracking-tight">
-          readto<span class="text-[#b2462a] font-semibold">.</span><span class="ml-[2px] text-[0.7em] tracking-normal font-normal text-[#9a9489]">ai</span>
+        <a
+          href={base}
+          class="inline-flex items-baseline text-[24px] font-medium font-serif tracking-tight"
+        >
+          readto<span class="text-[#b2462a] font-semibold">.</span><span
+            class="ml-[2px] text-[0.7em] tracking-normal font-normal text-[#9a9489]"
+            >ai</span
+          >
         </a>
         <div class="hidden sm:inline-block text-[12px] text-[#9a9489]">
           读懂每一个词 · Read to know
         </div>
       </div>
       <nav class="flex items-center gap-6">
-        <a href={`${base}#how`} class="text-[14px] text-[#2b2824] hover:text-[#111] transition-colors">
-          工作原理
+        <a
+          href={base}
+          class="text-[14px] text-[#2b2824] hover:text-[#111] transition-colors"
+        >
+          首页
         </a>
-        <a href={base} class="text-[14px] text-[#2b2824] hover:text-[#111] transition-colors">
-          安装
+        <a
+          href={`${base}#how`}
+          class="text-[14px] text-[#2b2824] hover:text-[#111] transition-colors"
+        >
+          工作原理
         </a>
         <a
           href="https://chromewebstore.google.com/detail/readto/hmoifnkckggncdpoplpoiifjafffmkof"
@@ -34,43 +53,59 @@ const base = import.meta.env.BASE_URL;
   </header>
 
   <main class="max-w-[720px] mx-auto px-6 py-16 md:py-24">
-    <p class="text-[11px] text-[#9a9489] tracking-[0.14em] uppercase font-semibold mb-6">
+    <p
+      class="text-[11px] text-[#9a9489] tracking-[0.14em] uppercase font-semibold mb-6"
+    >
       Privacy Policy
     </p>
-    <h1 class="font-serif font-normal text-[32px] md:text-[56px] leading-[1.1] tracking-tight m-0 mb-4">
-      We don't collect<br/>your reading history.
+    <h1
+      class="font-serif font-normal text-[32px] md:text-[56px] leading-[1.1] tracking-tight m-0 mb-4"
+    >
+      We don't collect<br />your reading history.
     </h1>
-    <p class="text-[14px] text-[#9a9489] mb-12">
-      Last updated: 2026-04-24
-    </p>
+    <p class="text-[14px] text-[#9a9489] mb-12">Last updated: 2026-04-24</p>
 
     <!-- 1. WHAT READTO IS -->
     <section class="mb-10">
-      <h2 class="font-sans font-semibold text-[13px] tracking-[0.08em] uppercase mb-4 text-[#111]">
+      <h2
+        class="font-sans font-semibold text-[13px] tracking-[0.08em] uppercase mb-4 text-[#111]"
+      >
         1. What readto is
       </h2>
       <p class="text-[15px] leading-[1.75] text-[#2b2824]">
-        readto is a Chrome extension that annotates English words above your CEFR level with a Chinese gloss while you browse. All annotation happens inside your own browser. No server of ours is involved in this process.
+        readto is a Chrome extension that annotates English words above your
+        CEFR level with a Chinese gloss while you browse. All annotation happens
+        inside your own browser. No server of ours is involved in this process.
       </p>
     </section>
 
     <!-- 2. WHAT WE DON'T DO -->
     <section class="mb-10">
-      <h2 class="font-sans font-semibold text-[13px] tracking-[0.08em] uppercase mb-4 text-[#111]">
+      <h2
+        class="font-sans font-semibold text-[13px] tracking-[0.08em] uppercase mb-4 text-[#111]"
+      >
         2. What we don't do
       </h2>
       <ul class="text-[15px] leading-[1.75] text-[#2b2824] space-y-2">
         <li class="flex gap-2">
           <span class="text-[#9a9489] mt-1">•</span>
-          <span>We don't collect the URLs, body text, or any content of pages you read.</span>
+          <span
+            >We don't collect the URLs, body text, or any content of pages you
+            read.</span
+          >
         </li>
         <li class="flex gap-2">
           <span class="text-[#9a9489] mt-1">•</span>
-          <span>We don't upload your reading history, click stream, or usage statistics.</span>
+          <span
+            >We don't upload your reading history, click stream, or usage
+            statistics.</span
+          >
         </li>
         <li class="flex gap-2">
           <span class="text-[#9a9489] mt-1">•</span>
-          <span>We don't embed any analytics, tracking, or advertising SDKs.</span>
+          <span
+            >We don't embed any analytics, tracking, or advertising SDKs.</span
+          >
         </li>
         <li class="flex gap-2">
           <span class="text-[#9a9489] mt-1">•</span>
@@ -81,51 +116,96 @@ const base = import.meta.env.BASE_URL;
 
     <!-- 3. WHAT THE EXTENSION STORES ON YOUR DEVICE -->
     <section class="mb-10">
-      <h2 class="font-sans font-semibold text-[13px] tracking-[0.08em] uppercase mb-4 text-[#111]">
+      <h2
+        class="font-sans font-semibold text-[13px] tracking-[0.08em] uppercase mb-4 text-[#111]"
+      >
         3. What the extension stores on your device
       </h2>
       <p class="text-[15px] leading-[1.75] text-[#2b2824] mb-4">
-        The extension uses Chrome's native storage API <code class="bg-[#ebe7df] px-1.5 py-0.5 rounded text-[13px] font-mono">chrome.storage</code> to keep the following settings on your own device only (<code class="bg-[#ebe7df] px-1.5 py-0.5 rounded text-[13px] font-mono">sync</code> means it travels with your Chrome account across devices; <code class="bg-[#ebe7df] px-1.5 py-0.5 rounded text-[13px] font-mono">local</code> means it stays on this machine):
+        The extension uses Chrome's native storage API <code
+          class="bg-[#ebe7df] px-1.5 py-0.5 rounded text-[13px] font-mono"
+          >chrome.storage</code
+        > to keep the following settings on your own device only (<code
+          class="bg-[#ebe7df] px-1.5 py-0.5 rounded text-[13px] font-mono"
+          >sync</code
+        > means it travels with your Chrome account across devices; <code
+          class="bg-[#ebe7df] px-1.5 py-0.5 rounded text-[13px] font-mono"
+          >local</code
+        > means it stays on this machine):
       </p>
       <ul class="text-[15px] leading-[1.75] text-[#2b2824] space-y-3">
         <li class="flex gap-2">
           <span class="text-[#9a9489] mt-1">•</span>
-          <span><strong>CEFR level and gloss mode</strong> (<code class="bg-[#ebe7df] px-1.5 py-0.5 rounded text-[13px] font-mono">sync</code>) — the 1–5 level you pick on the options page and your gloss preferences.</span>
+          <span
+            ><strong>CEFR level and gloss mode</strong> (<code
+              class="bg-[#ebe7df] px-1.5 py-0.5 rounded text-[13px] font-mono"
+              >sync</code
+            >) — the 1–5 level you pick on the options page and your gloss
+            preferences.</span
+          >
         </li>
         <li class="flex gap-2">
           <span class="text-[#9a9489] mt-1">•</span>
-          <span><strong>LLM configuration</strong> (<code class="bg-[#ebe7df] px-1.5 py-0.5 rounded text-[13px] font-mono">local</code>) — the API endpoint, API key, and model name you provide. These credentials are used only for the extension to talk directly to the LLM service you specify, and <em>never leave your device to reach us</em>.</span>
+          <span
+            ><strong>LLM configuration</strong> (<code
+              class="bg-[#ebe7df] px-1.5 py-0.5 rounded text-[13px] font-mono"
+              >local</code
+            >) — the API endpoint, API key, and model name you provide. These
+            credentials are used only for the extension to talk directly to the
+            LLM service you specify, and <em
+              >never leave your device to reach us</em
+            >.</span
+          >
         </li>
       </ul>
     </section>
 
     <!-- 4. THIRD PARTIES THE EXTENSION TALKS TO -->
     <section class="mb-10">
-      <h2 class="font-sans font-semibold text-[13px] tracking-[0.08em] uppercase mb-4 text-[#111]">
+      <h2
+        class="font-sans font-semibold text-[13px] tracking-[0.08em] uppercase mb-4 text-[#111]"
+      >
         4. Third parties the extension talks to
       </h2>
       <p class="text-[15px] leading-[1.75] text-[#2b2824] mb-4">
-        readto is Bring Your Own Key: LLM calls go directly from your browser to the endpoint you configured, with no readto server in between. Outbound requests are limited to:
+        readto is Bring Your Own Key: LLM calls go directly from your browser to
+        the endpoint you configured, with no readto server in between. Outbound
+        requests are limited to:
       </p>
       <ul class="text-[15px] leading-[1.75] text-[#2b2824] space-y-3">
         <li class="flex gap-2">
           <span class="text-[#9a9489] mt-1">•</span>
-          <span><strong>The LLM service you configure</strong> (for example OpenAI, Anthropic, or your own OpenAI-compatible backend). Context snippets around unknown words are sent there to fetch a translation; those requests are governed by your agreement with the LLM provider.</span>
+          <span
+            ><strong>The LLM service you configure</strong> (for example OpenAI, Anthropic,
+            or your own OpenAI-compatible backend). Context snippets around unknown
+            words are sent there to fetch a translation; those requests are governed
+            by your agreement with the LLM provider.</span
+          >
         </li>
         <li class="flex gap-2">
           <span class="text-[#9a9489] mt-1">•</span>
-          <span><strong>dictionaryapi.dev</strong> — when you open a word card to hear its pronunciation, the extension queries this public API for an audio URL. Only the word itself is sent.</span>
+          <span
+            ><strong>dictionaryapi.dev</strong> — when you open a word card to hear
+            its pronunciation, the extension queries this public API for an audio
+            URL. Only the word itself is sent.</span
+          >
         </li>
         <li class="flex gap-2">
           <span class="text-[#9a9489] mt-1">•</span>
-          <span><strong>YouTube</strong> — only when you open a YouTube video page, the extension reads the video's caption track in order to annotate it. Those requests go to YouTube directly; nothing passes through us.</span>
+          <span
+            ><strong>YouTube</strong> — only when you open a YouTube video page, the
+            extension reads the video's caption track in order to annotate it. Those
+            requests go to YouTube directly; nothing passes through us.</span
+          >
         </li>
       </ul>
     </section>
 
     <!-- 5. PERMISSIONS -->
     <section class="mb-10">
-      <h2 class="font-sans font-semibold text-[13px] tracking-[0.08em] uppercase mb-4 text-[#111]">
+      <h2
+        class="font-sans font-semibold text-[13px] tracking-[0.08em] uppercase mb-4 text-[#111]"
+      >
         5. Permissions
       </h2>
       <p class="text-[15px] leading-[1.75] text-[#2b2824] mb-4">
@@ -134,44 +214,73 @@ const base = import.meta.env.BASE_URL;
       <ul class="text-[15px] leading-[1.75] text-[#2b2824] space-y-3">
         <li class="flex gap-2">
           <span class="text-[#9a9489] mt-1">•</span>
-          <span><code class="bg-[#ebe7df] px-1.5 py-0.5 rounded text-[13px] font-mono">storage</code> — to persist the settings above to <code class="bg-[#ebe7df] px-1.5 py-0.5 rounded text-[13px] font-mono">chrome.storage</code>.</span>
+          <span
+            ><code
+              class="bg-[#ebe7df] px-1.5 py-0.5 rounded text-[13px] font-mono"
+              >storage</code
+            > — to persist the settings above to <code
+              class="bg-[#ebe7df] px-1.5 py-0.5 rounded text-[13px] font-mono"
+              >chrome.storage</code
+            >.</span
+          >
         </li>
         <li class="flex gap-2">
           <span class="text-[#9a9489] mt-1">•</span>
-          <span><code class="bg-[#ebe7df] px-1.5 py-0.5 rounded text-[13px] font-mono">&lt;all_urls&gt;</code> host permission — to inject the annotation script into any English web page. Annotation runs entirely on your device; page contents are never sent out without your action.</span>
+          <span
+            ><code
+              class="bg-[#ebe7df] px-1.5 py-0.5 rounded text-[13px] font-mono"
+              >&lt;all_urls&gt;</code
+            > host permission — to inject the annotation script into any English web
+            page. Annotation runs entirely on your device; page contents are never
+            sent out without your action.</span
+          >
         </li>
       </ul>
     </section>
 
     <!-- 6. DELETING YOUR DATA -->
     <section class="mb-10">
-      <h2 class="font-sans font-semibold text-[13px] tracking-[0.08em] uppercase mb-4 text-[#111]">
+      <h2
+        class="font-sans font-semibold text-[13px] tracking-[0.08em] uppercase mb-4 text-[#111]"
+      >
         6. Deleting your data
       </h2>
       <p class="text-[15px] leading-[1.75] text-[#2b2824]">
-        Uninstalling the extension clears all local storage. You can also clear the API key field on the options page to remove the credentials. Because we run no servers, there is no data of yours for us to delete.
+        Uninstalling the extension clears all local storage. You can also clear
+        the API key field on the options page to remove the credentials. Because
+        we run no servers, there is no data of yours for us to delete.
       </p>
     </section>
 
     <!-- 7. CONTACT -->
     <section class="mb-10">
-      <h2 class="font-sans font-semibold text-[13px] tracking-[0.08em] uppercase mb-4 text-[#111]">
+      <h2
+        class="font-sans font-semibold text-[13px] tracking-[0.08em] uppercase mb-4 text-[#111]"
+      >
         7. Contact
       </h2>
       <p class="text-[15px] leading-[1.75] text-[#2b2824]">
-        For questions about this policy, the latest version is always published at <a href={base} class="text-[#b2462a] hover:underline">readto.ai</a>.
+        For questions about this policy, the latest version is always published
+        at <a href={base} class="text-[#b2462a] hover:underline">readto.ai</a>.
       </p>
     </section>
   </main>
 
   <!-- Footer -->
   <footer class="border-t border-[#e3dfd8]">
-    <div class="max-w-[1180px] mx-auto px-6 py-8 flex items-center justify-between">
+    <div
+      class="max-w-[1180px] mx-auto px-6 py-8 flex items-center justify-between"
+    >
       <a href={base} class="text-[14px] font-medium font-serif tracking-tight">
-        readto<span class="text-[#b2462a]">.</span><span class="text-[0.7em] text-[#9a9489]">ai</span>
+        readto<span class="text-[#b2462a]">.</span><span
+          class="text-[0.7em] text-[#9a9489]">ai</span
+        >
       </a>
       <div class="flex items-center gap-6">
-        <a href={`${base}/privacy`} class="text-[12px] text-[#9a9489] hover:text-[#141210]">
+        <a
+          href={`${base}/privacy`}
+          class="text-[12px] text-[#9a9489] hover:text-[#141210]"
+        >
           隐私政策
         </a>
         <span class="text-[12px] text-[#9a9489]">© 2026 · 读懂</span>
@@ -181,31 +290,31 @@ const base = import.meta.env.BASE_URL;
 </Layout>
 
 <style>
-  /* 移动端适配 - 与首页统一 */
+  /* 移动端适配 */
   @media (max-width: 768px) {
     /* Header */
     header {
       padding: 12px 0;
     }
-    
+
     header .max-w-\[1180px\] {
       padding: 0 16px;
       gap: 8px;
     }
-    
+
     header .hidden.sm\:inline-block {
       display: none !important;
     }
-    
+
     header nav {
       gap: 2px;
     }
-    
+
     header nav a:not([class*="bg-"]) {
       font-size: 12px;
       padding: 4px 8px;
     }
-    
+
     header nav a[class*="bg-"] {
       font-size: 12px;
       padding: 6px 12px;
