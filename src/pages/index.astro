@@ -16,7 +16,7 @@ const base = import.meta.env.BASE_URL;
           读懂每一个词 · Read to know
         </div>
       </div>
-      <nav class="flex items-center gap-6">
+      <nav class="hidden md:flex items-center gap-6">
         <a href="#how" class="text-sm text-readto-fg-2 hover:text-readto-ink transition-colors">
           工作原理
         </a>
@@ -30,19 +30,22 @@ const base = import.meta.env.BASE_URL;
           安装扩展 →
         </a>
       </nav>
+      <button class="md:hidden p-2 text-readto-fg-2" aria-label="菜单">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5h14M3 10h14M3 15h14"/></svg>
+      </button>
     </div>
   </header>
 
   <main>
     <!-- Hero Section -->
-    <section class="max-w-content mx-auto px-6 pt-20 pb-24">
-      <div class="grid md:grid-cols-[1fr_1.2fr] gap-10 md:gap-14 items-start">
+    <section class="max-w-content mx-auto px-4 sm:px-6 pt-12 sm:pt-20 pb-16 sm:pb-24">
+      <div class="grid md:grid-cols-[1fr_1.2fr] gap-8 md:gap-14 items-start">
         <!-- Left: Description -->
         <div>
           <p class="text-[11px] text-readto-muted tracking-[0.14em] uppercase font-semibold mb-6">
             A CHROME EXTENSION · 浏览器扩展
           </p>
-          <h1 class="font-serif font-normal text-7xl leading-[1.05] tracking-tight m-0 mb-8">
+          <h1 class="font-serif font-normal text-5xl sm:text-7xl leading-[1.05] tracking-tight m-0 mb-6 sm:mb-8">
             Read to know.<br />
             <span class="whitespace-nowrap font-medium">读懂每一个词。</span>
           </h1>
@@ -52,19 +55,19 @@ const base = import.meta.env.BASE_URL;
           </p>
           <a
             href="https://chromewebstore.google.com/detail/readto/hmoifnkckggncdpoplpoiifjafffmkof"
-            class="inline-block bg-readto-ink text-white px-6 py-3 rounded-full text-sm font-medium hover:opacity-90 transition-opacity"
+            class="inline-block bg-readto-ink text-white px-6 py-3 rounded-full text-sm font-medium hover:opacity-90 transition-opacity w-full sm:w-auto text-center"
           >
             安装 Chrome 扩展 →
           </a>
 
           <!-- Level Selector -->
-          <div class="mt-14">
+          <div class="mt-10 sm:mt-14">
             <p class="text-[11px] text-readto-muted tracking-[0.14em] uppercase font-semibold mb-4">
               YOUR LEVEL · 你的水平
             </p>
 
             <!-- Slider Labels -->
-            <div class="flex justify-between mb-1 px-[8%]">
+            <div class="flex justify-between mb-1 px-[4%] sm:px-[8%]">
               <span class="text-sm slider-label" data-index="0">入门</span>
               <span class="text-sm slider-label" data-index="1">基础</span>
               <span class="text-sm slider-label" data-index="2">进阶</span>
@@ -143,7 +146,7 @@ const base = import.meta.env.BASE_URL;
               /politics/tax-reform-bill.html
             </span>
           </div>
-          <div class="p-6 text-base leading-relaxed font-sans" id="demo-content">
+          <div class="p-4 sm:p-6 text-sm sm:text-base leading-relaxed font-sans" id="demo-content">
             <div class="text-xs text-readto-muted uppercase tracking-[0.14em] font-semibold mb-2">
               News
             </div>
@@ -172,9 +175,9 @@ const base = import.meta.env.BASE_URL;
     </section>
 
     <!-- How It Works -->
-    <section id="how" class="pt-30 pb-24 border-t border-readto-rule mt-20">
+    <section id="how" class="pt-20 sm:pt-30 pb-16 sm:pb-24 border-t border-readto-rule mt-12 sm:mt-20">
       <div class="max-w-content mx-auto px-6">
-        <div class="flex items-baseline justify-between mb-14 gap-6">
+        <div class="flex flex-col md:flex-row items-start md:items-baseline justify-between mb-10 md:mb-14 gap-6">
           <div class="flex items-center gap-3 text-[11px] text-readto-muted tracking-[0.14em] uppercase font-semibold">
             <span class="inline-block w-6 h-px bg-readto-accent"></span>
             原理 · How it works
@@ -186,7 +189,7 @@ const base = import.meta.env.BASE_URL;
 
         <div class="grid md:grid-cols-3 border-t border-readto-rule-2">
           <!-- Feature 1 -->
-          <div class="py-10 px-8 pb-2 min-h-[260px] flex flex-col gap-3 relative border-b md:border-b-0 md:border-r border-readto-rule-2 first:pl-0 last:pr-0 last:border-r-0">
+          <div class="py-8 sm:py-10 px-6 sm:px-8 pb-2 min-h-[200px] sm:min-h-[260px] flex flex-col gap-3 relative border-b md:border-b-0 md:border-r border-readto-rule-2 first:pl-0 last:pr-0 last:border-r-0">
             <div class="font-serif text-sm text-readto-accent font-medium tracking-[0.02em]">
               No. 01
             </div>
@@ -240,8 +243,8 @@ const base = import.meta.env.BASE_URL;
     </section>
 
     <!-- Why Read This Way -->
-    <section class="py-24 border-t border-readto-rule bg-gradient-to-b from-readto-bg to-readto-rule-2">
-      <div class="max-w-content mx-auto px-6 grid md:grid-cols-[1fr_2fr] gap-14 items-start">
+    <section class="py-16 sm:py-24 border-t border-readto-rule bg-gradient-to-b from-readto-bg to-readto-rule-2">
+      <div class="max-w-content mx-auto px-4 sm:px-6 grid md:grid-cols-[1fr_2fr] gap-8 md:gap-14 items-start">
         <div class="text-[11px] text-readto-muted tracking-[0.14em] uppercase font-semibold">
           Why read this way
         </div>
@@ -260,7 +263,7 @@ const base = import.meta.env.BASE_URL;
 
   <!-- Footer -->
   <footer class="border-t border-readto-rule">
-    <div class="max-w-content mx-auto px-6 py-8 flex items-center justify-between">
+    <div class="max-w-content mx-auto px-4 sm:px-6 py-6 sm:py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
       <a href={base} class="text-sm font-medium font-serif tracking-tight">
         readto<span class="text-readto-accent">.</span><span class="text-[0.7em] text-readto-muted">ai</span>
       </a>

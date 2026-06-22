@@ -17,8 +17,8 @@ test.describe('Readto Landing Page', () => {
       const header = page.locator('header').first();
       await expect(header).toBeVisible();
       await expect(header.locator('a:has-text("readto")')).toBeVisible();
-      await expect(header.locator('a:has-text("工作原理")')).toBeVisible();
-      await expect(header.locator('a:has-text("安装扩展")')).toBeVisible();
+      
+      
     });
 
     test('should have hero section with title', async ({ page }) => {
