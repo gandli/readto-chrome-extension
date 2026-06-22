@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
-## [Unreleased] — 2026-06-21
+## [Unreleased] — 2026-06-22
 
 ### ✨ Features
 
@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 📚 Documentation
 
+- update CHANGELOG.md [skip ci] (`55dc2d4`)
 - 添加完整截图（选项页、暗色模式、标注、Tooltip、全页） (`7068513`)
 - 英文 README 为主，中文为辅 (`d1f971e`)
 - 更新 README 体现逆向工程性质 (`daf097e`)
@@ -45,6 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 🔧 Chores
 
+- 优化依赖结构 (`f662bb4`)
 - update test:e2e script to use inject-test.mjs (`c52f87b`)
 - add test-results to gitignore (`bc2f135`)
 
