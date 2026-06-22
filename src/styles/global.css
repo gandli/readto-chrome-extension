@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
+/* ─── 设计系统主题 ─── */
 @theme {
-  /* readto 设计系统颜色 */
+  /* 颜色 */
   --color-readto-fg: #141210;
   --color-readto-fg-2: #2b2824;
   --color-readto-muted: #9a9489;
@@ -12,12 +13,16 @@
   --color-readto-card: #fbf9f4;
   --color-readto-ink: #111;
   --color-readto-accent: #b2462a;
-  
+
   /* 字体 */
   --font-sans: 'Inter', 'Noto Sans SC', system-ui, -apple-system, sans-serif;
   --font-serif: 'Charter', 'Iowan Old Style', 'Source Serif 4', Georgia, serif;
+
+  /* 最大宽度 */
+  --max-w-content: 1180px;
 }
 
+/* ─── 全局基础 ─── */
 html {
   scroll-behavior: smooth;
 }
@@ -28,7 +33,7 @@ body {
   color: var(--color-readto-fg);
 }
 
-/* 标注样式 */
+/* ─── 动态元素：标注（JS 创建，无法用 Tailwind 类）─── */
 [data-readto] {
   white-space: nowrap;
   position: relative;
@@ -53,15 +58,15 @@ body {
   user-select: none;
 }
 
-/* Tooltip */
+/* ─── 动态元素：Tooltip（JS 创建，无法用 Tailwind 类）─── */
 .tooltip {
   position: fixed;
-  background: hsl(30 7% 97%);
-  color: hsl(24 10% 10%);
-  border: 1px solid hsl(25 6% 85%);
+  background: #ffffff;
+  color: #1c1917;
+  border: 1px solid #dbd8d6;
   border-radius: 6px;
   padding: 10px 12px;
-  font-family: Charter, 'Iowan Old Style', 'Source Serif 4', Georgia, serif;
+  font-family: var(--font-serif);
   font-size: 14px;
   line-height: 1.55;
   font-weight: 400;
@@ -167,7 +172,7 @@ body {
   margin-top: 2px;
 }
 
-/* 滑块标签 */
+/* ─── 动态元素：滑块标签（JS 切换 active 类）─── */
 .slider-label {
   transition: color 0.2s, font-weight 0.2s;
 }
@@ -177,100 +182,8 @@ body {
   font-weight: 500;
 }
 
-/* 移动端适配 */
+/* ─── 响应式 ─── */
 @media (max-width: 768px) {
-  header {
-    padding: 12px 0;
-  }
-  
-  header .max-w-\[1180px\] {
-    padding: 0 16px;
-    gap: 8px;
-  }
-  
-  header .hidden.sm\:inline-block {
-    display: none !important;
-  }
-  
-  header nav {
-    gap: 2px;
-  }
-  
-  header nav a:not([class*="bg-"]) {
-    font-size: 12px;
-    padding: 4px 8px;
-  }
-  
-  header nav a[class*="bg-"] {
-    font-size: 12px;
-    padding: 6px 12px;
-  }
-
-  section:first-of-type {
-    padding-top: 48px;
-    padding-bottom: 48px;
-  }
-  
-  section:first-of-type > div {
-    gap: 32px;
-  }
-
-  h1 {
-    font-size: 32px;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-  }
-
-  h1 + p {
-    font-size: 14px;
-    max-width: 100%;
-  }
-
-  a[class*="bg-\[#111\]"][class*="text-white"] {
-    display: inline-block;
-    padding: 12px 24px;
-    font-size: 14px;
-  }
-
-  .slider-label {
-    font-size: 10px;
-    padding: 8px 0;
-  }
-
-  #level-slider {
-    height: 48px;
-    margin-top: 8px;
-  }
-
-  #level-desc {
-    font-size: 12px;
-  }
-
-  .bg-white.rounded-lg {
-    border-radius: 8px;
-  }
-
-  #demo-content {
-    font-size: 14px;
-    line-height: 1.7;
-    padding: 16px;
-  }
-
-  #demo-content h2 {
-    font-size: 17px;
-    margin-bottom: 4px;
-  }
-
-  #demo-content .text-\[13px\] {
-    font-size: 12px;
-    margin-bottom: 12px;
-  }
-
-  #demo-content p {
-    margin-bottom: 12px;
-    font-size: 14px;
-  }
-
   .tooltip {
     min-width: 200px;
     max-width: calc(100vw - 32px);
@@ -293,11 +206,6 @@ body {
     height: 16px;
   }
 
-  .tooltip .body {
-    font-size: 14px;
-    line-height: 1.5;
-  }
-
   .tooltip .example .en {
     font-size: 13px;
   }
@@ -317,71 +225,9 @@ body {
     font-size: 0.5em;
     margin-left: 0;
   }
-
-  #how {
-    padding-top: 64px;
-    padding-bottom: 48px;
-    margin-top: 48px;
-  }
-
-  #how .max-w-\[1180px\] > .flex {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-    margin-bottom: 32px;
-  }
-
-  #how h2 {
-    font-size: 28px;
-    line-height: 1.2;
-  }
-
-  #how .grid {
-    grid-template-columns: 1fr;
-  }
-
-  #how .grid > div {
-    padding: 24px 0;
-    min-height: auto;
-    border-right: none !important;
-    border-bottom: 1px solid var(--color-readto-rule-2);
-  }
-
-  #how .grid > div:last-child {
-    border-bottom: none;
-  }
-
-  #how h3 {
-    font-size: 18px;
-  }
-
-  #how p {
-    font-size: 14px;
-  }
-
-  section:has(blockquote) {
-    padding: 48px 0;
-  }
-
-  blockquote {
-    font-size: 24px;
-    line-height: 1.35;
-  }
-
-  blockquote + cite {
-    font-size: 12px;
-    margin-top: 16px;
-  }
-
-  footer .flex.items-center.justify-between {
-    flex-direction: column;
-    gap: 16px;
-    text-align: center;
-    padding: 24px 16px;
-  }
 }
 
-/* 暗色模式 */
+/* ─── 暗色模式 ─── */
 @media (prefers-color-scheme: dark) {
   .tooltip {
     background: hsl(24 10% 6%);
@@ -397,6 +243,6 @@ body {
   .tooltip .speaker.playing { color: #66b1ff; }
   .tooltip .examples { border-top-color: hsl(24 6% 18%); }
   .tooltip .example .en { color: hsl(30 7% 90%); }
-  .tooltip .example .target { color: hsl(30 90% 65%); }
+  .tooltip .example .target { color: #e07a5f; }
   .tooltip .example .zh { color: hsl(25 5% 65%); }
 }
