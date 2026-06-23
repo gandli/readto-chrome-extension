@@ -325,135 +325,45 @@ export function filterWords(element: Element, level: CefrLevel): FilteredWord[] 
 
 /* ─── Annotation Rendering ─── */
 
-/** CSS for the readto annotation Shadow DOM — matches original exactly */
-const READTO_CSS = `
-:host {
-  /* Keep word + superscript together on line wrap. */
-  white-space: nowrap;
-  position: relative;
+/**
+ * CSS for the readto annotation Shadow DOM.
+ * Injected via adoptedStyleSheets from chrome.runtime.getURL('assets/tooltip.css').
+ * The CSS file is bundled separately by Vite and served as a web accessible resource.
+ *
+ * In test environments (jsdom), the CSS is injected synchronously via an inline
+ * <style> element since adoptedStyleSheets + fetch are not available.
+ */
+function getTooltipCssUrl(): string {
+  // In dev: Vite serves from assets/; in build: hashed filename (tooltip-css-*.css)
+  // Read the actual hashed filename from the built manifest at runtime
+  try {
+    const manifest = chrome.runtime.getManifest();
+    const cssAsset = manifest.web_accessible_resources
+      ?.flatMap(g => g.resources)
+      .find(r => r.startsWith('assets/tooltip-css-') && r.endsWith('.css'));
+    if (cssAsset) return chrome.runtime.getURL(cssAsset);
+  } catch {}
+  // Fallback for dev mode or if manifest lookup fails
+  return chrome.runtime.getURL('assets/tooltip-css.css');
 }
-.rt {
-  display: inline;
-  font-size: 0.6em;
-  vertical-align: super;
-  line-height: 0;
-  font-weight: 400;
-  color: inherit;
-  opacity: 0.85;
-  margin-left: 1px;
-  pointer-events: none;
-  user-select: none;
-}
-.tooltip {
-  /* position: fixed escapes any ancestor with overflow: hidden / clip /
-   * scroll — common in cards, fixed-width article columns, sidebars,
-   * Twitter-like feeds. Coordinates (top/left) are written inline by
-   * computeTooltipPosition() with the host's getBoundingClientRect. */
-  position: fixed;
-  background: hsl(30 7% 97%);
-  color: hsl(24 10% 10%);
-  border: 1px solid hsl(25 6% 85%);
-  border-radius: 6px;
-  padding: 10px 12px;
-  font-family: Charter, 'Iowan Old Style', 'Source Serif 4', Georgia, serif;
-  font-size: 14px;
-  line-height: 1.55;
-  font-weight: 400;
-  text-align: left;
-  white-space: pre-wrap;
-  min-width: 180px;
-  max-width: 340px;
-  box-shadow: 0 1px 2px rgba(24, 20, 18, 0.05), 0 6px 16px rgba(24, 20, 18, 0.06);
-  z-index: 2147483647;
-  user-select: text;
-  pointer-events: auto;
-}
-.tooltip .phonetic {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: hsl(25 5% 45%);
-  margin-bottom: 6px;
-}
-.tooltip .phonetic .ipa {
-  font-style: italic;
-}
-.tooltip .speaker {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px;
-  height: 22px;
-  padding: 2px;
-  margin: 0;
-  background: transparent;
-  border: none;
-  border-radius: 4px;
-  color: inherit;
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s, transform 0.08s;
-}
-.tooltip .speaker svg {
-  width: 14px;
-  height: 14px;
-  display: block;
-}
-.tooltip .speaker:hover {
-  background: rgba(24, 20, 18, 0.06);
-  color: hsl(24 10% 10%);
-}
-.tooltip .speaker:active {
-  transform: scale(0.9);
-}
-.tooltip .speaker.playing {
-  color: #1a73e8;
-  animation: readto-speaker-pulse 0.4s ease-out;
-}
-@keyframes readto-speaker-pulse {
-  0%   { transform: scale(1); }
-  45%  { transform: scale(1.18); }
-  100% { transform: scale(1); }
-}
-.examples {
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top: 1px dashed hsl(25 6% 85%);
-}
-.example { margin-top: 8px; }
-.example:first-child { margin-top: 0; }
-.example .en {
-  font-size: 13px;
-  line-height: 1.5;
-  color: hsl(24 10% 18%);
-}
-.example .target {
-  font-weight: 600;
-  color: hsl(24 80% 35%);
-}
-.example .zh {
-  font-size: 12px;
-  line-height: 1.45;
-  color: hsl(25 5% 50%);
-  margin-top: 2px;
-}
-@media (prefers-color-scheme: dark) {
-  .tooltip {
-    background: hsl(24 10% 6%);
-    color: hsl(30 7% 95%);
-    border-color: hsl(24 6% 18%);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 6px 16px rgba(0, 0, 0, 0.45);
-  }
-  .tooltip .phonetic { color: hsl(25 5% 65%); }
-  .tooltip .speaker:hover {
-    background: rgba(245, 243, 240, 0.08);
-    color: hsl(30 7% 95%);
-  }
-  .tooltip .speaker.playing { color: #66b1ff; }
-  .examples { border-top-color: hsl(24 6% 18%); }
-  .example .en { color: hsl(30 7% 90%); }
-  .example .target { color: hsl(30 90% 65%); }
-  .example .zh { color: hsl(25 5% 65%); }
-}
+
+/** Inline fallback CSS for environments where adoptedStyleSheets/fetch are unavailable (tests) */
+const FALLBACK_TOOLTIP_CSS = `
+:host{white-space:nowrap;position:relative}
+.rt{display:inline;font-size:0.6em;vertical-align:super;line-height:0;font-weight:400;color:inherit;opacity:.85;margin-left:1px;pointer-events:none;user-select:none}
+.tooltip{position:fixed;background:hsl(30 7% 97%);color:hsl(24 10% 10%);border:1px solid hsl(25 6% 85%);border-radius:6px;padding:10px 12px;font-family:Charter,Georgia,serif;font-size:14px;line-height:1.55;font-weight:400;text-align:left;white-space:pre-wrap;min-width:180px;max-width:340px;box-shadow:0 1px 2px rgba(24,20,18,.05),0 6px 16px rgba(24,20,18,.06);z-index:2147483647;user-select:text;pointer-events:auto}
+.tooltip .phonetic{display:flex;align-items:center;gap:6px;color:hsl(25 5% 45%);margin-bottom:6px}
+.tooltip .phonetic .ipa{font-style:italic}
+.tooltip .speaker{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;padding:2px;margin:0;background:transparent;border:none;border-radius:4px;color:inherit;cursor:pointer;transition:background .15s,color .15s,transform .08s}
+.tooltip .speaker:hover{background:rgba(24,20,18,.06)}
+.tooltip .speaker:active{transform:scale(.9)}
+.tooltip .speaker.playing{color:#1a73e8}
+.examples{margin-top:10px;padding-top:10px;border-top:1px dashed hsl(25 6% 85%)}
+.example{margin-top:8px}.example:first-child{margin-top:0}
+.example .en{font-size:13px;line-height:1.5;color:hsl(24 10% 18%)}
+.example .target{font-weight:600;color:hsl(24 80% 35%)}
+.example .zh{font-size:12px;line-height:1.45;color:hsl(25 5% 50%);margin-top:2px}
+@media (prefers-color-scheme:dark){.tooltip{background:hsl(24 10% 6%);color:hsl(30 7% 95%);border-color:hsl(24 6% 18%);box-shadow:0 1px 2px rgba(0,0,0,.4),0 6px 16px rgba(0,0,0,.45)}.tooltip .phonetic{color:hsl(25 5% 65%)}.tooltip .speaker:hover{background:rgba(245,243,240,.08);color:hsl(30 7% 95%)}.tooltip .speaker.playing{color:#66b1ff}.examples{border-top-color:hsl(24 6% 18%)}.example .en{color:hsl(30 7% 90%)}.example .target{color:hsl(30 90% 65%)}.example .zh{color:hsl(25 5% 65%)}}
 `;
 
 /**
@@ -623,15 +533,36 @@ export function createReadtoSpan(
 
   const shadow = span.attachShadow({ mode: 'open' });
 
-  // Inject CSS via adoptedStyleSheets with <style> fallback
-  try {
-    const sheet = new CSSStyleSheet();
-    sheet.replaceSync(READTO_CSS);
-    shadow.adoptedStyleSheets = [sheet];
-  } catch {
-    const style = doc.createElement('style');
-    style.textContent = READTO_CSS;
-    shadow.appendChild(style);
+  // Inject CSS into Shadow DOM.
+  // Strategy: always inject synchronous inline <style> immediately (works everywhere),
+  // then in production upgrade to async-fetched compiled CSS (better caching).
+  //
+  // The inline <style> is replaced by the fetched CSS if fetch succeeds;
+  // in test/non-extension environments the inline version stays.
+
+  // Always inject inline <style> as baseline (synchronous, works in all envs)
+  const syncStyle = doc.createElement('style');
+  syncStyle.textContent = FALLBACK_TOOLTIP_CSS;
+  shadow.appendChild(syncStyle);
+
+  // In production: fetch compiled CSS from bundled file and replace inline version
+  if (
+    typeof CSSStyleSheet !== 'undefined' &&
+    typeof chrome !== 'undefined' &&
+    typeof chrome.runtime?.getURL === 'function'
+  ) {
+    fetch(getTooltipCssUrl())
+      .then((r) => r.text())
+      .then((cssText) => {
+        const sheet = new CSSStyleSheet();
+        sheet.replaceSync(cssText);
+        shadow.adoptedStyleSheets = [sheet];
+        // Remove the inline <style> since we now have adoptedStyleSheets
+        syncStyle.remove();
+      })
+      .catch(() => {
+        // Keep inline <style> as fallback — CSS fetch failed
+      });
   }
 
   // Slot projects the original text node into the shadow

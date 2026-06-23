@@ -3,15 +3,19 @@
   "manifest_version": 3,
   "name": "readto",
   "version": "0.3.1",
-  "description": "Chinese ruby annotations for English words above your CEFR level",
+  "description": "Chinese ruby annotations for English words above your CEFR level 为超出你CEFR等级的英文单词标注中文注音（Ruby注释）",
   "homepage_url": "https://readto.ai",
   "icons": {
     "16": "icons/icon-16.png",
     "48": "icons/icon-48.png",
     "128": "icons/icon-128.png"
   },
-  "permissions": ["storage"],
-  "host_permissions": ["<all_urls>"],
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
   "background": {
     "service_worker": "service-worker-loader.js",
     "type": "module"
@@ -27,8 +31,13 @@
   "options_page": "options.html",
   "content_scripts": [
     {
-      "js": ["assets/index.ts-loader-Cv3b-ymH.js"],
-      "matches": ["http://*/*", "https://*/*"],
+      "js": [
+        "assets/index.ts-loader-Cv3b-ymH.js"
+      ],
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
       "exclude_matches": [
         "https://*.youtube.com/*",
         "https://*.youtube-nocookie.com/*"
@@ -36,7 +45,9 @@
       "run_at": "document_idle"
     },
     {
-      "js": ["assets/index.ts-loader-DwE3QRHa.js"],
+      "js": [
+        "assets/index.ts-loader-DwE3QRHa.js"
+      ],
       "matches": [
         "https://*.youtube.com/*",
         "https://*.youtube-nocookie.com/*"
@@ -45,7 +56,9 @@
       "all_frames": true
     },
     {
-      "js": ["assets/page-world.ts-loader-B6WhpLWu.js"],
+      "js": [
+        "assets/page-world.ts-loader-B6WhpLWu.js"
+      ],
       "matches": [
         "https://*.youtube.com/*",
         "https://*.youtube-nocookie.com/*"
@@ -57,13 +70,17 @@
   ],
   "web_accessible_resources": [
     {
-      "matches": ["http://*/*", "https://*/*"],
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
       "resources": [
         "assets/storage-BlXw-pAd.js",
         "assets/level-filter-DqkbMnw5.js",
         "assets/inline-renderer-CE9Ekxkf.js",
         "assets/translations-3x5cXER0.js",
-        "assets/index.ts-Bi-u9n9y.js"
+        "assets/index.ts-Bi-u9n9y.js",
+        "assets/tooltip-css.css"
       ],
       "use_dynamic_url": false
     },
@@ -78,7 +95,8 @@
         "assets/types-DC28QtkU.js",
         "assets/translations-3x5cXER0.js",
         "assets/index.ts-D_6H5iX4.js",
-        "assets/page-world.ts-BGmjBmlP.js"
+        "assets/page-world.ts-BGmjBmlP.js",
+        "assets/tooltip-css.css"
       ],
       "use_dynamic_url": false
     }

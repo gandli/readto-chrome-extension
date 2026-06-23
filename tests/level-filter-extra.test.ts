@@ -308,9 +308,9 @@ describe('createReadtoSpan', () => {
     const span = createReadtoSpan(document, 'hello', '你好');
     const shadow = span.shadowRoot!;
 
-    // Should have adopted stylesheets or a <style> element
+    // Should have adopted stylesheets (production) or a <style> element (fallback/test)
     const hasStyles =
-      shadow.adoptedStyleSheets.length > 0 ||
+      (shadow.adoptedStyleSheets && shadow.adoptedStyleSheets.length > 0) ||
       shadow.querySelector('style') !== null;
     expect(hasStyles).toBe(true);
   });

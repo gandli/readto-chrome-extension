@@ -89,7 +89,49 @@ describe('pronunciation.ts', () => {
   });
 
   // ════════════════════════════════════════════════
-  // 1. speakWord — fallback chain
+  // 1. speakWord — low-latency local playback
+  // ════════════════════════════════════════════════
+
+  describe('speakWord low-latency local playback', () => {
+    it('starts browser SpeechSynthesis immediately without waiting for network TTS', async () => {
+      const speakMock = vi.fn();
+      const cancelMock = vi.fn();
+      (globalThis as any).speechSynthesis = {
+        getVoices: () => [makeVoice('TestVoice', 'en-US')],
+        speak: speakMock,
+        cancel: cancelMock,
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      };
+      (globalThis as any).SpeechSynthesisUtterance = class {
+        text: string;
+        voice: any = null;
+        lang = '';
+        rate = 1;
+        constructor(text: string) { this.text = text; }
+      };
+
+      (globalThis.fetch as any) = vi.fn().mockImplementation(
+        () => new Promise(() => {}),
+      );
+
+      const controller = new AbortController();
+      vi.resetModules();
+      const { speakWord } = await import('../src/lib/pronunciation');
+      void speakWord('instant', controller.signal);
+
+      await Promise.resolve();
+
+      expect(speakMock).toHaveBeenCalledTimes(1);
+      expect(cancelMock).toHaveBeenCalledBefore(speakMock);
+      expect(globalThis.fetch).not.toHaveBeenCalled();
+
+      controller.abort();
+    });
+  });
+
+  // ════════════════════════════════════════════════
+  // 2. speakWord — fallback chain
   // ════════════════════════════════════════════════
 
   describe('speakWord fallback chain', () => {

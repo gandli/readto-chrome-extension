@@ -1,6 +1,7 @@
 /// <reference types="vitest" />
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 import { resolve } from 'path';
 import fs from 'fs';
 
@@ -113,25 +114,58 @@ function manifestPatchPlugin() {
           }
           cs.js = newJs;
         }
-      }
 
-      // Update web_accessible_resources
-      if (manifest.web_accessible_resources) {
-        for (const group of manifest.web_accessible_resources) {
-          const newResources: string[] = [];
-          for (const res of group.resources) {
-            if (res.includes('storage-')) { if (storage) newResources.push(`assets/${storage}`); }
-            else if (res.includes('level-filter-')) { if (levelFilter) newResources.push(`assets/${levelFilter}`); }
-            else if (res.includes('inline-renderer-')) { if (inlineRenderer) newResources.push(`assets/${inlineRenderer}`); }
-            else if (res.includes('translations-') && !res.includes('detail') && !res.includes('data')) { if (translations) newResources.push(`assets/${translations}`); }
-            else if (res.includes('index.ts-') && !res.includes('youtube') && !res.includes('loader')) { if (contentMain) newResources.push(`assets/${contentMain}`); }
-            else if (res.includes('types-')) { if (types) newResources.push(`assets/${types}`); }
-            else if (res.includes('page-world.ts-')) { if (pageWorld) newResources.push(`assets/${pageWorld}`); }
-            else if (res === 'assets/level-data-full.json') newResources.push('assets/level-data-full.json');
-            else newResources.push(res); // keep as-is
-          }
-          group.resources = newResources;
-        }
+        // Rebuild web_accessible_resources from scratch based on actual files
+        // @crxjs/vite-plugin may have already rewritten it, so we rebuild correctly
+        const isJsOrCss = (f: string) => f.endsWith('.js') || f.endsWith('.css');
+        const isJson = (f: string) => f.endsWith('.json');
+        const isStatic = (f: string) => f.endsWith('.png') || f.endsWith('.svg') || f.endsWith('.ico') || f.endsWith('.woff2');
+
+        // Helper: normalize file path to assets-prefixed form
+        const toAsset = (f: string) => f.startsWith('assets/') ? f : `assets/${f}`;
+
+        // Also include loader files in dist/ root (not in assets/)
+        const rootFiles = fs.readdirSync(distDir).filter(f => f.endsWith('-loader.js') || f.endsWith('-world-loader.js'));
+        const rootResources = rootFiles.map(f => `assets/${f}`);
+
+        // Group 1: all pages (http/https) + chrome-extension:// (options page) — content scripts + data files
+        const allPagesResources = [...new Set([
+          ...rootResources,
+          ...files.filter(f => isJsOrCss(f) && !f.includes('service-worker')).map(toAsset),
+          ...files.filter(f => isJson(f)).map(toAsset),
+        ])];
+
+        // Group 2: YouTube pages only — YouTube-specific scripts + shared data files (deduped independently)
+        const youtubeResources = [...new Set([
+          ...rootFiles.filter(f => f.includes('youtube') || f.includes('page-world')).map(f => `assets/${f}`),
+          ...files.filter(f => isJsOrCss(f) && (f.includes('youtube') || f.includes('page-world')) && !f.includes('bilibili') && !f.includes('service-worker') && !f.startsWith('options-')).map(toAsset),
+          ...files.filter(f => isJson(f)).map(toAsset),
+        ])];
+
+        // Group 3: Bilibili pages only
+        const bilibiliResources = [...new Set([
+          ...rootFiles.filter(f => f.includes('bilibili')).map(f => `assets/${f}`),
+          ...files.filter(f => isJsOrCss(f) && f.includes('bilibili') && !f.includes('service-worker') && !f.startsWith('options-')).map(toAsset),
+          ...files.filter(f => isJson(f)).map(toAsset),
+        ])];
+
+        manifest.web_accessible_resources = [
+          {
+            matches: ['http://*/*', 'https://*/*', 'chrome-extension://*/*'],
+            resources: allPagesResources,
+            use_dynamic_url: false,
+          },
+          {
+            matches: ['https://*.youtube-nocookie.com/*', 'https://*.youtube.com/*'],
+            resources: youtubeResources,
+            use_dynamic_url: false,
+          },
+          {
+            matches: ['https://*.bilibili.com/*'],
+            resources: bilibiliResources,
+            use_dynamic_url: false,
+          },
+        ];
       }
 
       fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
@@ -167,7 +201,7 @@ function manifestPatchPlugin() {
 }
 
 export default defineConfig({
-  plugins: [react(), manifestPatchPlugin()],
+  plugins: [react(), tailwindcss(), manifestPatchPlugin()],
   build: {
     rollupOptions: {
       input: {
@@ -178,6 +212,7 @@ export default defineConfig({
         'page-world.ts': resolve(__dirname, 'src/content/page-world.ts'),
         'index.ts-bilibili': resolve(__dirname, 'src/content/bilibili.ts'),
         'bilibili-world.ts': resolve(__dirname, 'src/content/bilibili-world.ts'),
+        'tooltip-css': resolve(__dirname, 'src/styles/tooltip.css'),
       },
       output: {
         entryFileNames: (chunkInfo) => {

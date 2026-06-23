@@ -3,7 +3,7 @@
   "manifest_version": 3,
   "name": "readto",
   "version": "0.3.1",
-  "description": "Chinese ruby annotations for English words above your CEFR level",
+  "description": "Chinese ruby annotations for English words above your CEFR level 为超出你CEFR等级的英文单词标注中文注音（Ruby注释）",
   "homepage_url": "https://readto.ai",
   "icons": {
     "16": "icons/icon-16.png",

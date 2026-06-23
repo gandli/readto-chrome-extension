@@ -1,3 +1,5 @@
+import './options.css';
+
 import React, {
   useState,
   useEffect,
@@ -965,7 +967,7 @@ function App() {
 
       {/* AI toggle */}
       <Section>
-        <label htmlFor="llm-toggle" className="flex cursor-pointer items-start gap-4 py-2">
+        <label htmlFor="llm-toggle" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex cursor-pointer items-start gap-4 py-2">
           <input
             id="llm-toggle"
             type="checkbox"
@@ -1009,7 +1011,7 @@ function App() {
 
       {/* Auto-speak toggle */}
       <Section>
-        <label htmlFor="auto-speak-toggle" className="flex cursor-pointer items-start gap-4 py-2">
+        <label htmlFor="auto-speak-toggle" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex cursor-pointer items-start gap-4 py-2">
           <input
             id="auto-speak-toggle"
             type="checkbox"
