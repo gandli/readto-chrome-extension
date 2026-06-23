@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 🐛 Bug Fixes
 
+- update AI SDK dependencies (`e962d96`)
 - 选项页加载 Tailwind CSS + 使用 readto.ai 示例文章截图 (`f5fbbb5`)
 - 标注功能修复 + E2E 测试框架 + manifest-patch 改进 (`fa87fa8`)
 - manifest-patch plugin generates service-worker-loader.js (`15b88ed`)
@@ -27,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 📚 Documentation
 
+- update CHANGELOG.md [skip ci] (`2af3681`)
 - update CHANGELOG.md [skip ci] (`f3768b8`)
 - update CHANGELOG.md [skip ci] (`55dc2d4`)
 - 添加完整截图（选项页、暗色模式、标注、Tooltip、全页） (`7068513`)
