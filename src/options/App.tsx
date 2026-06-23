@@ -106,7 +106,7 @@ async function annotatePreviewText(
   const p = document.createElement('p');
   p.textContent = text;
   const targets: FilteredWord[] = filterForLevel(p, level);
-  const trans = translator ?? getTranslator({ level, translationMode: 'local' });
+  const trans = translator ?? getTranslator({ translationMode: 'local' });
   const translations = await trans.translate({
     context: text,
     targets: targets.map((t) => ({ word: t.word, occurrence: t.occurrenceIndex })),

@@ -172,18 +172,14 @@ test.describe('朗读功能', () => {
     await page.goto(`chrome-extension://${extensionId}/options.html`);
     await page.waitForSelector('.readto-levels', { timeout: 10000 });
 
-    const checkbox = page.locator('input[type="checkbox"]').first();
-    const hasCheckbox = await checkbox.count() > 0;
-    if (hasCheckbox) {
-      const before = await checkbox.isChecked();
-      await checkbox.click();
-      await page.waitForTimeout(400);
-      const after = await checkbox.isChecked();
-      console.log(`autoSpeak: ${before} → ${after}`);
-      expect(after).not.toBe(before);
-    } else {
-      console.log('未找到 checkbox');
-    }
+    const checkbox = page.locator('#auto-speak-toggle');
+    await expect(checkbox).toHaveCount(1);
+    const before = await checkbox.isChecked();
+    await page.locator('label[for="auto-speak-toggle"]').click();
+    await expect(checkbox).toHaveJSProperty('checked', !before);
+    const after = await checkbox.isChecked();
+    console.log(`autoSpeak: ${before} → ${after}`);
+    expect(after).not.toBe(before);
     await page.close();
   });
 });

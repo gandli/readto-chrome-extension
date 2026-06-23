@@ -11,3 +11,5 @@ test-results/
 test-*.cjs
 skills-lock.json
 .agents/
+.output/
+.wxt/

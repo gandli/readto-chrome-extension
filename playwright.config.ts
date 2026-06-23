@@ -1,9 +1,4 @@
 import { defineConfig } from '@playwright/test';
-import { fileURLToPath } from 'url';
-import path from 'path';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const TEST_PAGE_PORT = 3456;
 
@@ -20,9 +15,9 @@ export default defineConfig({
     screenshot: 'only-on-failure',
   },
   webServer: {
-    command: `npx serve e2e/fixtures -p ${TEST_PAGE_PORT} --no-clipboard --no-request-logging`,
-    port: TEST_PAGE_PORT,
+    command: `python -m http.server ${TEST_PAGE_PORT} --directory e2e/fixtures`,
+    url: `http://127.0.0.1:${TEST_PAGE_PORT}/article-all.html`,
     reuseExistingServer: true,
-    timeout: 10_000,
+    timeout: 60_000,
   },
 });

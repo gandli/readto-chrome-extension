@@ -339,8 +339,8 @@ function getTooltipCssUrl(): string {
   try {
     const manifest = chrome.runtime.getManifest();
     const cssAsset = manifest.web_accessible_resources
-      ?.flatMap(g => g.resources)
-      .find(r => r.startsWith('assets/tooltip-css-') && r.endsWith('.css'));
+      ?.flatMap((group) => (typeof group === 'string' ? [group] : group.resources))
+      .find((resource) => resource.startsWith('assets/tooltip-css-') && resource.endsWith('.css'));
     if (cssAsset) return chrome.runtime.getURL(cssAsset);
   } catch {}
   // Fallback for dev mode or if manifest lookup fails

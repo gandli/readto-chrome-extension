@@ -1,6 +1,6 @@
 import { test, expect } from './fixtures';
 
-const PAGE = 'https://en.wikipedia.org/wiki/English_language';
+const PAGE = 'http://localhost:3456/article-all.html';
 
 test.describe('Extension E2E (real extension loading)', () => {
   test('Service Worker 正常注册', async ({ extensionId }) => {
@@ -19,9 +19,10 @@ test.describe('Extension E2E (real extension loading)', () => {
       }
     });
     
-    await page.goto(PAGE, { waitUntil: 'networkidle' });
-    // Wait longer for wordlist loading + translation
-    await page.waitForTimeout(20000);
+    await page.goto(PAGE, { waitUntil: 'domcontentloaded', timeout: 10_000 });
+    await context.serviceWorkers()[0]?.evaluate(() => new Promise<void>(r => chrome.storage.sync.set({ level: 'A1' }, r)));
+    await page.reload({ waitUntil: 'domcontentloaded' });
+    await page.waitForFunction(() => document.querySelectorAll('[data-readto]').length > 0, { timeout: 30_000 });
 
     const count = await page.evaluate(() => document.querySelectorAll('[data-readto]').length);
     console.log(`Found ${count} annotations`);

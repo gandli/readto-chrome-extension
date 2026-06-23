@@ -43,8 +43,8 @@ async function loadLetter(letter: string): Promise<Map<string, WordDetail>> {
     try {
       const resp = await fetch(chrome.runtime.getURL(`${DETAIL_DIR}/${key}.json`));
       if (!resp.ok) throw new Error(`fetch ${key}.json → ${resp.status}`);
-      const data = await resp.json();
-      const map = new Map(Object.entries(data));
+      const data = (await resp.json()) as Record<string, WordDetail>;
+      const map = new Map<string, WordDetail>(Object.entries(data));
       letterCaches.set(key, map);
       return map;
     } catch (err) {
