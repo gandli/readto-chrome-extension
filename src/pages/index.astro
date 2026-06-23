@@ -2,46 +2,49 @@
 import Layout from "../layouts/Layout.astro";
 
 const base = import.meta.env.BASE_URL;
+const rootPath = base.replace(/\/$/, "");
+const privacyHref = `${rootPath}/privacy`;
+const howHref = `${base}#how`;
 ---
 
 <Layout>
   <!-- Navigation -->
   <header
-    class="sticky top-0 z-50 bg-[#f5f2eb]/95 backdrop-blur-sm border-b border-[#e3dfd8]"
+    class="sticky top-0 z-50 border-b border-readto-rule bg-readto-bg/95 backdrop-blur-sm"
   >
     <div
-      class="max-w-[1180px] mx-auto flex items-center justify-between gap-6 py-4 px-6"
+      class="max-w-content mx-auto flex items-center justify-between gap-4 px-4 py-3.5 sm:px-6"
     >
-      <div class="flex items-baseline gap-[18px] min-w-0">
+      <div class="flex min-w-0 items-baseline gap-4">
         <a
           href={base}
-          class="inline-flex items-baseline text-[18px] font-medium font-serif tracking-tight"
+          class="inline-flex items-baseline font-serif text-[20px] font-medium tracking-tight text-readto-fg"
         >
           readto<span class="text-[#b2462a] font-semibold">.</span><span
             class="ml-[2px] text-[0.7em] tracking-normal font-normal text-[#9a9489]"
             >ai</span
           >
         </a>
-        <div class="hidden sm:inline-block text-[11px] text-[#9a9489]">
+        <div class="hidden text-[11px] text-readto-muted md:inline-block">
           读懂每一个词 · Read to know
         </div>
       </div>
-      <nav class="flex items-center gap-6">
+      <nav class="flex items-center gap-3 sm:gap-5">
         <a
-          href="#how"
-          class="text-[12px] text-[#2b2824] hover:text-[#111] transition-colors"
+          href={howHref}
+          class="hidden text-[12px] text-readto-fg-2 transition-colors hover:text-readto-ink sm:inline"
         >
           工作原理
         </a>
         <a
-          href={`${base}/privacy`}
-          class="text-[12px] text-[#2b2824] hover:text-[#111] transition-colors"
+          href={privacyHref}
+          class="text-[12px] text-readto-fg-2 transition-colors hover:text-readto-ink"
         >
           隐私政策
         </a>
         <a
           href="https://chromewebstore.google.com/detail/readto/hmoifnkckggncdpoplpoiifjafffmkof"
-          class="text-[12px] bg-[#111] text-white px-3 py-1.5 rounded-full hover:opacity-90 transition-opacity"
+          class="whitespace-nowrap rounded-full bg-readto-ink px-3 py-1.5 text-[12px] text-white transition-opacity hover:opacity-90 sm:px-3.5"
         >
           安装扩展 →
         </a>
@@ -52,9 +55,9 @@ const base = import.meta.env.BASE_URL;
   <main>
     <!-- Hero Section -->
     <section
-      class="max-w-content mx-auto px-4 sm:px-6 pt-16 pb-20"
+      class="max-w-content mx-auto px-4 pb-16 pt-14 sm:px-6 sm:pb-20 sm:pt-16"
     >
-      <div class="grid md:grid-cols-[1fr_1.2fr] gap-8 items-start">
+      <div class="grid items-center gap-10 md:grid-cols-[0.95fr_1.05fr] md:gap-12">
         <!-- Left: Description -->
         <div>
           <p
@@ -69,14 +72,14 @@ const base = import.meta.env.BASE_URL;
             <span class="whitespace-nowrap font-medium">读懂每一个词。</span>
           </h1>
           <p
-            class="text-[15px] text-readto-fg-2 leading-[1.65] mb-6 max-w-md"
+            class="mb-6 max-w-md text-[15px] leading-[1.75] text-readto-fg-2"
           >
             在任何英文网页上，readto
             会根据你的英语水平，悄悄在生词上方标好中文小注。不划词、不跳窗、不中断阅读。
           </p>
           <a
             href="https://chromewebstore.google.com/detail/readto/hmoifnkckggncdpoplpoiifjafffmkof"
-            class="inline-block bg-readto-ink text-white px-6 py-3 rounded-full text-[14px] font-medium hover:opacity-90 transition-opacity text-center"
+            class="inline-block rounded-full bg-readto-ink px-6 py-3 text-center text-[14px] font-medium text-white transition-opacity hover:opacity-90"
           >
             安装 Chrome 扩展 →
           </a>
@@ -115,29 +118,13 @@ const base = import.meta.env.BASE_URL;
             >
               <!-- Tick Marks -->
               <div
-                class="absolute left-[10%] right-[10%] top-1/2 h-3.5 -translate-y-1/2 flex justify-between items-center pointer-events-none"
+                class="pointer-events-none absolute left-0 right-0 top-1/2 flex -translate-y-1/2 justify-between"
               >
-                <div class="w-px h-3.5 bg-readto-muted"></div>
-                <div class="w-px h-2 bg-readto-rule"></div>
-                <div class="w-px h-2 bg-readto-rule"></div>
-                <div class="w-px h-2 bg-readto-rule"></div>
-                <div class="w-px h-2 bg-readto-rule"></div>
-                <div class="w-px h-3.5 bg-readto-muted"></div>
-                <div class="w-px h-2 bg-readto-rule"></div>
-                <div class="w-px h-2 bg-readto-rule"></div>
-                <div class="w-px h-2 bg-readto-rule"></div>
-                <div class="w-px h-2 bg-readto-rule"></div>
-                <div class="w-px h-3.5 bg-readto-muted"></div>
-                <div class="w-px h-2 bg-readto-rule"></div>
-                <div class="w-px h-2 bg-readto-rule"></div>
-                <div class="w-px h-2 bg-readto-rule"></div>
-                <div class="w-px h-2 bg-readto-rule"></div>
-                <div class="w-px h-3.5 bg-readto-muted"></div>
-                <div class="w-px h-2 bg-readto-rule"></div>
-                <div class="w-px h-2 bg-readto-rule"></div>
-                <div class="w-px h-2 bg-readto-rule"></div>
-                <div class="w-px h-2 bg-readto-rule"></div>
-                <div class="w-px h-3.5 bg-readto-muted"></div>
+                <div class="h-2.5 w-px bg-readto-muted"></div>
+                <div class="h-2.5 w-px bg-readto-rule"></div>
+                <div class="h-2.5 w-px bg-readto-rule"></div>
+                <div class="h-2.5 w-px bg-readto-rule"></div>
+                <div class="h-2.5 w-px bg-readto-muted"></div>
               </div>
 
               <!-- Track -->
@@ -174,10 +161,10 @@ const base = import.meta.env.BASE_URL;
 
         <!-- Right: Browser Mockup -->
         <div
-          class="bg-white rounded-lg shadow-[0_4px_24px_rgba(0,0,0,0.08)] overflow-hidden"
+          class="overflow-hidden rounded-[14px] border border-readto-rule bg-readto-card shadow-[0_10px_36px_rgba(20,18,16,0.07)]"
         >
           <div
-            class="bg-readto-bg px-3 py-2 flex items-center gap-2 border-b border-readto-rule"
+            class="flex items-center gap-2 border-b border-readto-rule bg-readto-bg px-3 py-2"
           >
             <span class="w-2.5 h-2.5 rounded-full bg-[#ff5f57]"></span>
             <span class="w-2.5 h-2.5 rounded-full bg-[#febc2e]"></span>
@@ -189,7 +176,7 @@ const base = import.meta.env.BASE_URL;
             </span>
           </div>
           <div
-            class="p-4 text-[15px] leading-[1.65] font-sans"
+            class="p-4 font-sans text-[15px] leading-[1.72] sm:p-5"
             id="demo-content"
           >
             <div
@@ -398,9 +385,9 @@ const base = import.meta.env.BASE_URL;
     <!-- How It Works -->
     <section
       id="how"
-      class="pt-20 pb-20 border-t border-readto-rule mt-12 sm:mt-20"
+      class="mt-12 border-t border-readto-rule py-16 sm:mt-16"
     >
-      <div class="max-w-content mx-auto px-6">
+      <div class="max-w-content mx-auto px-4 sm:px-6">
         <div
           class="flex flex-col md:flex-row items-start md:items-baseline justify-between mb-10 md:mb-14 gap-6"
         >
@@ -422,7 +409,7 @@ const base = import.meta.env.BASE_URL;
         <div class="grid md:grid-cols-3 border-t border-readto-rule-2">
           <!-- Feature 1 -->
           <div
-            class="py-10 px-8 pb-2 min-h-[260px] flex flex-col gap-3 relative border-b md:border-b-0 md:border-r border-readto-rule-2 md:first:pl-0 md:last:pr-0 last:border-r-0"
+            class="relative flex min-h-[240px] flex-col gap-3 border-b border-readto-rule-2 py-8 md:border-b-0 md:border-r md:px-8 md:first:pl-0 md:last:pr-0 last:border-r-0"
           >
             <div
               class="font-serif text-sm text-readto-accent font-medium tracking-[0.02em]"
@@ -455,7 +442,7 @@ const base = import.meta.env.BASE_URL;
 
           <!-- Feature 2 -->
           <div
-            class="py-10 px-8 pb-2 min-h-[260px] flex flex-col gap-3 relative border-b md:border-b-0 md:border-r border-readto-rule-2 md:first:pl-0 md:last:pr-0 last:border-r-0"
+            class="relative flex min-h-[240px] flex-col gap-3 border-b border-readto-rule-2 py-8 md:border-b-0 md:border-r md:px-8 md:first:pl-0 md:last:pr-0 last:border-r-0"
           >
             <div
               class="font-serif text-sm text-readto-accent font-medium tracking-[0.02em]"
@@ -489,7 +476,7 @@ const base = import.meta.env.BASE_URL;
 
           <!-- Feature 3 -->
           <div
-            class="py-10 px-8 pb-2 min-h-[260px] flex flex-col gap-3 relative md:first:pl-0 md:last:pr-0 last:border-r-0"
+            class="relative flex min-h-[240px] flex-col gap-3 py-8 md:px-8 md:first:pl-0 md:last:pr-0 last:border-r-0"
           >
             <div
               class="font-serif text-sm text-readto-accent font-medium tracking-[0.02em]"
@@ -531,7 +518,7 @@ const base = import.meta.env.BASE_URL;
 
     <!-- Why Read This Way -->
     <section
-      class="py-20 border-t border-readto-rule bg-gradient-to-b from-readto-bg to-readto-rule-2"
+      class="border-t border-readto-rule bg-readto-card py-16"
     >
       <div
         class="max-w-content mx-auto px-4 sm:px-6 grid md:grid-cols-[1fr_2fr] gap-8 items-start"
@@ -571,7 +558,7 @@ const base = import.meta.env.BASE_URL;
       </a>
       <div class="flex items-center gap-6">
         <a
-          href={`${base}/privacy`}
+          href={privacyHref}
           class="text-[12px] text-readto-muted hover:text-readto-fg"
         >
           隐私政策

@@ -2,6 +2,9 @@
 import Layout from "../layouts/Layout.astro";
 
 const base = import.meta.env.BASE_URL;
+const rootPath = base.replace(/\/$/, "");
+const privacyHref = `${rootPath}/privacy`;
+const howHref = `${base}#how`;
 ---
 
 <Layout
@@ -9,26 +12,26 @@ const base = import.meta.env.BASE_URL;
   description="readto 隐私政策 - 我们不收集你的阅读历史"
 >
   <!-- Navigation -->
-  <header class="sticky top-0 z-50 bg-readto-bg/95 backdrop-blur-sm border-b border-readto-rule">
-    <div class="max-w-content mx-auto flex items-center justify-between gap-6 py-4 px-6">
-      <div class="flex items-baseline gap-[18px] min-w-0">
-        <a href={base} class="inline-flex items-baseline text-[18px] font-medium font-serif tracking-tight">
+  <header class="sticky top-0 z-50 border-b border-readto-rule bg-readto-bg/95 backdrop-blur-sm">
+    <div class="max-w-content mx-auto flex items-center justify-between gap-4 px-4 py-3.5 sm:px-6">
+      <div class="flex min-w-0 items-baseline gap-4">
+        <a href={base} class="inline-flex items-baseline font-serif text-[20px] font-medium tracking-tight text-readto-fg">
           readto<span class="text-readto-accent font-semibold">.</span><span class="ml-[2px] text-[0.7em] tracking-normal font-normal text-readto-muted">ai</span>
         </a>
-        <div class="hidden sm:inline-block text-[11px] text-readto-muted">
+        <div class="hidden text-[11px] text-readto-muted md:inline-block">
           读懂每一个词 · Read to know
         </div>
       </div>
-      <nav class="flex items-center gap-6">
-        <a href={base} class="text-[12px] text-readto-fg-2 hover:text-readto-ink transition-colors">
+      <nav class="flex items-center gap-3 sm:gap-5">
+        <a href={base} class="text-[12px] text-readto-fg-2 transition-colors hover:text-readto-ink">
           首页
         </a>
-        <a href={`${base}#how`} class="text-[12px] text-readto-fg-2 hover:text-readto-ink transition-colors">
+        <a href={howHref} class="hidden text-[12px] text-readto-fg-2 transition-colors hover:text-readto-ink sm:inline">
           工作原理
         </a>
         <a
           href="https://chromewebstore.google.com/detail/readto/hmoifnkckggncdpoplpoiifjafffmkof"
-          class="text-[12px] bg-readto-ink text-white px-3 py-1.5 rounded-full hover:opacity-90 transition-opacity"
+          class="whitespace-nowrap rounded-full bg-readto-ink px-3 py-1.5 text-[12px] text-white transition-opacity hover:opacity-90 sm:px-3.5"
         >
           安装扩展 →
         </a>
@@ -36,17 +39,17 @@ const base = import.meta.env.BASE_URL;
     </div>
   </header>
 
-  <main class="max-w-[720px] mx-auto px-6 py-16 md:py-24">
+  <main class="mx-auto max-w-[760px] px-4 py-14 sm:px-6 md:py-20">
     <p class="text-[11px] text-readto-muted tracking-[0.14em] uppercase font-semibold mb-6">
       Privacy Policy
     </p>
     <h1 class="font-serif font-normal text-[32px] md:text-[56px] leading-[1.1] tracking-tight m-0 mb-4">
       We don't collect<br />your reading history.
     </h1>
-    <p class="text-[14px] text-readto-muted mb-12">Last updated: 2026-04-24</p>
+    <p class="mb-12 text-[14px] text-readto-muted">Last updated: 2026-04-24</p>
 
     <!-- 1. WHAT READTO IS -->
-    <section class="mb-10">
+    <section class="mb-11">
       <h2 class="font-sans font-semibold text-[13px] tracking-[0.08em] uppercase mb-4 text-readto-ink">
         1. What readto is
       </h2>
@@ -58,7 +61,7 @@ const base = import.meta.env.BASE_URL;
     </section>
 
     <!-- 2. WHAT WE DON'T DO -->
-    <section class="mb-10">
+    <section class="mb-11">
       <h2 class="font-sans font-semibold text-[13px] tracking-[0.08em] uppercase mb-4 text-readto-ink">
         2. What we don't do
       </h2>
@@ -83,7 +86,7 @@ const base = import.meta.env.BASE_URL;
     </section>
 
     <!-- 3. WHAT THE EXTENSION STORES ON YOUR DEVICE -->
-    <section class="mb-10">
+    <section class="mb-11">
       <h2 class="font-sans font-semibold text-[13px] tracking-[0.08em] uppercase mb-4 text-readto-ink">
         3. What the extension stores on your device
       </h2>
@@ -103,7 +106,7 @@ const base = import.meta.env.BASE_URL;
     </section>
 
     <!-- 4. THIRD PARTIES THE EXTENSION TALKS TO -->
-    <section class="mb-10">
+    <section class="mb-11">
       <h2 class="font-sans font-semibold text-[13px] tracking-[0.08em] uppercase mb-4 text-readto-ink">
         4. Third parties the extension talks to
       </h2>
@@ -127,7 +130,7 @@ const base = import.meta.env.BASE_URL;
     </section>
 
     <!-- 5. PERMISSIONS -->
-    <section class="mb-10">
+    <section class="mb-11">
       <h2 class="font-sans font-semibold text-[13px] tracking-[0.08em] uppercase mb-4 text-readto-ink">
         5. Permissions
       </h2>
@@ -147,7 +150,7 @@ const base = import.meta.env.BASE_URL;
     </section>
 
     <!-- 6. DELETING YOUR DATA -->
-    <section class="mb-10">
+    <section class="mb-11">
       <h2 class="font-sans font-semibold text-[13px] tracking-[0.08em] uppercase mb-4 text-readto-ink">
         6. Deleting your data
       </h2>
@@ -159,7 +162,7 @@ const base = import.meta.env.BASE_URL;
     </section>
 
     <!-- 7. CONTACT -->
-    <section class="mb-10">
+    <section class="mb-11">
       <h2 class="font-sans font-semibold text-[13px] tracking-[0.08em] uppercase mb-4 text-readto-ink">
         7. Contact
       </h2>
@@ -172,12 +175,12 @@ const base = import.meta.env.BASE_URL;
 
   <!-- Footer -->
   <footer class="border-t border-readto-rule">
-    <div class="max-w-content mx-auto px-6 py-8 flex items-center justify-between">
+    <div class="max-w-content mx-auto flex flex-col items-center justify-between gap-4 px-4 py-7 sm:flex-row sm:px-6">
       <a href={base} class="text-[14px] font-medium font-serif tracking-tight">
         readto<span class="text-readto-accent">.</span><span class="text-[0.7em] text-readto-muted">ai</span>
       </a>
       <div class="flex items-center gap-6">
-        <a href={`${base}/privacy`} class="text-[12px] text-readto-muted hover:text-readto-fg">
+        <a href={privacyHref} class="text-[12px] text-readto-muted hover:text-readto-fg">
           隐私政策
         </a>
         <span class="text-[12px] text-readto-muted">© 2026 · 读懂</span>

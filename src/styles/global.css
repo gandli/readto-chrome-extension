@@ -31,6 +31,19 @@ body {
   font-family: var(--font-sans);
   background: var(--color-readto-bg);
   color: var(--color-readto-fg);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: rgba(178, 70, 42, 0.16);
+}
+
+a:focus-visible,
+button:focus-visible,
+[role="slider"]:focus-visible {
+  outline: 2px solid var(--color-readto-accent);
+  outline-offset: 3px;
 }
 
 /* ─── 动态元素：标注（JS 创建，无法用 Tailwind 类）─── */
