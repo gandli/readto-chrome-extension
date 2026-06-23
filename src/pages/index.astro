@@ -92,21 +92,18 @@ const howHref = `${base}#how`;
               YOUR LEVEL · 你的水平
             </p>
 
-            <!-- Slider Labels -->
-            <div class="flex justify-between mb-1 px-[4%] sm:px-[8%]">
-              <span
-                class="text-[14px] slider-label"
-                data-index="0">入门</span
-              >
-              <span class="text-sm slider-label" data-index="1">基础</span>
-              <span class="text-sm slider-label" data-index="2">进阶</span>
-              <span class="text-sm slider-label" data-index="3">熟练</span>
-              <span class="text-sm slider-label" data-index="4">精通</span>
+            <div class="level-scale" aria-hidden="true">
+              <!-- Slider Labels: share exact stop positions with ticks/knob -->
+              <span class="slider-label" data-index="0" style="--pos: 0%">入门</span>
+              <span class="slider-label" data-index="1" style="--pos: 25%">基础</span>
+              <span class="slider-label" data-index="2" style="--pos: 50%">进阶</span>
+              <span class="slider-label" data-index="3" style="--pos: 75%">熟练</span>
+              <span class="slider-label" data-index="4" style="--pos: 100%">精通</span>
             </div>
 
             <!-- Custom Slider -->
             <div
-              class="relative h-9 mt-2.5 cursor-pointer outline-none"
+              class="level-scale level-slider"
               role="slider"
               tabindex="0"
               aria-label="英语水平"
@@ -116,38 +113,19 @@ const howHref = `${base}#how`;
               aria-valuetext="进阶"
               id="level-slider"
             >
-              <!-- Tick Marks -->
-              <div
-                class="pointer-events-none absolute left-0 right-0 top-1/2 flex -translate-y-1/2 justify-between"
-              >
-                <div class="h-2.5 w-px bg-readto-muted"></div>
-                <div class="h-2.5 w-px bg-readto-rule"></div>
-                <div class="h-2.5 w-px bg-readto-rule"></div>
-                <div class="h-2.5 w-px bg-readto-rule"></div>
-                <div class="h-2.5 w-px bg-readto-muted"></div>
-              </div>
-
               <!-- Track -->
-              <div
-                class="absolute inset-x-0 top-1/2 h-px bg-readto-rule -translate-y-1/2"
-              >
-              </div>
+              <div class="slider-track"></div>
+              <div class="slider-track-fill" id="track-fill" style="width:50%"></div>
 
-              <!-- Track Fill -->
-              <div
-                class="absolute left-0 top-1/2 h-0.5 bg-readto-ink -translate-y-1/2 transition-[width] duration-350 ease-[cubic-bezier(0.2,0.7,0.2,1)]"
-                id="track-fill"
-                style="width:50%"
-              >
-              </div>
+              <!-- Tick Marks: same 0/25/50/75/100 positions -->
+              <span class="slider-tick strong" style="--pos: 0%"></span>
+              <span class="slider-tick" style="--pos: 25%"></span>
+              <span class="slider-tick" style="--pos: 50%"></span>
+              <span class="slider-tick" style="--pos: 75%"></span>
+              <span class="slider-tick strong" style="--pos: 100%"></span>
 
               <!-- Knob -->
-              <div
-                class="absolute top-1/2 w-3.5 h-3.5 bg-readto-ink rounded-full -translate-x-1/2 -translate-y-1/2 transition-[left,box-shadow] duration-350 ease-[cubic-bezier(0.2,0.7,0.2,1)] cursor-grab shadow-[0_0_0_4px_var(--color-readto-bg),0_0_0_5px_rgba(17,17,17,0.08)] hover:shadow-[0_0_0_4px_var(--color-readto-bg),0_0_0_8px_rgba(17,17,17,0.12)]"
-                id="knob"
-                style="left:50%"
-              >
-              </div>
+              <div class="slider-knob" id="knob" style="left:50%"></div>
             </div>
 
             <p
@@ -2072,7 +2050,7 @@ const howHref = `${base}#how`;
   }
 
   function getPercent(level: number): number {
-    return 10 + (level / 4) * 80;
+    return (level / 4) * 100;
   }
 
   function updateSlider(level: number, save = true) {
@@ -2105,25 +2083,14 @@ const howHref = `${base}#how`;
   }
 
   function percentToLevel(percent: number): number {
-    const positions = [10, 30, 50, 70, 90];
-    let closest = 0;
-    let minDist = Infinity;
-    positions.forEach((pos, i) => {
-      const dist = Math.abs(percent - pos);
-      if (dist < minDist) {
-        minDist = dist;
-        closest = i;
-      }
-    });
-    return closest;
+    return Math.max(0, Math.min(4, Math.round(percent / 25)));
   }
 
   function pointerToLevel(clientX: number): number {
     if (!slider) return currentLevel;
     const rect = slider.getBoundingClientRect();
-    return percentToLevel(
-      Math.max(10, Math.min(90, ((clientX - rect.left) / rect.width) * 100)),
-    );
+    const percent = ((clientX - rect.left) / Math.max(1, rect.width)) * 100;
+    return percentToLevel(Math.max(0, Math.min(100, percent)));
   }
 
   let isDragging = false;

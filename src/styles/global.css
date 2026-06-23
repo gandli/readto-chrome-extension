@@ -185,9 +185,100 @@ button:focus-visible,
   margin-top: 2px;
 }
 
-/* ─── 动态元素：滑块标签（JS 切换 active 类）─── */
-.slider-label {
+/* ─── 动态元素：滑块（标签 / 刻度 / 滑块共用同一坐标系）─── */
+.level-scale {
+  position: relative;
+  width: calc(100% - 3.5em);
+  margin-inline: 1.75em;
+  padding-inline: 0;
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+.level-scale::before {
+  content: "";
+  display: block;
+}
+
+.level-scale .slider-label {
+  position: absolute;
+  left: var(--pos);
+  top: 0;
+  transform: translateX(-50%);
+  width: 3.5em;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.2;
+  color: var(--color-readto-muted-2);
   transition: color 0.2s, font-weight 0.2s;
+}
+
+.level-scale:not(.level-slider) {
+  height: 18px;
+  margin-bottom: 10px;
+}
+
+.level-slider {
+  height: 36px;
+  cursor: pointer;
+  outline: none;
+  touch-action: none;
+}
+
+.slider-track,
+.slider-track-fill {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.slider-track {
+  height: 1px;
+  background: var(--color-readto-rule);
+}
+
+.slider-track-fill {
+  width: 50%;
+  height: 2px;
+  background: var(--color-readto-ink);
+  right: auto;
+  transition: width 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.slider-tick {
+  position: absolute;
+  left: var(--pos);
+  top: 50%;
+  width: 1px;
+  height: 10px;
+  background: var(--color-readto-rule);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.slider-tick.strong {
+  height: 12px;
+  background: var(--color-readto-muted);
+}
+
+.slider-knob {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--color-readto-ink);
+  transform: translate(-50%, -50%);
+  cursor: grab;
+  transition: left 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.2s;
+  box-shadow: 0 0 0 4px var(--color-readto-bg), 0 0 0 5px rgba(17, 17, 17, 0.08);
+}
+
+.slider-knob:hover {
+  box-shadow: 0 0 0 4px var(--color-readto-bg), 0 0 0 8px rgba(17, 17, 17, 0.12);
 }
 
 .slider-label.active {
