@@ -2,239 +2,98 @@
 import Layout from "../layouts/Layout.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
-
-const base = import.meta.env.BASE_URL;
-
-const zhSections = [
-  { id: "zh-summary", label: "简明说明" },
-  { id: "zh-no-collect", label: "我们不收集什么" },
-  { id: "zh-local", label: "本地存储" },
-  { id: "zh-third-party", label: "第三方服务" },
-  { id: "zh-permissions", label: "权限说明" },
-  { id: "zh-delete", label: "删除数据" },
-];
-
-const enSections = [
-  { id: "en-summary", label: "Summary" },
-  { id: "en-no-collect", label: "What we don’t collect" },
-  { id: "en-local", label: "On-device storage" },
-  { id: "en-third-party", label: "Third parties" },
-  { id: "en-permissions", label: "Permissions" },
-  { id: "en-delete", label: "Deleting data" },
-];
 ---
 
 <Layout
   title="隐私政策 · Privacy Policy · readto"
-  description="readto 隐私政策：中文为主，附 English。我们不收集你的阅读历史，标注主要在你的浏览器本地完成。"
+  description="readto 隐私政策：我们不收集你的阅读历史，标注主要在你的浏览器本地完成。"
 >
   <SiteHeader current="privacy" />
 
-  <main>
-    <section class="border-b border-readto-rule">
-      <div class="mx-auto grid max-w-content gap-10 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-[0.62fr_0.38fr] lg:items-end">
-        <div>
-          <div class="mb-8 inline-flex items-center gap-2 rounded-full border border-readto-rule bg-readto-card px-3 py-1.5 text-[12px] text-readto-muted">
-            <span class="h-1.5 w-1.5 rounded-full bg-readto-accent"></span>
-            <span data-i18n="privacy.badge">隐私政策 · Last updated 2026-04-24</span>
-          </div>
-          <h1 class="max-w-[820px] font-serif text-[44px] font-normal leading-[1.02] tracking-[-0.035em] text-readto-fg sm:text-[72px]" data-i18n="privacy.heroTitle">我们不收集你的阅读历史。</h1>
-          <p class="mt-7 max-w-[700px] text-[17px] leading-[1.85] text-readto-fg-2 sm:text-[19px]">
-            <span data-i18n="privacy.heroBody">readto 的标注体验主要发生在你的浏览器本地：根据英语水平给网页里的生词加中文小注。我们不运营阅读历史服务器，不建立账号系统，也不统计你读过哪些页面。</span>
-          </p>
-          <div class="mt-8 flex flex-wrap gap-3 text-[13px]">
-            <a href="#chinese" class="rounded-full border border-readto-fg bg-readto-fg px-4 py-2 text-readto-bg transition hover:border-readto-accent hover:bg-readto-accent">中文</a>
-            <a href="#english" class="rounded-full border border-readto-rule bg-readto-card px-4 py-2 text-readto-fg transition hover:border-readto-fg">English</a>
-          </div>
-        </div>
+  <main class="mx-auto max-w-[880px] px-4 py-14 sm:px-6 sm:py-20">
+    <header class="border-b border-readto-rule pb-10">
+      <p class="mb-6 text-[13px] text-readto-muted" data-i18n="privacy.badge">隐私政策 · Last updated 2026-04-24</p>
+      <h1 class="font-serif text-[40px] font-normal leading-[1.06] tracking-[-0.032em] text-readto-fg sm:text-[64px]" data-i18n="privacy.heroTitle">我们不收集你的阅读历史。</h1>
+      <p class="mt-6 max-w-[720px] text-[16px] leading-[1.85] text-readto-fg-2 sm:text-[18px]">
+        <span data-i18n="privacy.heroBody">readto 的标注体验主要发生在你的浏览器本地：根据英语水平给网页里的生词加中文小注。我们不运营阅读历史服务器，不建立账号系统，也不统计你读过哪些页面。</span>
+      </p>
+    </header>
 
-        <aside class="border-y border-readto-rule py-6 lg:border-l lg:border-y-0 lg:py-2 lg:pl-8">
-          <p class="font-serif text-[24px] leading-snug text-readto-fg"><span data-i18n="privacy.principlesTitle">三个原则</span></p>
-          <div class="mt-6 space-y-4 text-[14px] leading-[1.65] text-readto-fg-2">
-            <div class="flex gap-3">
-              <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-readto-accent"></span>
-              <span><span data-i18n="privacy.principle1">网页正文和阅读历史不会上传给 readto。</span></span>
-            </div>
-            <div class="flex gap-3">
-              <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-readto-accent"></span>
-              <span><span data-i18n="privacy.principle2">扩展设置保存在 Chrome 本地或同步存储中。</span></span>
-            </div>
-            <div class="flex gap-3">
-              <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-readto-accent"></span>
-              <span><span data-i18n="privacy.principle3">如果你配置 LLM，请求会从你的浏览器直接发往你选择的服务。</span></span>
-            </div>
-          </div>
-        </aside>
-      </div>
-    </section>
+    <article data-lang-block="zh" class="policy-doc space-y-10 py-10">
+      <section>
+        <h2>简明说明</h2>
+        <p>readto 是一个 Chrome 浏览器扩展。它会根据你选择的英语水平，在浏览英文网页时，为超过该水平的生词显示简洁中文小注。标注过程主要在你的浏览器里完成，readto 不通过自有服务器读取或保存你正在浏览的页面内容。</p>
+      </section>
 
-    <section id="chinese" data-lang-block="zh" class="mx-auto grid max-w-content gap-10 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-[260px_1fr]">
-      <aside class="lg:sticky lg:top-24 lg:self-start">
-        <div class="border-t border-readto-rule pt-5">
-          <p class="mb-4 text-[12px] font-medium text-readto-muted">中文版</p>
-          <nav class="space-y-2 text-[13px] text-readto-fg-2" aria-label="中文版隐私政策目录">
-            {zhSections.map((section) => (
-              <a href={`#${section.id}`} class="block border-l border-readto-rule px-3 py-1.5 transition hover:border-readto-accent hover:text-readto-fg">
-                {section.label}
-              </a>
-            ))}
-          </nav>
-        </div>
-      </aside>
+      <section>
+        <h2>我们不收集什么</h2>
+        <ul>
+          <li>你阅读过的网页 URL 或网页正文内容；</li>
+          <li>阅读历史、点击流或使用统计；</li>
+          <li>广告标识、分析 SDK 或追踪数据；</li>
+          <li>账户资料——readto 目前没有账号系统。</li>
+        </ul>
+      </section>
 
-      <div class="max-w-[780px] space-y-14">
-        <section id="zh-summary" class="scroll-mt-28 border-t border-readto-rule pt-7">
-          <p class="mb-3 font-serif text-[18px] text-readto-accent">01</p>
-          <h2 class="font-serif text-[34px] font-normal leading-tight tracking-[-0.028em] text-readto-fg sm:text-[44px]">readto 是什么</h2>
-          <p class="mt-5 text-[16px] leading-[1.9] text-readto-fg-2">
-            readto 是一个 Chrome 浏览器扩展。它会根据你选择的英语水平，在浏览英文网页时，为超过该水平的生词显示简洁中文小注。标注过程主要在你的浏览器里完成，readto 不通过自有服务器读取或保存你正在浏览的页面内容。
-          </p>
-        </section>
+      <section>
+        <h2>扩展在你的设备上保存什么</h2>
+        <p>扩展使用 Chrome 原生 <code>chrome.storage</code> 保存少量设置，包括英语水平、标注偏好，以及你主动配置的 LLM 连接信息。</p>
+        <p>如果你填写 API 地址、API Key 和模型名称，这些凭证只用于你的浏览器直接请求你选择的 LLM 服务，不会发送给 readto。</p>
+      </section>
 
-        <section id="zh-no-collect" class="scroll-mt-28 border-t border-readto-rule pt-7">
-          <p class="mb-3 font-serif text-[18px] text-readto-accent">02</p>
-          <h2 class="font-serif text-[34px] font-normal leading-tight tracking-[-0.028em] text-readto-fg sm:text-[44px]">我们不收集什么</h2>
-          <div class="mt-6 grid gap-3 sm:grid-cols-2">
-            {[
-              "你阅读过的网页 URL 或网页正文内容",
-              "阅读历史、点击流或使用统计",
-              "广告标识、分析 SDK 或追踪数据",
-              "账户资料——readto 目前没有账号系统",
-            ].map((item) => (
-              <div class="border border-readto-rule bg-readto-card p-4 text-[14px] leading-[1.7] text-readto-fg-2">
-                <span class="mb-4 block h-px w-8 bg-readto-accent"></span>
-                {item}
-              </div>
-            ))}
-          </div>
-        </section>
+      <section>
+        <h2>第三方服务</h2>
+        <p>readto 采用 Bring Your Own Key 模式。如果你启用 LLM 翻译，请求会从你的浏览器直接发送到你配置的服务，中间不经过 readto 服务器。播放发音时，扩展可能请求公共词典服务获取单词音频；只会发送单词本身。</p>
+      </section>
 
-        <section id="zh-local" class="scroll-mt-28 border-t border-readto-rule pt-7">
-          <p class="mb-3 font-serif text-[18px] text-readto-accent">03</p>
-          <h2 class="font-serif text-[34px] font-normal leading-tight tracking-[-0.028em] text-readto-fg sm:text-[44px]">扩展在你的设备上保存什么</h2>
-          <p class="mt-5 text-[16px] leading-[1.9] text-readto-fg-2">
-            扩展使用 Chrome 原生 <code class="rounded-sm bg-readto-rule-2 px-1.5 py-0.5 text-[0.9em]">chrome.storage</code> 保存少量设置。
-          </p>
-          <div class="mt-7 divide-y divide-readto-rule border-y border-readto-rule">
-            <div class="grid gap-3 py-5 sm:grid-cols-[180px_1fr]">
-              <h3 class="font-serif text-[22px] font-normal text-readto-fg">英语水平设置</h3>
-              <p class="text-[15px] leading-[1.85] text-readto-fg-2">保存在 <code class="rounded-sm bg-readto-rule-2 px-1.5 py-0.5 text-[0.9em]">sync</code>。包括你在选项页选择的 1–5 档英语水平，以及相关标注偏好；这些设置可能随你的 Chrome 账号在设备间同步。</p>
-            </div>
-            <div class="grid gap-3 py-5 sm:grid-cols-[180px_1fr]">
-              <h3 class="font-serif text-[22px] font-normal text-readto-fg">LLM 配置</h3>
-              <p class="text-[15px] leading-[1.85] text-readto-fg-2">保存在 <code class="rounded-sm bg-readto-rule-2 px-1.5 py-0.5 text-[0.9em]">local</code>。如果你填写 API 地址、API Key 和模型名称，这些凭证只用于你的浏览器直接请求你选择的 LLM 服务，不会发送给 readto。</p>
-            </div>
-          </div>
-        </section>
+      <section>
+        <h2>权限说明</h2>
+        <p><code>storage</code> 用于保存扩展设置；<code>&lt;all_urls&gt;</code> 用于在英文网页中注入标注脚本。标注在你的设备上运行，网页内容不会发送给 readto。</p>
+      </section>
 
-        <section id="zh-third-party" class="scroll-mt-28 border-t border-readto-rule pt-7">
-          <p class="mb-3 font-serif text-[18px] text-readto-accent">04</p>
-          <h2 class="font-serif text-[34px] font-normal leading-tight tracking-[-0.028em] text-readto-fg sm:text-[44px]">扩展可能访问的第三方服务</h2>
-          <p class="mt-5 text-[16px] leading-[1.9] text-readto-fg-2">
-            readto 采用 Bring Your Own Key 模式。如果你启用 LLM 翻译，请求会从你的浏览器直接发送到你配置的服务，中间不经过 readto 服务器。
-          </p>
-          <ul class="mt-7 space-y-4 text-[15px] leading-[1.85] text-readto-fg-2">
-            <li><strong class="text-readto-fg">你配置的 LLM 服务</strong>：为获取翻译，扩展可能向该服务发送生词附近的上下文片段；这些请求受你与该服务提供商之间的协议约束。</li>
-            <li><strong class="text-readto-fg">dictionaryapi.dev</strong>：当你打开单词卡片并播放发音时，扩展可能请求该公共 API 获取音频地址；只会发送单词本身。</li>
-            <li><strong class="text-readto-fg">YouTube</strong>：仅当你打开 YouTube 视频页面时，扩展会读取该视频的字幕轨道，以便对字幕进行标注；请求直接发送给 YouTube。</li>
-          </ul>
-        </section>
+      <section>
+        <h2>如何删除数据</h2>
+        <p>卸载扩展会清除扩展的本地存储。你也可以在选项页清空 API Key 字段来移除凭证。由于 readto 不运营阅读历史服务器，我们没有可供删除的服务端阅读数据。</p>
+      </section>
+    </article>
 
-        <section id="zh-permissions" class="scroll-mt-28 border-t border-readto-rule pt-7">
-          <p class="mb-3 font-serif text-[18px] text-readto-accent">05</p>
-          <h2 class="font-serif text-[34px] font-normal leading-tight tracking-[-0.028em] text-readto-fg sm:text-[44px]">权限说明</h2>
-          <div class="mt-7 space-y-5">
-            <div class="border border-readto-rule bg-readto-card p-5">
-              <code class="text-[14px] text-readto-accent">storage</code>
-              <p class="mt-3 text-[15px] leading-[1.85] text-readto-fg-2">用于把上述设置保存到 Chrome 存储中。</p>
-            </div>
-            <div class="border border-readto-rule bg-readto-card p-5">
-              <code class="text-[14px] text-readto-accent">&lt;all_urls&gt;</code>
-              <p class="mt-3 text-[15px] leading-[1.85] text-readto-fg-2">用于在英文网页中注入标注脚本。标注在你的设备上运行，网页内容不会发送给 readto。</p>
-            </div>
-          </div>
-        </section>
+    <article data-lang-block="en" class="policy-doc space-y-10 py-10">
+      <section>
+        <h2>Summary</h2>
+        <p>readto is a Chrome extension that annotates English words above your level with short Chinese glosses while you browse. Annotation mainly happens inside your own browser. readto does not run a server that reads or stores the pages you visit.</p>
+      </section>
 
-        <section id="zh-delete" class="scroll-mt-28 border-t border-readto-rule pt-7">
-          <p class="mb-3 font-serif text-[18px] text-readto-accent">06</p>
-          <h2 class="font-serif text-[34px] font-normal leading-tight tracking-[-0.028em] text-readto-fg sm:text-[44px]">如何删除数据</h2>
-          <p class="mt-5 text-[16px] leading-[1.9] text-readto-fg-2">
-            卸载扩展会清除扩展的本地存储。你也可以在选项页清空 API Key 字段来移除凭证。由于 readto 不运营阅读历史服务器，我们没有可供删除的服务端阅读数据。
-          </p>
-        </section>
-      </div>
-    </section>
+      <section>
+        <h2>What we don’t collect</h2>
+        <ul>
+          <li>We don’t collect the URLs or body text of pages you read.</li>
+          <li>We don’t upload your reading history, click stream, or usage statistics.</li>
+          <li>We don’t embed analytics, advertising identifiers, or tracking SDKs.</li>
+          <li>readto has no account system, so we don’t know who you are.</li>
+        </ul>
+      </section>
 
-    <section id="english" data-lang-block="en" class="border-t border-readto-rule bg-[linear-gradient(180deg,var(--color-readto-bg),var(--color-readto-rule-2))]">
-      <div class="mx-auto grid max-w-content gap-10 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-[260px_1fr]">
-        <aside class="lg:sticky lg:top-24 lg:self-start">
-          <div class="border-t border-readto-rule pt-5">
-            <p class="mb-4 text-[12px] font-medium text-readto-muted">English</p>
-            <nav class="space-y-2 text-[13px] text-readto-fg-2" aria-label="English privacy policy table of contents">
-              {enSections.map((section) => (
-                <a href={`#${section.id}`} class="block border-l border-readto-rule px-3 py-1.5 transition hover:border-readto-accent hover:text-readto-fg">
-                  {section.label}
-                </a>
-              ))}
-            </nav>
-          </div>
-        </aside>
+      <section>
+        <h2>What the extension stores on your device</h2>
+        <p>The extension uses Chrome’s native <code>chrome.storage</code> API to keep a small set of settings, including your English level, annotation preferences, and any LLM connection details you choose to provide.</p>
+        <p>If you provide an endpoint, API key, and model name, those credentials are used only by your browser to talk directly to your chosen LLM service. They are not sent to readto.</p>
+      </section>
 
-        <div class="max-w-[780px] space-y-14">
-          <div class="border-y border-readto-rule py-7">
-            <p class="font-serif text-[34px] leading-tight tracking-[-0.028em] text-readto-fg sm:text-[44px]">English Version</p>
-            <p class="mt-4 text-[15px] leading-[1.85] text-readto-fg-2">This English mirrors the Chinese policy above for international users and Chrome Web Store review.</p>
-          </div>
+      <section>
+        <h2>Third parties</h2>
+        <p>readto is Bring Your Own Key. When LLM translation is enabled, requests go directly from your browser to the endpoint you configured, with no readto server in between. Pronunciation playback may request a public dictionary service for audio; only the word itself is sent.</p>
+      </section>
 
-          <section id="en-summary" class="scroll-mt-28 border-t border-readto-rule pt-7">
-            <h2 class="font-serif text-[30px] font-normal leading-tight tracking-[-0.028em] text-readto-fg sm:text-[38px]">What readto is</h2>
-            <p class="mt-5 text-[16px] leading-[1.85] text-readto-fg-2">readto is a Chrome extension that annotates English words above your CEFR level with a Chinese gloss while you browse. Annotation mainly happens inside your own browser. readto does not run a server that reads or stores the pages you visit.</p>
-          </section>
+      <section>
+        <h2>Permissions</h2>
+        <p><code>storage</code> persists extension settings. <code>&lt;all_urls&gt;</code> lets the extension inject the annotation script into English webpages. Annotation runs on your device; page contents are not sent to readto.</p>
+      </section>
 
-          <section id="en-no-collect" class="scroll-mt-28 border-t border-readto-rule pt-7">
-            <h2 class="font-serif text-[30px] font-normal leading-tight tracking-[-0.028em] text-readto-fg sm:text-[38px]">What we don’t collect</h2>
-            <ul class="mt-6 space-y-3 text-[15px] leading-[1.85] text-readto-fg-2">
-              <li>We don’t collect the URLs or body text of pages you read.</li>
-              <li>We don’t upload your reading history, click stream, or usage statistics.</li>
-              <li>We don’t embed analytics, advertising identifiers, or tracking SDKs.</li>
-              <li>readto has no account system, so we don’t know who you are.</li>
-            </ul>
-          </section>
-
-          <section id="en-local" class="scroll-mt-28 border-t border-readto-rule pt-7">
-            <h2 class="font-serif text-[30px] font-normal leading-tight tracking-[-0.028em] text-readto-fg sm:text-[38px]">What the extension stores on your device</h2>
-            <p class="mt-5 text-[16px] leading-[1.85] text-readto-fg-2">The extension uses Chrome’s native <code class="rounded-sm bg-readto-rule-2 px-1.5 py-0.5 text-[0.9em]">chrome.storage</code> API to keep a small set of settings on your device.</p>
-            <ul class="mt-6 space-y-3 text-[15px] leading-[1.85] text-readto-fg-2">
-              <li><strong class="text-readto-fg">CEFR level and gloss preferences</strong> are stored in <code class="rounded-sm bg-readto-rule-2 px-1.5 py-0.5 text-[0.9em]">sync</code>, so they may follow your Chrome account across devices.</li>
-              <li><strong class="text-readto-fg">LLM configuration</strong> is stored in <code class="rounded-sm bg-readto-rule-2 px-1.5 py-0.5 text-[0.9em]">local</code>. If you provide an endpoint, API key, and model name, those credentials are used only by your browser to talk directly to your chosen LLM service. They are not sent to readto.</li>
-            </ul>
-          </section>
-
-          <section id="en-third-party" class="scroll-mt-28 border-t border-readto-rule pt-7">
-            <h2 class="font-serif text-[30px] font-normal leading-tight tracking-[-0.028em] text-readto-fg sm:text-[38px]">Third parties the extension talks to</h2>
-            <p class="mt-5 text-[16px] leading-[1.85] text-readto-fg-2">readto is Bring Your Own Key. When LLM translation is enabled, requests go directly from your browser to the endpoint you configured, with no readto server in between.</p>
-            <ul class="mt-6 space-y-3 text-[15px] leading-[1.85] text-readto-fg-2">
-              <li><strong class="text-readto-fg">The LLM service you configure</strong> may receive context snippets around unknown words to fetch translations. Those requests are governed by your agreement with that provider.</li>
-              <li><strong class="text-readto-fg">dictionaryapi.dev</strong> may be queried for a pronunciation audio URL when you open a word card. Only the word itself is sent.</li>
-              <li><strong class="text-readto-fg">YouTube</strong> may be contacted directly when you open a YouTube video page so the extension can read caption tracks for annotation.</li>
-            </ul>
-          </section>
-
-          <section id="en-permissions" class="scroll-mt-28 border-t border-readto-rule pt-7">
-            <h2 class="font-serif text-[30px] font-normal leading-tight tracking-[-0.028em] text-readto-fg sm:text-[38px]">Permissions</h2>
-            <ul class="mt-6 space-y-3 text-[15px] leading-[1.85] text-readto-fg-2">
-              <li><code class="rounded-sm bg-readto-rule-2 px-1.5 py-0.5 text-[0.9em]">storage</code> — used to persist the settings described above to Chrome storage.</li>
-              <li><code class="rounded-sm bg-readto-rule-2 px-1.5 py-0.5 text-[0.9em]">&lt;all_urls&gt;</code> — used to inject the annotation script into English webpages. Annotation runs on your device; page contents are not sent to readto.</li>
-            </ul>
-          </section>
-
-          <section id="en-delete" class="scroll-mt-28 border-t border-readto-rule pt-7">
-            <h2 class="font-serif text-[30px] font-normal leading-tight tracking-[-0.028em] text-readto-fg sm:text-[38px]">Deleting your data</h2>
-            <p class="mt-5 text-[16px] leading-[1.85] text-readto-fg-2">Uninstalling the extension clears its local storage. You can also clear the API key field on the options page to remove credentials. Because readto does not run a reading-history server, there is no server-side reading data for us to delete.</p>
-          </section>
-        </div>
-      </div>
-    </section>
+      <section>
+        <h2>Deleting your data</h2>
+        <p>Uninstalling the extension clears its local storage. You can also clear the API key field on the options page to remove credentials. Because readto does not run a reading-history server, there is no server-side reading data for us to delete.</p>
+      </section>
+    </article>
   </main>
 
   <SiteFooter />

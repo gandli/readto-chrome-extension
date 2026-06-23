@@ -15,7 +15,7 @@ const base = import.meta.env.BASE_URL;
 ---
 
 <!doctype html>
-<html lang="zh-CN" data-theme="light">
+<html lang="zh-CN" data-theme="light" data-lang="zh">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -33,9 +33,9 @@ const base = import.meta.env.BASE_URL;
           document.documentElement.dataset.theme = theme;
           document.documentElement.style.colorScheme = theme;
 
-          const storedLang = localStorage.getItem('readto-lang') || 'zh';
-          document.documentElement.dataset.lang = storedLang;
-          document.documentElement.lang = storedLang === 'en' ? 'en' : 'zh-CN';
+          const lang = localStorage.getItem('readto-lang') === 'en' ? 'en' : 'zh';
+          document.documentElement.dataset.lang = lang;
+          document.documentElement.lang = lang === 'en' ? 'en' : 'zh-CN';
         } catch {}
       })();
     </script>
@@ -49,11 +49,7 @@ const base = import.meta.env.BASE_URL;
         const translations = {
           zh: {
             'nav.home': '首页',
-            'nav.experience': '体验',
-            'nav.how': '原理',
-            'nav.fit': '适合谁',
             'nav.privacy': '隐私',
-            'nav.cta': '添加到 Chrome',
             'nav.ctaShort': '安装',
             'footer.privacy': '隐私政策',
             'footer.copyright': '© 2026 · 读懂',
@@ -62,58 +58,21 @@ const base = import.meta.env.BASE_URL;
             'home.heroBody': 'readto 会根据你的英语水平，在英文网页的生词上方悄悄标好中文释义。中文小注像书页边注一样出现，不划词、不跳窗、不中断阅读。',
             'home.ctaPrimary': '添加到 Chrome',
             'home.ctaSecondary': '先看一段真实阅读',
-            'home.statZero': '划词步骤',
-            'home.statLevel': '档英语水平',
-            'home.statAny': '英文网页',
-            'home.statAnyValue': '任意',
-            'home.level.beginner': '入门',
-            'home.level.basic': '基础',
-            'home.level.intermediate': '进阶',
-            'home.level.advanced': '熟练',
-            'home.level.fluent': '精通',
-            'home.heroNote': '中文释义停在词上方，阅读继续向前。',
-            'home.demoEyebrow': 'Reading demo',
-            'home.demoTitle': '你的水平越高，页面越安静。',
-            'home.demoBody': '调整英语水平，readto 会只标出超过当前水平的词。你已经掌握的词会回到正文里，避免把整页变成词典。',
-            'home.levelLabel': '我的英语水平',
-            'home.previewLabel': 'Live article preview',
-            'home.previewTitle': 'The quieter dictionary',
             'home.previewHint': '悬停单词',
-            'home.howEyebrow': 'How it works',
-            'home.howTitle': '它不是另一个词典入口，<br />而是一层安静的阅读注释。',
             'home.how1Title': '先判断你的水平',
             'home.how1Body': '选择入门、基础、进阶、熟练或精通，readto 会把这个水平当作“已掌握词汇”的边界。',
             'home.how2Title': '只给超纲词加注',
             'home.how2Body': '常见词保持原样，真正可能打断理解的词，才在上方出现一条短中文释义。',
             'home.how3Title': '留在原网页阅读',
             'home.how3Body': '新闻、博客、文档、论文都在原页面完成阅读，不跳到另一个学习工具里。',
-            'home.fitEyebrow': 'Who it is for',
             'home.fitQuote': '背单词的最好方式，是在真实阅读里反复遇到它。',
-            'home.fit1Title': '读英文资讯',
-            'home.fit1Body': '想直接看英文报道和长文，但不想每遇到一个词就离开页面。',
-            'home.fit2Title': '读技术文档',
-            'home.fit2Body': '希望保持英文原文语境，同时降低专业表达带来的查词摩擦。',
-            'home.fit3Title': '读论文博客',
-            'home.fit3Body': '不把阅读变成背单词任务，而是在内容里自然积累词汇。',
-            'home.fit4Title': '准备考试',
-            'home.fit4Body': '通过真实语境反复遇到生词，比孤立记忆更容易留下印象。',
-            'home.finalEyebrow': 'Start reading',
-            'home.finalTitle': '让下一篇英文网页，自己长出中文小注。',
             'privacy.badge': '隐私政策 · Last updated 2026-04-24',
             'privacy.heroTitle': '我们不收集你的阅读历史。',
             'privacy.heroBody': 'readto 的标注体验主要发生在你的浏览器本地：根据英语水平给网页里的生词加中文小注。我们不运营阅读历史服务器，不建立账号系统，也不统计你读过哪些页面。',
-            'privacy.principlesTitle': '三个原则',
-            'privacy.principle1': '网页正文和阅读历史不会上传给 readto。',
-            'privacy.principle2': '扩展设置保存在 Chrome 本地或同步存储中。',
-            'privacy.principle3': '如果你配置 LLM，请求会从你的浏览器直接发往你选择的服务。',
           },
           en: {
             'nav.home': 'Home',
-            'nav.experience': 'Demo',
-            'nav.how': 'How it works',
-            'nav.fit': 'Use cases',
             'nav.privacy': 'Privacy',
-            'nav.cta': 'Add to Chrome',
             'nav.ctaShort': 'Install',
             'footer.privacy': 'Privacy Policy',
             'footer.copyright': '© 2026 · readto',
@@ -122,50 +81,17 @@ const base = import.meta.env.BASE_URL;
             'home.heroBody': 'readto quietly adds short Chinese glosses above words that are beyond your level. The notes feel like marginalia on the page: no selecting text, no popups first, no interruption.',
             'home.ctaPrimary': 'Add to Chrome',
             'home.ctaSecondary': 'See the reading demo',
-            'home.statZero': 'lookup steps',
-            'home.statLevel': 'English levels',
-            'home.statAny': 'English websites',
-            'home.statAnyValue': 'Any',
-            'home.level.beginner': 'Beginner',
-            'home.level.basic': 'Basic',
-            'home.level.intermediate': 'Intermediate',
-            'home.level.advanced': 'Advanced',
-            'home.level.fluent': 'Fluent',
-            'home.heroNote': 'The gloss stays above the word. Reading keeps moving.',
-            'home.demoEyebrow': 'Reading demo',
-            'home.demoTitle': 'The better your level, the quieter the page.',
-            'home.demoBody': 'Move the level slider and readto only annotates words above your current level. Words you already know return to the paragraph instead of turning the whole page into a dictionary.',
-            'home.levelLabel': 'My English level',
-            'home.previewLabel': 'Live article preview',
-            'home.previewTitle': 'The quieter dictionary',
             'home.previewHint': 'hover words',
-            'home.howEyebrow': 'How it works',
-            'home.howTitle': 'Not another dictionary door,<br />but a quiet layer of reading notes.',
             'home.how1Title': 'Start with your level',
             'home.how1Body': 'Choose beginner, basic, intermediate, advanced, or fluent. readto treats that level as the boundary of words you already know.',
             'home.how2Title': 'Annotate only above-level words',
             'home.how2Body': 'Common words stay untouched. Only the words likely to interrupt comprehension receive a short Chinese gloss.',
             'home.how3Title': 'Stay on the original page',
             'home.how3Body': 'News, blogs, docs, and papers stay where they are. You keep reading instead of jumping into a separate study tool.',
-            'home.fitEyebrow': 'Who it is for',
             'home.fitQuote': 'The best way to remember words is to meet them again in real reading.',
-            'home.fit1Title': 'English articles',
-            'home.fit1Body': 'Read reports and long-form writing without leaving the page whenever a word slows you down.',
-            'home.fit2Title': 'Technical docs',
-            'home.fit2Body': 'Keep the original English context while reducing friction from specialized expressions.',
-            'home.fit3Title': 'Papers and blogs',
-            'home.fit3Body': 'Build vocabulary naturally through content, not as a separate memorization task.',
-            'home.fit4Title': 'Exam preparation',
-            'home.fit4Body': 'Meet words repeatedly in authentic context instead of memorizing isolated lists.',
-            'home.finalEyebrow': 'Start reading',
-            'home.finalTitle': 'Let the next English page grow its own Chinese notes.',
             'privacy.badge': 'Privacy Policy · Last updated 2026-04-24',
             'privacy.heroTitle': 'We don’t collect your reading history.',
             'privacy.heroBody': 'readto’s annotation experience mainly happens inside your browser: it adds Chinese glosses to English words based on your level. We do not run a reading-history server, operate an account system, or track which pages you read.',
-            'privacy.principlesTitle': 'Three principles',
-            'privacy.principle1': 'Page text and reading history are not uploaded to readto.',
-            'privacy.principle2': 'Extension settings stay in Chrome local or sync storage.',
-            'privacy.principle3': 'If you configure an LLM, requests go directly from your browser to the service you choose.',
           },
         };
 
@@ -188,12 +114,12 @@ const base = import.meta.env.BASE_URL;
             const value = translations[next]?.[key];
             if (value) node.textContent = value;
           });
+
           document.querySelectorAll('[data-i18n-html]').forEach((node) => {
             const key = node.getAttribute('data-i18n-html');
             const value = translations[next]?.[key];
             if (value) node.innerHTML = value;
           });
-          window.dispatchEvent(new CustomEvent('readto:lang', { detail: { lang: next } }));
         }
 
         function setTheme(theme) {
