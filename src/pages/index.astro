@@ -1,256 +1,601 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import SiteHeader from "../components/SiteHeader.astro";
-import SiteFooter from "../components/SiteFooter.astro";
 
 const base = import.meta.env.BASE_URL;
 ---
 
 <Layout>
-  <SiteHeader current="home" />
-
-  <main>
-    <!-- Hero -->
-    <section class="relative overflow-hidden border-b border-readto-rule">
-      <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(178,70,42,0.09),transparent_34%),linear-gradient(180deg,rgba(251,249,244,0.64),rgba(245,242,235,0))]"></div>
-      <div class="relative mx-auto grid max-w-content gap-12 px-4 pb-16 pt-14 sm:px-6 sm:pb-20 sm:pt-20 lg:grid-cols-[0.92fr_1.08fr] lg:items-end">
-        <div class="max-w-[640px]">
-          <div class="mb-8 inline-flex items-center gap-2 rounded-full border border-readto-rule bg-readto-card px-3 py-1.5 text-[12px] text-readto-muted shadow-[0_1px_0_rgba(20,18,16,0.03)]">
-            <span class="h-1.5 w-1.5 rounded-full bg-readto-accent"></span>
-            <span data-i18n="home.badge">Chrome 扩展 · 为真实英文网页加中文小注</span>
-          </div>
-          <h1 class="font-serif text-[48px] font-normal leading-[0.98] tracking-[-0.035em] text-readto-fg sm:text-[74px] lg:text-[92px]" data-i18n-html="home.heroTitle">读英文，<br />不用频繁查词。</h1>
-          <p class="mt-7 max-w-[560px] text-[17px] leading-[1.8] text-readto-fg-2 sm:text-[19px]">
-            <span data-i18n="home.heroBody">readto 会根据你的英语水平，在英文网页的生词上方悄悄标好中文释义。中文小注像书页边注一样出现，不划词、不跳窗、不中断阅读。</span>
-          </p>
-          <div class="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <a
-              href="https://chromewebstore.google.com/detail/readto/icijjidbmcgedpiljpknpjomjjijacjp"
-              class="inline-flex items-center justify-center rounded-full bg-readto-fg px-6 py-3 text-[15px] font-medium text-readto-bg transition hover:-translate-y-0.5 hover:bg-readto-accent"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <span data-i18n="home.ctaPrimary">添加到 Chrome</span>
-            </a>
-            <a href="#experience" class="inline-flex items-center justify-center rounded-full border border-readto-rule bg-readto-card px-6 py-3 text-[15px] font-medium text-readto-fg transition hover:border-readto-fg">
-              <span data-i18n="home.ctaSecondary">先看一段真实阅读</span>
-            </a>
-          </div>
-          <div class="mt-8 grid max-w-[560px] grid-cols-3 border-y border-readto-rule text-[12px] text-readto-muted">
-            <div class="py-4 pr-4">
-              <div class="font-serif text-[22px] text-readto-fg">0</div>
-              <div data-i18n="home.statZero">划词步骤</div>
-            </div>
-            <div class="border-l border-readto-rule px-4 py-4">
-              <div class="font-serif text-[22px] text-readto-fg">5</div>
-              <div data-i18n="home.statLevel">档英语水平</div>
-            </div>
-            <div class="border-l border-readto-rule py-4 pl-4">
-              <div class="font-serif text-[22px] text-readto-fg" data-i18n="home.statAnyValue">任意</div>
-              <div data-i18n="home.statAny">英文网页</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="relative">
-          <div class="absolute -left-8 -top-8 hidden h-28 w-28 rounded-full border border-readto-rule lg:block"></div>
-          <div class="relative rounded-[14px] border border-readto-rule bg-readto-card p-3 shadow-[0_28px_80px_rgba(36,29,22,0.12)]">
-            <div class="rounded-[12px] border border-readto-rule-2 bg-readto-card p-4 sm:p-6">
-              <div class="mb-5 flex items-center justify-between border-b border-readto-rule pb-4">
-                <div class="flex items-center gap-2">
-                  <span class="h-2.5 w-2.5 rounded-full bg-[#e07a5f]"></span>
-                  <span class="h-2.5 w-2.5 rounded-full bg-[#e9c46a]"></span>
-                  <span class="h-2.5 w-2.5 rounded-full bg-[#81b29a]"></span>
-                </div>
-                <div class="rounded-full border border-readto-rule bg-readto-bg px-3 py-1 text-[11px] text-readto-muted">readto enabled</div>
-              </div>
-              <article class="font-serif text-[19px] leading-[2.25] text-readto-fg sm:text-[22px]">
-                <p class="mb-5 text-[12px] uppercase tracking-[0.18em] text-readto-muted">The Atlantic · Culture</p>
-                <h2 class="mb-5 text-[30px] leading-tight tracking-[-0.02em] sm:text-[36px]">A city learns to listen again</h2>
-                <p>
-                  The mayor announced <span data-readto data-word="sweeping">sweeping<span class="rt">全面的</span></span> reforms after a week of <span data-readto data-word="tense">tense<span class="rt">紧张的</span></span> negotiations, but residents remained <span data-readto data-word="skeptical">skeptical<span class="rt">怀疑的</span></span> of another <span data-readto data-word="perfunctory">perfunctory<span class="rt">敷衍的</span></span> promise.
-                </p>
-              </article>
-            </div>
-          </div>
-          <div class="absolute -bottom-5 left-8 rounded-[14px] border border-readto-rule bg-readto-bg px-4 py-3 text-[12px] text-readto-muted shadow-[0_12px_32px_rgba(36,29,22,0.1)]">
-            <span data-i18n="home.heroNote">中文释义停在词上方，阅读继续向前。</span>
-          </div>
+  <!-- Navigation -->
+  <header
+    class="sticky top-0 z-50 bg-[#f5f2eb]/95 backdrop-blur-sm border-b border-[#e3dfd8]"
+  >
+    <div
+      class="max-w-[1180px] mx-auto flex items-center justify-between gap-6 py-4 px-6"
+    >
+      <div class="flex items-baseline gap-[18px] min-w-0">
+        <a
+          href={base}
+          class="inline-flex items-baseline text-[18px] font-medium font-serif tracking-tight"
+        >
+          readto<span class="text-[#b2462a] font-semibold">.</span><span
+            class="ml-[2px] text-[0.7em] tracking-normal font-normal text-[#9a9489]"
+            >ai</span
+          >
+        </a>
+        <div class="hidden sm:inline-block text-[11px] text-[#9a9489]">
+          读懂每一个词 · Read to know
         </div>
       </div>
-    </section>
+      <nav class="flex items-center gap-6">
+        <a
+          href="#how"
+          class="text-[12px] text-[#2b2824] hover:text-[#111] transition-colors"
+        >
+          工作原理
+        </a>
+        <a
+          href={`${base}/privacy`}
+          class="text-[12px] text-[#2b2824] hover:text-[#111] transition-colors"
+        >
+          隐私政策
+        </a>
+        <a
+          href="https://chromewebstore.google.com/detail/readto/hmoifnkckggncdpoplpoiifjafffmkof"
+          class="text-[12px] bg-[#111] text-white px-3 py-1.5 rounded-full hover:opacity-90 transition-opacity"
+        >
+          安装扩展 →
+        </a>
+      </nav>
+    </div>
+  </header>
 
-    <!-- Interactive reading experience -->
-    <section id="experience" class="mx-auto max-w-content px-4 py-16 sm:px-6 sm:py-20">
-      <div class="grid gap-10 lg:grid-cols-[0.45fr_0.55fr] lg:items-start">
-        <div class="lg:sticky lg:top-24">
-          <div class="mb-5 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-readto-muted">
-            <span class="h-px w-8 bg-readto-accent"></span>
-            <span data-i18n="home.demoEyebrow">Reading demo</span>
-          </div>
-          <h2 class="font-serif text-[36px] font-normal leading-[1.06] tracking-[-0.035em] sm:text-[54px]">
-            <span data-i18n="home.demoTitle">你的水平越高，页面越安静。</span>
-          </h2>
-          <p class="mt-5 max-w-[460px] text-[16px] leading-[1.8] text-readto-fg-2">
-            <span data-i18n="home.demoBody">调整英语水平，readto 会只标出超过当前水平的词。你已经掌握的词会回到正文里，避免把整页变成词典。</span>
+  <main>
+    <!-- Hero Section -->
+    <section
+      class="max-w-content mx-auto px-4 sm:px-6 pt-16 pb-20"
+    >
+      <div class="grid md:grid-cols-[1fr_1.2fr] gap-8 items-start">
+        <!-- Left: Description -->
+        <div>
+          <p
+            class="text-[11px] text-readto-muted tracking-[0.14em] uppercase font-semibold mb-6"
+          >
+            A CHROME EXTENSION · 浏览器扩展
           </p>
+          <h1
+            class="font-serif font-normal text-[32px] md:text-[56px] leading-[1.05] tracking-tight m-0 mb-6"
+          >
+            Read to know.<br />
+            <span class="whitespace-nowrap font-medium">读懂每一个词。</span>
+          </h1>
+          <p
+            class="text-[15px] text-readto-fg-2 leading-[1.65] mb-6 max-w-md"
+          >
+            在任何英文网页上，readto
+            会根据你的英语水平，悄悄在生词上方标好中文小注。不划词、不跳窗、不中断阅读。
+          </p>
+          <a
+            href="https://chromewebstore.google.com/detail/readto/hmoifnkckggncdpoplpoiifjafffmkof"
+            class="inline-block bg-readto-ink text-white px-6 py-3 rounded-full text-[14px] font-medium hover:opacity-90 transition-opacity text-center"
+          >
+            安装 Chrome 扩展 →
+          </a>
 
-          <div class="mt-8 rounded-[14px] border border-readto-rule bg-readto-card p-5">
-            <div class="mb-4 flex items-center justify-between text-[13px]">
-              <span class="font-medium text-readto-fg"><span data-i18n="home.levelLabel">我的英语水平</span></span>
-              <span id="level-desc" class="text-readto-muted">只标大学四六级以上的词。</span>
+          <!-- Level Selector -->
+          <div class="mt-10 sm:mt-14">
+            <p
+              class="text-[11px] text-readto-muted tracking-[0.14em] uppercase font-semibold mb-4"
+            >
+              YOUR LEVEL · 你的水平
+            </p>
+
+            <!-- Slider Labels -->
+            <div class="flex justify-between mb-1 px-[4%] sm:px-[8%]">
+              <span
+                class="text-[14px] slider-label"
+                data-index="0">入门</span
+              >
+              <span class="text-sm slider-label" data-index="1">基础</span>
+              <span class="text-sm slider-label" data-index="2">进阶</span>
+              <span class="text-sm slider-label" data-index="3">熟练</span>
+              <span class="text-sm slider-label" data-index="4">精通</span>
             </div>
+
+            <!-- Custom Slider -->
             <div
-              id="level-slider"
-              class="relative h-8 cursor-pointer touch-none rounded-full"
+              class="relative h-9 mt-2.5 cursor-pointer outline-none"
               role="slider"
               tabindex="0"
-              aria-label="选择英语水平"
+              aria-label="英语水平"
               aria-valuemin="1"
               aria-valuemax="5"
               aria-valuenow="3"
               aria-valuetext="进阶"
+              id="level-slider"
             >
-              <div class="absolute left-[10%] right-[10%] top-1/2 h-px -translate-y-1/2 bg-readto-rule"></div>
-              <div id="track-fill" class="absolute left-[10%] top-1/2 h-px -translate-y-1/2 bg-readto-fg transition-[width] duration-300" style="width:40%"></div>
-              <div id="knob" class="absolute top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-readto-bg bg-readto-fg shadow-[0_0_0_1px_rgba(20,18,16,0.12),0_8px_18px_rgba(20,18,16,0.16)] transition-[left] duration-300" style="left:50%"></div>
-              <div class="absolute left-[10%] top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-readto-fg"></div>
-              <div class="absolute left-[30%] top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-readto-rule"></div>
-              <div class="absolute left-[50%] top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-readto-rule"></div>
-              <div class="absolute left-[70%] top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-readto-rule"></div>
-              <div class="absolute left-[90%] top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-readto-rule"></div>
-            </div>
-            <div class="mt-3 grid grid-cols-5 text-center text-[11px] text-readto-muted-2">
-              <button type="button" class="slider-label" data-i18n="home.level.beginner">入门</button>
-              <button type="button" class="slider-label" data-i18n="home.level.basic">基础</button>
-              <button type="button" class="slider-label active" data-i18n="home.level.intermediate">进阶</button>
-              <button type="button" class="slider-label" data-i18n="home.level.advanced">熟练</button>
-              <button type="button" class="slider-label" data-i18n="home.level.fluent">精通</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="rounded-[14px] border border-readto-rule bg-readto-card p-3 shadow-[0_24px_70px_rgba(36,29,22,0.1)]">
-          <div class="rounded-[12px] border border-readto-rule-2 bg-readto-card p-5 sm:p-8">
-            <div class="mb-8 flex items-center justify-between border-b border-readto-rule pb-4">
-              <div>
-                <p class="text-[11px] uppercase tracking-[0.18em] text-readto-muted"><span data-i18n="home.previewLabel">Live article preview</span></p>
-                <p class="mt-1 font-serif text-[20px] text-readto-fg"><span data-i18n="home.previewTitle">The quieter dictionary</span></p>
+              <!-- Tick Marks -->
+              <div
+                class="absolute left-[10%] right-[10%] top-1/2 h-3.5 -translate-y-1/2 flex justify-between items-center pointer-events-none"
+              >
+                <div class="w-px h-3.5 bg-readto-muted"></div>
+                <div class="w-px h-2 bg-readto-rule"></div>
+                <div class="w-px h-2 bg-readto-rule"></div>
+                <div class="w-px h-2 bg-readto-rule"></div>
+                <div class="w-px h-2 bg-readto-rule"></div>
+                <div class="w-px h-3.5 bg-readto-muted"></div>
+                <div class="w-px h-2 bg-readto-rule"></div>
+                <div class="w-px h-2 bg-readto-rule"></div>
+                <div class="w-px h-2 bg-readto-rule"></div>
+                <div class="w-px h-2 bg-readto-rule"></div>
+                <div class="w-px h-3.5 bg-readto-muted"></div>
+                <div class="w-px h-2 bg-readto-rule"></div>
+                <div class="w-px h-2 bg-readto-rule"></div>
+                <div class="w-px h-2 bg-readto-rule"></div>
+                <div class="w-px h-2 bg-readto-rule"></div>
+                <div class="w-px h-3.5 bg-readto-muted"></div>
+                <div class="w-px h-2 bg-readto-rule"></div>
+                <div class="w-px h-2 bg-readto-rule"></div>
+                <div class="w-px h-2 bg-readto-rule"></div>
+                <div class="w-px h-2 bg-readto-rule"></div>
+                <div class="w-px h-3.5 bg-readto-muted"></div>
               </div>
-              <span class="rounded-full bg-readto-bg px-3 py-1 text-[11px] text-readto-muted"><span data-i18n="home.previewHint">hover words</span></span>
-            </div>
-            <div id="demo-content" class="font-serif text-[18px] leading-[2.25] text-readto-fg sm:text-[21px]">
-              <p>
-                The president <span data-readto data-word="announced">announced<span class="rt">宣布</span></span> a <span data-readto data-word="sweeping">sweeping<span class="rt">全面的</span></span> set of <span data-readto data-word="reforms">reforms<span class="rt">改革</span></span> yesterday, <span data-readto data-word="marking">marking<span class="rt">标志着</span></span> the most <span data-readto data-word="ambitious">ambitious<span class="rt">雄心勃勃的</span></span> effort to <span data-readto data-word="overhaul">overhaul<span class="rt">彻底改革</span></span> the tax system in a generation.
-              </p>
-              <p class="mt-6">
-                Yet many <span data-readto data-word="analysts">analysts<span class="rt">分析人士</span></span> warned that the proposal could prove <span data-readto data-word="contentious">contentious<span class="rt">有争议的</span></span>, especially among <span data-readto data-word="skeptical">skeptical<span class="rt">怀疑的</span></span> voters who view previous <span data-readto data-word="concessions">concessions<span class="rt">让步</span></span> as merely <span data-readto data-word="perfunctory">perfunctory<span class="rt">敷衍的</span></span>.
-              </p>
-              <p class="mt-6">
-                The latest <span data-readto data-word="polls">polls<span class="rt">民意调查</span></span> <span data-readto data-word="indicate">indicate<span class="rt">表明</span></span> that negotiations remain at a <span data-readto data-word="fragile">fragile<span class="rt">脆弱的</span></span> <span data-readto data-word="impasse">impasse<span class="rt">僵局</span></span>.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- <span data-i18n="home.howEyebrow">How it works</span> -->
-    <section id="how" class="border-t border-readto-rule py-16 sm:py-20">
-      <div class="mx-auto max-w-content px-4 sm:px-6">
-        <div class="mb-10 grid gap-6 md:grid-cols-[0.38fr_0.62fr] md:items-end">
-          <div class="flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-readto-muted">
-            <span class="h-px w-8 bg-readto-accent"></span>
-            <span data-i18n="home.howEyebrow">How it works</span>
-          </div>
-          <h2 class="font-serif text-[34px] font-normal leading-[1.08] tracking-[-0.035em] sm:text-[50px]" data-i18n-html="home.howTitle">它不是另一个词典入口，<br />而是一层安静的阅读注释。</h2>
-        </div>
-        <div class="grid border-t border-readto-rule md:grid-cols-3">
-          <div class="border-b border-readto-rule py-8 md:border-b-0 md:border-r md:pr-8">
-            <div class="font-serif text-[15px] text-readto-accent">No. 01</div>
-            <h3 class="mt-4 font-serif text-[23px] font-normal tracking-[-0.02em]"><span data-i18n="home.how1Title">先判断你的水平</span></h3>
-            <p class="mt-3 text-[14px] leading-[1.8] text-readto-fg-2"><span data-i18n="home.how1Body">选择入门、基础、进阶、熟练或精通，readto 会把这个水平当作“已掌握词汇”的边界。</span></p>
-            <p class="mt-8 border-t border-dotted border-readto-rule pt-5 font-serif text-[17px] leading-9">He was <span data-readto data-word="ostensibly">ostensibly<span class="rt">表面上</span></span> in charge.</p>
-          </div>
-          <div class="border-b border-readto-rule py-8 md:border-b-0 md:border-r md:px-8">
-            <div class="font-serif text-[15px] text-readto-accent">No. 02</div>
-            <h3 class="mt-4 font-serif text-[23px] font-normal tracking-[-0.02em]"><span data-i18n="home.how2Title">只给超纲词加注</span></h3>
-            <p class="mt-3 text-[14px] leading-[1.8] text-readto-fg-2"><span data-i18n="home.how2Body">常见词保持原样，真正可能打断理解的词，才在上方出现一条短中文释义。</span></p>
-            <p class="mt-8 border-t border-dotted border-readto-rule pt-5 font-serif text-[17px] leading-9">The findings were <span data-readto data-word="ambiguous">ambiguous<span class="rt">模糊的</span></span>.</p>
-          </div>
-          <div class="py-8 md:pl-8">
-            <div class="font-serif text-[15px] text-readto-accent">No. 03</div>
-            <h3 class="mt-4 font-serif text-[23px] font-normal tracking-[-0.02em]"><span data-i18n="home.how3Title">留在原网页阅读</span></h3>
-            <p class="mt-3 text-[14px] leading-[1.8] text-readto-fg-2"><span data-i18n="home.how3Body">新闻、博客、文档、论文都在原页面完成阅读，不跳到另一个学习工具里。</span></p>
-            <div class="mt-8 flex flex-wrap gap-2 border-t border-dotted border-readto-rule pt-5">
-              <span class="rounded-full border border-readto-rule bg-readto-bg px-3 py-1 text-[12px] text-readto-muted">news</span>
-              <span class="rounded-full border border-readto-rule bg-readto-bg px-3 py-1 text-[12px] text-readto-muted">docs</span>
-              <span class="rounded-full border border-readto-rule bg-readto-bg px-3 py-1 text-[12px] text-readto-muted">papers</span>
-              <span class="rounded-full border border-readto-rule bg-readto-bg px-3 py-1 text-[12px] text-readto-muted">blogs</span>
+              <!-- Track -->
+              <div
+                class="absolute inset-x-0 top-1/2 h-px bg-readto-rule -translate-y-1/2"
+              >
+              </div>
+
+              <!-- Track Fill -->
+              <div
+                class="absolute left-0 top-1/2 h-0.5 bg-readto-ink -translate-y-1/2 transition-[width] duration-350 ease-[cubic-bezier(0.2,0.7,0.2,1)]"
+                id="track-fill"
+                style="width:50%"
+              >
+              </div>
+
+              <!-- Knob -->
+              <div
+                class="absolute top-1/2 w-3.5 h-3.5 bg-readto-ink rounded-full -translate-x-1/2 -translate-y-1/2 transition-[left,box-shadow] duration-350 ease-[cubic-bezier(0.2,0.7,0.2,1)] cursor-grab shadow-[0_0_0_4px_var(--color-readto-bg),0_0_0_5px_rgba(17,17,17,0.08)] hover:shadow-[0_0_0_4px_var(--color-readto-bg),0_0_0_8px_rgba(17,17,17,0.12)]"
+                id="knob"
+                style="left:50%"
+              >
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- Fit -->
-    <section id="fit" class="border-t border-readto-rule bg-[linear-gradient(180deg,var(--color-readto-bg),var(--color-readto-rule-2))] py-16 sm:py-20">
-      <div class="mx-auto grid max-w-content gap-10 px-4 sm:px-6 lg:grid-cols-[0.42fr_0.58fr] lg:items-start">
-        <div>
-          <div class="mb-5 text-[11px] font-semibold uppercase tracking-[0.16em] text-readto-muted"><span data-i18n="home.fitEyebrow">Who it is for</span></div>
-          <blockquote class="font-serif text-[34px] font-normal leading-[1.12] tracking-[-0.035em] sm:text-[50px]">
-            <span data-i18n="home.fitQuote">背单词的最好方式，是在真实阅读里反复遇到它。</span>
-          </blockquote>
-        </div>
-        <div class="grid gap-3 sm:grid-cols-2">
-          <div class="rounded-[14px] border border-readto-rule bg-readto-card p-5">
-            <h3 class="font-serif text-[22px] font-normal"><span data-i18n="home.fit1Title">读英文资讯</span></h3>
-            <p class="mt-3 text-[14px] leading-[1.75] text-readto-fg-2"><span data-i18n="home.fit1Body">想直接看英文报道和长文，但不想每遇到一个词就离开页面。</span></p>
-          </div>
-          <div class="rounded-[14px] border border-readto-rule bg-readto-card p-5">
-            <h3 class="font-serif text-[22px] font-normal"><span data-i18n="home.fit2Title">读技术文档</span></h3>
-            <p class="mt-3 text-[14px] leading-[1.75] text-readto-fg-2"><span data-i18n="home.fit2Body">希望保持英文原文语境，同时降低专业表达带来的查词摩擦。</span></p>
-          </div>
-          <div class="rounded-[14px] border border-readto-rule bg-readto-card p-5">
-            <h3 class="font-serif text-[22px] font-normal"><span data-i18n="home.fit3Title">读论文博客</span></h3>
-            <p class="mt-3 text-[14px] leading-[1.75] text-readto-fg-2"><span data-i18n="home.fit3Body">不把阅读变成背单词任务，而是在内容里自然积累词汇。</span></p>
-          </div>
-          <div class="rounded-[14px] border border-readto-rule bg-readto-card p-5">
-            <h3 class="font-serif text-[22px] font-normal"><span data-i18n="home.fit4Title">准备考试</span></h3>
-            <p class="mt-3 text-[14px] leading-[1.75] text-readto-fg-2"><span data-i18n="home.fit4Body">通过真实语境反复遇到生词，比孤立记忆更容易留下印象。</span></p>
+            <p
+              class="text-[14px] text-readto-muted mt-3"
+              id="level-desc"
+            >
+              只标大学四六级以上的词。
+            </p>
           </div>
         </div>
-      </div>
-    </section>
 
-    <!-- CTA -->
-    <section class="mx-auto max-w-content px-4 py-16 sm:px-6 sm:py-20">
-      <div class="rounded-[14px] border border-readto-rule bg-readto-card p-8 sm:p-12 lg:flex lg:items-end lg:justify-between">
-        <div>
-          <p class="mb-4 text-[11px] font-semibold uppercase tracking-[0.16em] text-readto-muted"><span data-i18n="home.finalEyebrow">Start reading</span></p>
-          <h2 class="max-w-[720px] font-serif text-[38px] font-normal leading-[1.06] tracking-[-0.035em] sm:text-[56px]" data-i18n="home.finalTitle">让下一篇英文网页，自己长出中文小注。</h2>
-        </div>
-        <a
-          href="https://chromewebstore.google.com/detail/readto/icijjidbmcgedpiljpknpjomjjijacjp"
-          class="mt-8 inline-flex shrink-0 items-center justify-center rounded-full bg-readto-fg px-6 py-3 text-[15px] font-medium text-readto-bg transition hover:-translate-y-0.5 hover:bg-readto-accent lg:mt-0"
-          target="_blank"
-          rel="noopener noreferrer"
+        <!-- Right: Browser Mockup -->
+        <div
+          class="bg-white rounded-lg shadow-[0_4px_24px_rgba(0,0,0,0.08)] overflow-hidden"
         >
-          添加到 Chrome
-        </a>
+          <div
+            class="bg-readto-bg px-3 py-2 flex items-center gap-2 border-b border-readto-rule"
+          >
+            <span class="w-2.5 h-2.5 rounded-full bg-[#ff5f57]"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-[#febc2e]"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-[#28c840]"></span>
+            <span
+              class="flex-1 bg-readto-rule-2 rounded px-3 py-1 text-xs text-readto-muted ml-2"
+            >
+              /politics/tax-reform-bill.html
+            </span>
+          </div>
+          <div
+            class="p-4 text-[15px] leading-[1.65] font-sans"
+            id="demo-content"
+          >
+            <div
+              class="text-[11px] text-readto-muted uppercase tracking-[0.14em] font-semibold mb-2"
+            >
+              Politics
+            </div>
+            <h2
+              class="font-semibold text-[15px] tracking-tight mb-0.5 text-readto-ink"
+            >
+              President Announces Sweeping Tax Reforms
+            </h2>
+            <p class="text-[12px] text-readto-muted-2 mb-3">
+              By Anna Reed · April 22, 2026
+            </p>
+
+            <p class="text-readto-fg mb-3">
+              <span data-readto data-word="the"
+                >The<span class="rt">定冠词</span></span
+              >
+              <span data-readto data-word="president"
+                >president<span class="rt">总统</span></span
+              >
+              <span data-readto data-word="announced"
+                >announced<span class="rt">宣布</span></span
+              >
+              <span data-readto data-word="sweeping"
+                >sweeping<span class="rt">影响广泛的</span></span
+              >
+              <span data-readto data-word="reforms"
+                >reforms<span class="rt">改革</span></span
+              > to the <span data-readto data-word="nation"
+                >nation<span class="rt">国家</span></span
+              >'s <span data-readto data-word="tax"
+                >tax<span class="rt">税</span></span
+              >
+              <span data-readto data-word="system"
+                >system<span class="rt">系统</span></span
+              >
+              <span data-readto data-word="yesterday"
+                >yesterday<span class="rt">昨天</span></span
+              >, <span data-readto data-word="marking"
+                >marking<span class="rt">标记</span></span
+              > the most <span data-readto data-word="significant"
+                >significant<span class="rt">重要的</span></span
+              >
+              <span data-readto data-word="overhaul"
+                >overhaul<span class="rt">彻底检修</span></span
+              > in a <span data-readto data-word="decade"
+                >decade<span class="rt">十年</span></span
+              >.
+            </p>
+            <p class="text-readto-fg mb-3">
+              <span data-readto data-word="critics"
+                >Critics<span class="rt">评论家</span></span
+              >
+              <span data-readto data-word="denounce"
+                >denounce<span class="rt">公开谴责</span></span
+              > the <span data-readto data-word="changes"
+                >changes<span class="rt">变化</span></span
+              > as <span data-readto data-word="disproportionately"
+                >disproportionately<span class="rt">不成比例地</span></span
+              >
+              <span data-readto data-word="benefiting"
+                >benefiting<span class="rt">受益</span></span
+              >
+              <span data-readto data-word="wealthy"
+                >wealthy<span class="rt">富有的</span></span
+              >
+              <span data-readto data-word="citizens"
+                >citizens<span class="rt">公民</span></span
+              >, <span data-readto data-word="accusing"
+                >accusing<span class="rt">责备的</span></span
+              > the <span data-readto data-word="administration"
+                >administration<span class="rt">管理</span></span
+              > of <span data-readto data-word="profligate"
+                >profligate<span class="rt">挥霍的</span></span
+              >
+              <span data-readto data-word="giveaways"
+                >giveaways<span class="rt">赠品</span></span
+              > and <span data-readto data-word="austerity"
+                >austerity<span class="rt">经济紧缩</span></span
+              > toward <span data-readto data-word="middle"
+                >middle<span class="rt">中间</span></span
+              >-class <span data-readto data-word="families"
+                >families<span class="rt">家庭</span></span
+              > already <span data-readto data-word="burdened"
+                >burdened<span class="rt">负担沉重的</span></span
+              > by <span data-readto data-word="rising"
+                >rising<span class="rt">上升的</span></span
+              >
+              <span data-readto data-word="costs"
+                >costs<span class="rt">费用</span></span
+              >.
+            </p>
+            <p class="text-readto-fg mb-3">
+              <span data-readto data-word="proponents"
+                >Proponents<span class="rt">支持者</span></span
+              >
+              <span data-readto data-word="counter"
+                >counter<span class="rt">反驳</span></span
+              > that <span data-readto data-word="lower"
+                >lower<span class="rt">降低</span></span
+              >
+              <span data-readto data-word="taxes"
+                >taxes<span class="rt">税款</span></span
+              > will <span data-readto data-word="stimulate"
+                >stimulate<span class="rt">刺激</span></span
+              >
+              <span data-readto data-word="investment"
+                >investment<span class="rt">投资</span></span
+              > and <span data-readto data-word="ameliorate"
+                >ameliorate<span class="rt">改善</span></span
+              > broader inequities.
+            </p>
+            <p class="text-readto-fg mb-3">
+              The <span data-readto data-word="bill"
+                >bill<span class="rt">法案</span></span
+              >
+              <span data-readto data-word="faces"
+                >faces<span class="rt">面对</span></span
+              > a <span data-readto data-word="difficult"
+                >difficult<span class="rt">困难的</span></span
+              >
+              <span data-readto data-word="path"
+                >path<span class="rt">路径</span></span
+              >
+              <span data-readto data-word="through"
+                >through<span class="rt">穿过</span></span
+              > the <span data-readto data-word="fractious"
+                >fractious<span class="rt">易怒的</span></span
+              >, <span data-readto data-word="polarized"
+                >polarized<span class="rt">极化的</span></span
+              >
+              <span data-readto data-word="legislature"
+                >legislature<span class="rt">立法机关</span></span
+              >, where <span data-readto data-word="opposition"
+                >opposition<span class="rt">反对</span></span
+              >
+              <span data-readto data-word="lawmakers"
+                >lawmakers<span class="rt">立法者</span></span
+              > have <span data-readto data-word="vowed"
+                >vowed<span class="rt">发誓</span></span
+              > to <span data-readto data-word="obstruct"
+                >obstruct<span class="rt">阻碍</span></span
+              > its <span data-readto data-word="passage"
+                >passage<span class="rt">通过</span></span
+              > with <span data-readto data-word="vituperative"
+                >vituperative<span class="rt">谩骂的</span></span
+              >
+              <span data-readto data-word="floor"
+                >floor<span class="rt">议会</span></span
+              >
+              <span data-readto data-word="speeches"
+                >speeches<span class="rt">演讲</span></span
+              >.
+            </p>
+            <p class="text-readto-fg">
+              Despite a <span data-readto data-word="flurry"
+                >flurry<span class="rt">一阵</span></span
+              > of <span data-readto data-word="grassroots"
+                >grassroots<span class="rt">草根的</span></span
+              >
+              <span data-readto data-word="rhetoric"
+                >rhetoric<span class="rt">修辞</span></span
+              >, <span data-readto data-word="recent"
+                >recent<span class="rt">最近的</span></span
+              >
+              <span data-readto data-word="polls"
+                >polls<span class="rt">民意调查</span></span
+              >
+              <span data-readto data-word="indicate"
+                >indicate<span class="rt">表明</span></span
+              >
+              <span data-readto data-word="voters"
+                >voters<span class="rt">选民</span></span
+              >
+              <span data-readto data-word="remain"
+                >remain<span class="rt">保持</span></span
+              > deeply <span data-readto data-word="skeptical"
+                >skeptical<span class="rt">怀疑的</span></span
+              > of what they <span data-readto data-word="view"
+                >view<span class="rt">看待</span></span
+              > as <span data-readto data-word="perfunctory"
+                >perfunctory<span class="rt">敷衍的</span></span
+              >
+              <span data-readto data-word="concessions"
+                >concessions<span class="rt">让步</span></span
+              >, <span data-readto data-word="leaving"
+                >leaving<span class="rt">留下</span></span
+              >
+              <span data-readto data-word="negotiations"
+                >negotiations<span class="rt">谈判</span></span
+              > at a <span data-readto data-word="fragile"
+                >fragile<span class="rt">脆弱的</span></span
+              >
+              <span data-readto data-word="impasse"
+                >impasse<span class="rt">僵局</span></span
+              >.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section
+      id="how"
+      class="pt-20 pb-20 border-t border-readto-rule mt-12 sm:mt-20"
+    >
+      <div class="max-w-content mx-auto px-6">
+        <div
+          class="flex flex-col md:flex-row items-start md:items-baseline justify-between mb-10 md:mb-14 gap-6"
+        >
+          <div
+            class="flex items-center gap-3 text-[11px] text-readto-muted tracking-[0.14em] uppercase font-semibold"
+          >
+            <span class="inline-block w-6 h-px bg-readto-accent"></span>
+            原理 · How it works
+          </div>
+          <h2
+            class="font-serif font-normal text-[32px] md:text-[44px] tracking-tight m-0 leading-[1.1] max-w-lg"
+          >
+            读你本来就想读的，<br />生词在<span
+              class="not-italic text-readto-accent">阅读中</span
+            >自然沉淀。
+          </h2>
+        </div>
+
+        <div class="grid md:grid-cols-3 border-t border-readto-rule-2">
+          <!-- Feature 1 -->
+          <div
+            class="py-10 px-8 pb-2 min-h-[260px] flex flex-col gap-3 relative border-b md:border-b-0 md:border-r border-readto-rule-2 md:first:pl-0 md:last:pr-0 last:border-r-0"
+          >
+            <div
+              class="font-serif text-sm text-readto-accent font-medium tracking-[0.02em]"
+            >
+              No. 01
+            </div>
+            <h3
+              class="font-serif font-medium text-[18px] m-0 tracking-tight leading-snug"
+            >
+              只标你不会的词
+            </h3>
+            <p
+              class="mt-1.5 text-readto-fg-2 text-[14px] leading-[1.65] max-w-xs"
+            >
+              根据你选择的英语水平，跳过你已经会的，只在真正超纲的词上方加注。
+            </p>
+            <div
+              class="font-serif text-sm text-readto-fg mt-auto pt-6 leading-8 border-t border-dotted border-readto-rule w-full"
+            >
+              He was <span data-readto class="annot-word" data-word="ostensibly"
+                >ostensibly<span class="rt">表面上</span></span
+              > in charge, but the real power lay <span
+                data-readto
+                class="annot-word"
+                data-word="elsewhere"
+                >elsewhere<span class="rt">别处</span></span
+              >.
+            </div>
+          </div>
+
+          <!-- Feature 2 -->
+          <div
+            class="py-10 px-8 pb-2 min-h-[260px] flex flex-col gap-3 relative border-b md:border-b-0 md:border-r border-readto-rule-2 md:first:pl-0 md:last:pr-0 last:border-r-0"
+          >
+            <div
+              class="font-serif text-sm text-readto-accent font-medium tracking-[0.02em]"
+            >
+              No. 02
+            </div>
+            <h3
+              class="font-serif font-medium text-xl m-0 tracking-tight leading-snug"
+            >
+              不打断你的阅读节奏
+            </h3>
+            <p class="mt-1.5 text-readto-fg-2 text-sm leading-relaxed max-w-xs">
+              中文释义以小字标注在单词上方，不需要划词、点击或跳转词典。
+            </p>
+            <div
+              class="font-serif text-sm text-readto-fg mt-auto pt-6 leading-8 border-t border-dotted border-readto-rule w-full"
+            >
+              The findings were <span
+                data-readto
+                class="annot-word"
+                data-word="ambiguous"
+                >ambiguous<span class="rt">模糊的</span></span
+              >, leaving room for <span
+                data-readto
+                class="annot-word"
+                data-word="interpretation"
+                >interpretation<span class="rt">解读</span></span
+              >.
+            </div>
+          </div>
+
+          <!-- Feature 3 -->
+          <div
+            class="py-10 px-8 pb-2 min-h-[260px] flex flex-col gap-3 relative md:first:pl-0 md:last:pr-0 last:border-r-0"
+          >
+            <div
+              class="font-serif text-sm text-readto-accent font-medium tracking-[0.02em]"
+            >
+              No. 03
+            </div>
+            <h3
+              class="font-serif font-medium text-xl m-0 tracking-tight leading-snug"
+            >
+              任何英文页面都能用
+            </h3>
+            <p class="mt-1.5 text-readto-fg-2 text-sm leading-relaxed max-w-xs">
+              新闻、博客、论文、小说——所有英文网页都支持。
+            </p>
+            <div
+              class="flex flex-wrap gap-2 mt-auto pt-6 border-t border-dotted border-readto-rule"
+            >
+              <span
+                class="text-xs bg-readto-rule-2 px-2 py-1 rounded text-readto-fg-2"
+                >nytimes.com</span
+              >
+              <span
+                class="text-xs bg-readto-rule-2 px-2 py-1 rounded text-readto-fg-2"
+                >medium.com</span
+              >
+              <span
+                class="text-xs bg-readto-rule-2 px-2 py-1 rounded text-readto-fg-2"
+                >arxiv.org</span
+              >
+              <span
+                class="text-xs bg-readto-rule-2 px-2 py-1 rounded text-readto-fg-2"
+                >wikipedia.org</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Read This Way -->
+    <section
+      class="py-20 border-t border-readto-rule bg-gradient-to-b from-readto-bg to-readto-rule-2"
+    >
+      <div
+        class="max-w-content mx-auto px-4 sm:px-6 grid md:grid-cols-[1fr_2fr] gap-8 items-start"
+      >
+        <div
+          class="text-[11px] text-readto-muted tracking-[0.14em] uppercase font-semibold"
+        >
+          Why read this way
+        </div>
+        <div>
+          <blockquote
+            class="m-0 font-serif font-normal text-[32px] md:text-[44px] leading-[1.2] tracking-tight"
+          >
+            背单词的最好方式，<br />
+            是在<span class="not-italic text-readto-accent">真实阅读</span
+            >里反复遇到它。
+          </blockquote>
+          <cite
+            class="block mt-5 text-sm text-readto-muted tracking-[0.02em] not-italic"
+          >
+            — readto 的设计前提
+          </cite>
+        </div>
       </div>
     </section>
   </main>
 
-  <SiteFooter />
+  <!-- Footer -->
+  <footer class="border-t border-readto-rule">
+    <div
+      class="max-w-content mx-auto px-4 sm:px-6 py-6 sm:py-8 flex flex-col sm:flex-row items-center justify-between gap-4"
+    >
+      <a href={base} class="text-[14px] font-medium font-serif tracking-tight">
+        readto<span class="text-readto-accent">.</span><span
+          class="text-[0.7em] text-readto-muted">ai</span
+        >
+      </a>
+      <div class="flex items-center gap-6">
+        <a
+          href={`${base}/privacy`}
+          class="text-[12px] text-readto-muted hover:text-readto-fg"
+        >
+          隐私政策
+        </a>
+        <span class="text-[12px] text-readto-muted">© 2026 · 读懂</span>
+      </div>
+    </div>
+  </footer>
 
   <!-- Translation Tooltip -->
   <div id="tooltip" class="tooltip hidden">
     <div class="phonetic">
       <button class="speaker" type="button" aria-label="Play pronunciation">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
           <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"
+          ></path>
         </svg>
       </button>
       <span class="ipa"></span>
@@ -259,6 +604,7 @@ const base = import.meta.env.BASE_URL;
     <div class="examples"></div>
   </div>
 </Layout>
+
 <script>
   // 从扩展项目 level-data-full.json + translations-detail 导出
   const LEVEL_ORDER: Record<string, number> = {
@@ -1705,31 +2051,13 @@ const base = import.meta.env.BASE_URL;
   const demoContent = document.getElementById("demo-content");
   const sliderLabels = document.querySelectorAll(".slider-label");
 
-  const levelDescs: Record<string, string[]> = {
-    zh: [
-      "只标最基础的词。",
-      "标高考以下的词。",
-      "只标大学四六级以上的词。",
-      "标雅思托福以上的词。",
-      "只标最生僻的词。",
-    ],
-    en: [
-      "Annotate only the most basic words.",
-      "Annotate words above high-school level.",
-      "Annotate words above CET-4/6 level.",
-      "Annotate words above IELTS/TOEFL level.",
-      "Annotate only rare, advanced words.",
-    ],
-  };
-
-  const levelValueTexts: Record<string, string[]> = {
-    zh: ["入门", "基础", "进阶", "熟练", "精通"],
-    en: ["Beginner", "Basic", "Intermediate", "Advanced", "Fluent"],
-  };
-
-  function getCurrentLang(): "zh" | "en" {
-    return document.documentElement.dataset.lang === "en" ? "en" : "zh";
-  }
+  const levelDescs = [
+    "只标最基础的词。",
+    "标高考以下的词。",
+    "只标大学四六级以上的词。",
+    "标雅思托福以上的词。",
+    "只标最生僻的词。",
+  ];
   let currentLevel = 2;
 
   function getWordsForLevel(userLevelIndex: number): string[] {
@@ -1764,7 +2092,7 @@ const base = import.meta.env.BASE_URL;
     currentLevel = level;
     const percent = getPercent(level);
     if (knob) knob.style.left = `${percent}%`;
-    if (trackFill) trackFill.style.width = `${percent - 10}%`;
+    if (trackFill) trackFill.style.width = `${percent}%`;
     sliderLabels.forEach((label, i) => {
       if (i === level) {
         label.classList.add("active", "text-readto-ink", "font-medium");
@@ -1774,12 +2102,12 @@ const base = import.meta.env.BASE_URL;
         label.classList.add("text-readto-muted-2");
       }
     });
-    if (levelDesc) levelDesc.textContent = levelDescs[getCurrentLang()][level];
+    if (levelDesc) levelDesc.textContent = levelDescs[level];
     if (slider) {
       slider.setAttribute("aria-valuenow", String(level + 1));
       slider.setAttribute(
         "aria-valuetext",
-        levelValueTexts[getCurrentLang()][level],
+        ["入门", "基础", "进阶", "熟练", "精通"][level],
       );
     }
     updateAnnotations(level);
@@ -1864,5 +2192,4 @@ const base = import.meta.env.BASE_URL;
     }
   } catch {}
   updateSlider(savedLevel, false);
-  window.addEventListener("readto:lang", () => updateSlider(currentLevel, false));
 </script>
