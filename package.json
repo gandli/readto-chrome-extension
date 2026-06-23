@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "wxt --mv3",
+    "dev": "node scripts/run-wxt-dev.mjs --mv3",
     "build": "wxt build --mv3 && node scripts/sync-wxt-dist.mjs",
-    "preview": "wxt --mv3",
+    "preview": "node scripts/run-wxt-dev.mjs --mv3",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
