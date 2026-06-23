@@ -4,3 +4,7 @@ dist/
 .astro/
 # dependencies
 node_modules/
+
+# local design verification artifacts
+.impeccable/
+readto-*.png
