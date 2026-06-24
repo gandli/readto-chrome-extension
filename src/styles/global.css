@@ -69,9 +69,10 @@ button:focus-visible,
 
 .rt {
   position: absolute;
-  left: 50%;
+  right: 0;
   top: 0;
-  transform: translateX(-50%);
+  transform: none;
+  transform-origin: top right;
   display: block;
   width: max-content;
   max-width: 7em;
