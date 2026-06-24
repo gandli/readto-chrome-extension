@@ -152,6 +152,11 @@ button:focus-visible,
   animation: readto-speaker-pulse 0.4s ease-out;
 }
 
+.tooltip .speaker.unsupported {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
 @keyframes readto-speaker-pulse {
   0%   { transform: scale(1); }
   45%  { transform: scale(1.18); }

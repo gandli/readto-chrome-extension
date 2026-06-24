@@ -1814,28 +1814,60 @@ const howHref = `${base}#how`;
   const speaker = tooltip?.querySelector(".speaker");
 
   let activeTooltipWord: string | null = null;
+  const speechSupported =
+    "speechSynthesis" in window && "SpeechSynthesisUtterance" in window;
+  let cachedEnglishVoice: SpeechSynthesisVoice | null = null;
 
-  // 朗读功能
+  function getEnglishVoice(): SpeechSynthesisVoice | null {
+    if (!speechSupported) return null;
+    const voices = window.speechSynthesis.getVoices();
+    cachedEnglishVoice =
+      voices.find((v) => v.lang.toLowerCase().startsWith("en") && /google/i.test(v.name)) ||
+      voices.find((v) => v.lang.toLowerCase().startsWith("en") && /microsoft|zira|aria|samantha|daniel/i.test(v.name)) ||
+      voices.find((v) => v.lang.toLowerCase().startsWith("en")) ||
+      voices[0] ||
+      cachedEnglishVoice ||
+      null;
+    return cachedEnglishVoice;
+  }
+
+  if (speechSupported) {
+    getEnglishVoice();
+    window.speechSynthesis.addEventListener?.("voiceschanged", getEnglishVoice);
+  } else {
+    speaker?.setAttribute("aria-disabled", "true");
+    speaker?.setAttribute("title", "当前浏览器不支持系统朗读");
+    speaker?.classList.add("unsupported");
+  }
+
+  // 朗读功能：优先使用浏览器原生 Web Speech API，兼容 Chrome / Edge / Safari / Firefox 的不同 voices 加载时机。
   function speakWord(word: string) {
-    if (!("speechSynthesis" in window)) return;
-    speechSynthesis.cancel();
+    if (!speechSupported || !word) return;
+    const synth = window.speechSynthesis;
+    synth.cancel();
     const utterance = new SpeechSynthesisUtterance(word);
     utterance.lang = "en-US";
     utterance.rate = 0.9;
     utterance.pitch = 1;
-    const voices = speechSynthesis.getVoices();
-    const enVoice =
-      voices.find(
-        (v) => v.lang.startsWith("en") && v.name.includes("Google"),
-      ) || voices.find((v) => v.lang.startsWith("en"));
+    const enVoice = getEnglishVoice();
     if (enVoice) utterance.voice = enVoice;
-    speaker?.classList.remove("playing");
+
+    speaker?.classList.remove("playing", "unsupported");
     void (speaker as HTMLElement)?.offsetWidth;
     speaker?.classList.add("playing");
-    setTimeout(() => speaker?.classList.remove("playing"), 400);
-    utterance.onend = () => speaker?.classList.remove("playing");
-    utterance.onerror = () => speaker?.classList.remove("playing");
-    speechSynthesis.speak(utterance);
+    const clearPlaying = () => speaker?.classList.remove("playing");
+    const fallbackTimer = window.setTimeout(clearPlaying, 1600);
+    utterance.onend = () => {
+      window.clearTimeout(fallbackTimer);
+      clearPlaying();
+    };
+    utterance.onerror = () => {
+      window.clearTimeout(fallbackTimer);
+      clearPlaying();
+    };
+    synth.speak(utterance);
+    // Safari / iOS 有时会把队列置为 paused；在用户点击事件内 resume 可提升兼容性。
+    window.setTimeout(() => synth.resume?.(), 0);
   }
 
   speaker?.addEventListener("click", (e) => {
@@ -1844,7 +1876,7 @@ const howHref = `${base}#how`;
     if (activeTooltipWord) speakWord(activeTooltipWord.toLowerCase());
   });
 
-  function showTooltip(word: string, rect: DOMRect) {
+  function showTooltip(word: string, rect: DOMRect, options: { autoHide?: boolean } = {}) {
     const detail = wordDetails[word.toLowerCase()];
     if (!detail || !tooltip) return;
     cleanup();
@@ -1903,7 +1935,9 @@ const howHref = `${base}#how`;
     tooltip.style.left = `${left}px`;
     tooltip.style.visibility = "";
     tooltip.classList.add("show");
-    activeAutoHideTimer = setTimeout(cleanup, 30_000);
+    if (options.autoHide !== false) {
+      activeAutoHideTimer = setTimeout(cleanup, 30_000);
+    }
   }
 
   let activeAutoHideTimer: ReturnType<typeof setTimeout> | null = null;
@@ -2068,6 +2102,29 @@ const howHref = `${base}#how`;
     });
   }
 
+  function findDefaultTooltipTarget(): HTMLElement | null {
+    if (!demoContent) return null;
+    const preferredWords = ["overhaul", "profligate", "ameliorate", "sweeping", "president"];
+    const candidates = preferredWords
+      .map((word) => demoContent.querySelector<HTMLElement>(`[data-word="${word}"]`))
+      .filter((el): el is HTMLElement => Boolean(el));
+    candidates.push(...Array.from(demoContent.querySelectorAll<HTMLElement>("[data-readto]")));
+    return (
+      candidates.find((el) => {
+        const rt = el.querySelector<HTMLElement>(".rt");
+        return rt && window.getComputedStyle(rt).display !== "none";
+      }) || null
+    );
+  }
+
+  function showDefaultTooltip() {
+    const target = findDefaultTooltipTarget();
+    if (!target) return;
+    const word = target.getAttribute("data-word");
+    if (!word) return;
+    showTooltip(word, target.getBoundingClientRect(), { autoHide: false });
+  }
+
   function getPercent(level: number): number {
     return (level / 4) * 100;
   }
@@ -2095,6 +2152,7 @@ const howHref = `${base}#how`;
       );
     }
     updateAnnotations(level);
+    showDefaultTooltip();
     if (save)
       try {
         localStorage.setItem("readto-level", String(level));

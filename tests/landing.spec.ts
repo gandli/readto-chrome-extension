@@ -87,6 +87,14 @@ test.describe('Readto Landing Page', () => {
       expect(metrics).toEqual({ width: 1180, x: 39, maxWidth: '1180px' });
     });
 
+    test('should show tooltip by default in browser mockup', async ({ page }) => {
+      const tooltip = page.locator('#tooltip');
+      await expect(tooltip).toHaveClass(/show/);
+      await expect(tooltip).not.toHaveClass(/hidden/);
+      await expect(tooltip.locator('.body')).toContainText('彻底检修');
+      await expect(page.locator('[data-word="overhaul"] .rt')).toBeVisible();
+    });
+
     test('should preserve readable spacing between annotated words in browser mockup', async ({ page }) => {
       await page.locator('.slider-label:has-text("入门")').click({ force: true });
 
@@ -387,6 +395,49 @@ test.describe('Readto Landing Page', () => {
       const speaker = page.locator('#tooltip .speaker');
       await expect(speaker).toBeAttached();
       await expect(speaker).toHaveAttribute('aria-label', /pronunciation/i);
+    });
+
+    test('should have cross-browser speaker button wired to Web Speech API', async ({ page }) => {
+      let spoken = '';
+      await page.addInitScript(() => {
+        class MockUtterance {
+          text: string;
+          lang = '';
+          rate = 1;
+          pitch = 1;
+          voice: SpeechSynthesisVoice | null = null;
+          onend: (() => void) | null = null;
+          onerror: (() => void) | null = null;
+          constructor(text: string) {
+            this.text = text;
+          }
+        }
+        Object.defineProperty(window, 'SpeechSynthesisUtterance', {
+          value: MockUtterance,
+          configurable: true,
+        });
+        Object.defineProperty(window, 'speechSynthesis', {
+          value: {
+            cancel: () => {},
+            resume: () => {},
+            addEventListener: () => {},
+            getVoices: () => [{ name: 'Microsoft Aria', lang: 'en-US' }],
+            speak: (utterance: { text: string; onend?: () => void }) => {
+              window.localStorage.setItem('last-spoken-word', utterance.text);
+              utterance.onend?.();
+            },
+          },
+          configurable: true,
+        });
+      });
+      await page.reload();
+      await page.waitForLoadState('domcontentloaded');
+
+      const speaker = page.locator('#tooltip .speaker');
+      await expect(page.locator('#tooltip')).toHaveClass(/show/);
+      await speaker.click();
+      spoken = (await page.evaluate(() => window.localStorage.getItem('last-spoken-word'))) || '';
+      expect(spoken).toBe('overhaul');
     });
 
     test('should close on Escape', async ({ page }) => {
