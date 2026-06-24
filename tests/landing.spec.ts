@@ -86,6 +86,33 @@ test.describe('Readto Landing Page', () => {
 
       expect(metrics).toEqual({ width: 1180, x: 39, maxWidth: '1180px' });
     });
+
+    test('should preserve readable spacing between annotated words in browser mockup', async ({ page }) => {
+      const spacing = await page.locator('#demo-content p:has([data-readto])').first().evaluate((paragraph) => {
+        const words = Array.from(paragraph.querySelectorAll<HTMLElement>('[data-readto]')).slice(0, 5);
+        const boxes = words.map((el) => {
+          const rect = el.getBoundingClientRect();
+          return {
+            word: el.dataset.word,
+            left: rect.left,
+            right: rect.right,
+          };
+        });
+
+        return {
+          text: (paragraph as HTMLElement).innerText.replace(/\s+/g, ' ').trim(),
+          gaps: boxes.slice(1).map((box, index) => ({
+            pair: `${boxes[index].word}-${box.word}`,
+            gap: box.left - boxes[index].right,
+          })),
+        };
+      });
+
+      expect(spacing.text).toContain('The president announced sweeping reforms');
+      for (const item of spacing.gaps) {
+        expect(item.gap, `${item.pair} should keep a visible word gap`).toBeGreaterThan(2);
+      }
+    });
   });
 
   test.describe('Level Slider', () => {
@@ -309,11 +336,10 @@ test.describe('Readto Landing Page', () => {
       const tooltip = page.locator('#tooltip');
       const word = page.locator('[data-word="sweeping"]').first();
       
-      await word.click({ force: true });
-      await page.waitForTimeout(500);
+      await openTooltip(page);
       await expect(tooltip).toHaveClass(/show/);
       
-      await word.click({ force: true });
+      await word.dispatchEvent('click');
       await page.waitForTimeout(500);
       await expect(tooltip).toHaveClass(/hidden/);
     });

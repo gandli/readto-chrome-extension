@@ -2033,6 +2033,25 @@ const howHref = `${base}#how`;
       .map(([word]) => word);
   }
 
+  function ensureReadableDemoSpacing(root: HTMLElement) {
+    root.querySelectorAll("[data-readto]").forEach((element) => {
+      const next = element.nextSibling;
+      if (!next) return;
+
+      if (next.nodeType === Node.TEXT_NODE) {
+        const text = next.textContent ?? "";
+        if (text.length === 0 || /^\s/.test(text) || !/^[A-Za-z0-9]/.test(text)) return;
+      } else if (
+        next.nodeType !== Node.ELEMENT_NODE ||
+        !(next as Element).matches("[data-readto]")
+      ) {
+        return;
+      }
+
+      element.after(document.createTextNode(" "));
+    });
+  }
+
   function updateAnnotations(level: number) {
     if (!demoContent) return;
     const showWords = getWordsForLevel(level);
@@ -2145,5 +2164,6 @@ const howHref = `${base}#how`;
       if (parsed >= 0 && parsed <= 4) savedLevel = parsed;
     }
   } catch {}
+  if (demoContent) ensureReadableDemoSpacing(demoContent);
   updateSlider(savedLevel, false);
 </script>

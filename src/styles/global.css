@@ -53,8 +53,10 @@ button:focus-visible,
 
 /* ─── 动态元素：标注（JS 创建，无法用 Tailwind 类）─── */
 [data-readto] {
+  display: inline-block;
   white-space: nowrap;
   position: relative;
+  vertical-align: baseline;
   cursor: pointer;
 }
 
@@ -64,14 +66,21 @@ button:focus-visible,
 }
 
 .rt {
-  display: inline;
-  font-size: 0.6em;
-  vertical-align: super;
-  line-height: 0;
+  position: absolute;
+  left: 50%;
+  bottom: 1.05em;
+  transform: translateX(-50%);
+  display: block;
+  width: max-content;
+  max-width: 7em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.58em;
+  line-height: 1;
   font-weight: 400;
   color: inherit;
   opacity: 0.85;
-  margin-left: 1px;
   pointer-events: none;
   user-select: none;
 }
@@ -325,14 +334,14 @@ button:focus-visible,
 
   [data-readto] {
     -webkit-tap-highlight-color: transparent;
-    padding: 4px 2px;
-    margin: -4px -2px;
-    display: inline;
+    padding: 4px 0;
+    margin: -4px 0;
+    display: inline-block;
   }
 
   .rt {
     font-size: 0.5em;
-    margin-left: 0;
+    max-width: 6em;
   }
 }
 
