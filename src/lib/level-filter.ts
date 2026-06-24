@@ -629,6 +629,13 @@ function setupHoverDetail(
     }, HOVER_HIDE_DELAY);
   };
 
+  const speakHoveredWord = () => {
+    if (!autoSpeak) return;
+    speakAbort?.abort();
+    speakAbort = new AbortController();
+    speakWord(word.toLowerCase(), speakAbort.signal);
+  };
+
   const showTooltip = async () => {
     showTimer = null;
     const mySeq = ++seq;
@@ -669,10 +676,6 @@ function setupHoverDetail(
     tip.style.left = `${left}px`;
     tip.style.visibility = '';
 
-    // Auto-speak if enabled
-    if (autoSpeak) {
-      speakWord(word.toLowerCase());
-    }
   };
 
   // Click to pin/unpin
@@ -692,6 +695,7 @@ function setupHoverDetail(
     tipHovered = false;
     clearShow();
     clearHide();
+    speakHoveredWord();
     showTimer = setTimeout(showTooltip, HOVER_SHOW_DELAY);
   });
   host.addEventListener('pointerleave', () => {

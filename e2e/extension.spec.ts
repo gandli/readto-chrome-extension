@@ -45,4 +45,16 @@ test.describe('Extension E2E (real extension loading)', () => {
     console.log(`Options page title: ${title}`);
     expect(title).toBeTruthy();
   });
+
+  test('LongCat endpoint 自动使用 LongCat 默认模型', async ({ context, extensionId }) => {
+    const page = await context.newPage();
+    await page.goto(`chrome-extension://${extensionId}/options.html`);
+    await page.waitForSelector('#llm-toggle', { timeout: 10000 });
+
+    await page.locator('label[for="llm-toggle"]').click();
+    await page.locator('#endpoint').fill('https://api.longcat.chat/openai/chat/completions');
+
+    await expect(page.locator('#model')).toHaveValue('LongCat-2.0-Preview');
+  });
+
 });

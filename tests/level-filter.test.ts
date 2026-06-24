@@ -58,12 +58,13 @@ vi.mock('../src/lib/level-data', () => ({
   loadLevelData: vi.fn(async () => new Map(Object.entries(TEST_WORDS))),
 }));
 
-/* ── Mock pronunciation.ts (not exercised in these tests) ── */
+/* ── Mock pronunciation.ts ── */
 vi.mock('../src/lib/pronunciation', () => ({
   speakWordSync: vi.fn(),
 }));
 
 /* ── Import AFTER mocks ── */
+import { speakWordSync } from '../src/lib/pronunciation';
 import {
   tokenizeWords,
   getSiteRule,
@@ -1043,6 +1044,24 @@ describe('createReadtoSpan', () => {
       getDetail,
     });
     span.dispatchEvent(new PointerEvent('pointerenter'));
+    expect(getDetail).not.toHaveBeenCalled();
+  });
+
+  it('auto-speaks immediately on pointerenter without waiting for tooltip detail', () => {
+    const getDetail = vi.fn(() => new Promise<null>(() => {}));
+    const speak = vi.mocked(speakWordSync);
+    speak.mockClear();
+
+    const span = createReadtoSpan(document, 'Hello', '你好', {
+      withHoverDetail: true,
+      getDetail,
+      autoSpeak: true,
+    });
+
+    span.dispatchEvent(new PointerEvent('pointerenter'));
+
+    expect(speak).toHaveBeenCalledTimes(1);
+    expect(speak).toHaveBeenCalledWith('hello', expect.any(AbortSignal));
     expect(getDetail).not.toHaveBeenCalled();
   });
 

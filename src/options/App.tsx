@@ -39,6 +39,7 @@ const POS_TO_LEVEL: Record<number, CefrLevel> = {
 
 const DEFAULT_ENDPOINT = 'https://api.openai.com/v1/chat/completions';
 const DEFAULT_MODEL = 'gpt-4o-mini';
+const LONGCAT_DEFAULT_MODEL = 'LongCat-2.0-Preview';
 
 const SAVE_DEBOUNCE_MS = 200;
 const LLM_SAVE_DEBOUNCE_MS = 500;
@@ -826,6 +827,10 @@ function useSettings() {
   const setEndpoint = useCallback(
     (v: string) => {
       setEndpointState(v);
+      if (v.includes('longcat.chat') && modelRef.current === DEFAULT_MODEL) {
+        setModelState(LONGCAT_DEFAULT_MODEL);
+        modelRef.current = LONGCAT_DEFAULT_MODEL;
+      }
       debouncedSaveLlm();
     },
     [debouncedSaveLlm],

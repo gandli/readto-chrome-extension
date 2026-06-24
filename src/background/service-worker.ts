@@ -8,7 +8,7 @@
  * - Open options page on install and action click
  */
 
-import { initStorage, getReadableConfig, isFullConfig } from '../lib/storage';
+import { initStorage, getLlmConfig, isFullConfig } from '../lib/storage';
 
 // ─── Constants ─────────────────────────────────────────────────────
 
@@ -164,6 +164,14 @@ function estimatePromptSize(items: TranslateItem[]): number {
   return size;
 }
 
+async function resolveLlmConfigFromStorage(): Promise<{ endpoint: string; model: string; apiKey: string }> {
+  const config = await getLlmConfig();
+  if (!isFullConfig(config) || config.translationMode !== 'llm' || !config.llm) {
+    throw new Error('LLM config is incomplete');
+  }
+  return config.llm;
+}
+
 async function translateBatch(
   items: TranslateItem[],
   cfg: { endpoint: string; model: string; apiKey: string },
@@ -230,13 +238,25 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
       return true;
     }
 
-    // LLM mode: use LLM translation
-    translateBatch(items, cfg)
+    // LLM mode: use service-worker storage for the real API key, then fall back locally on any LLM failure.
+    resolveLlmConfigFromStorage()
+      .then((llmCfg) => translateBatch(items, llmCfg))
       .then((results) => {
         sendResponse({ ok: true, results });
       })
       .catch((err) => {
-        sendResponse({ ok: false, error: String(err) });
+        console.warn('[readto] LLM translation failed, falling back to local dictionary:', err);
+        loadLocalDict()
+          .then(() => {
+            const results = translateLocal(items);
+            sendResponse({ ok: true, results, fallback: 'local', error: String(err) });
+          })
+          .catch((fallbackErr) => {
+            sendResponse({
+              ok: false,
+              error: `LLM failed: ${String(err)}; local fallback failed: ${String(fallbackErr)}`,
+            });
+          });
       });
 
     return true; // async response

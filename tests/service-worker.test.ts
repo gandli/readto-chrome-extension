@@ -4,8 +4,10 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 // ── Hoisted mocks (available before vi.mock hoisting) ────────────────
-const { mockInitStorage, mockStreamBatch } = vi.hoisted(() => ({
+const { mockInitStorage, mockGetLlmConfig, mockIsFullConfig, mockStreamBatch } = vi.hoisted(() => ({
   mockInitStorage: vi.fn(),
+  mockGetLlmConfig: vi.fn(),
+  mockIsFullConfig: vi.fn(),
   mockStreamBatch: vi.fn(),
 }));
 
@@ -40,8 +42,8 @@ const mockFetch = vi.fn();
 // ── Module mocks ──────────────────────────────────────────────────────
 vi.mock('../src/lib/storage', () => ({
   initStorage: mockInitStorage,
-  getReadableConfig: vi.fn(),
-  isFullConfig: vi.fn(),
+  getLlmConfig: mockGetLlmConfig,
+  isFullConfig: mockIsFullConfig,
 }));
 
 vi.mock('../src/lib/llm-stream', () => ({
@@ -77,6 +79,13 @@ beforeEach(async () => {
   mockSessionGet.mockResolvedValue({});
   mockSessionSet.mockResolvedValue(undefined);
   mockFetch.mockResolvedValue({ ok: true, json: async () => ({}) });
+  mockGetLlmConfig.mockResolvedValue({
+    level: 'B2',
+    translationMode: 'llm',
+    llm: { endpoint: LLM_CFG.endpoint, model: LLM_CFG.model, apiKey: LLM_CFG.apiKey },
+    autoSpeak: false,
+  });
+  mockIsFullConfig.mockReturnValue(true);
   mockStreamBatch.mockResolvedValue([]);
 
   // Import the service worker — this registers all listeners
@@ -409,9 +418,11 @@ describe('TRANSLATE_MANY LLM mode', () => {
       cfg: LLM_CFG,
     });
 
-    expect(response.ok).toBe(false);
+    expect(response.ok).toBe(true);
+    expect(response.fallback).toBe('local');
     expect(response.error).toContain('201 targets');
     expect(response.error).toContain('200');
+    expect(response.results).toEqual([[]]);
     // streamBatch should never be called
     expect(mockStreamBatch).not.toHaveBeenCalled();
   });
@@ -444,8 +455,10 @@ describe('TRANSLATE_MANY LLM mode', () => {
       cfg: LLM_CFG,
     });
 
-    expect(response.ok).toBe(false);
+    expect(response.ok).toBe(true);
+    expect(response.fallback).toBe('local');
     expect(response.error).toContain('120000');
+    expect(response.results).toEqual([[]]);
     expect(mockStreamBatch).not.toHaveBeenCalled();
   });
 
@@ -470,10 +483,56 @@ describe('TRANSLATE_MANY LLM mode', () => {
       [{ word: 'hello', occurrence: 0, translation: '你好' }],
     ]);
     expect(mockStreamBatch).toHaveBeenCalledTimes(1);
+    expect(mockStreamBatch).toHaveBeenCalledWith(expect.objectContaining({
+      cfg: { endpoint: LLM_CFG.endpoint, model: LLM_CFG.model, apiKey: 'sk-test' },
+    }));
   });
 
-  it('returns streamBatch error to caller', async () => {
-    mockStreamBatch.mockRejectedValue(new Error('LLM connection failed'));
+  it('uses real LLM config from service-worker storage instead of redacted content-script cfg', async () => {
+    mockGetLlmConfig.mockResolvedValue({
+      level: 'B2',
+      translationMode: 'llm',
+      llm: {
+        endpoint: 'https://api.longcat.chat/openai/chat/completions',
+        model: 'LongCat-2.0-Preview',
+        apiKey: 'sk-real-longcat-key'
+      },
+      autoSpeak: false,
+    });
+    mockStreamBatch.mockResolvedValue([
+      [{ word: 'hello', occurrence: 0, translation: '你好' }],
+    ]);
+
+    const response = await callHandler({
+      type: 'TRANSLATE_MANY',
+      items: [{ context: 'hello', targets: [{ word: 'hello', occurrence: 0 }] }],
+      cfg: {
+        translationMode: 'llm',
+        llm: {
+          endpoint: 'https://api.longcat.chat/openai/chat/completions',
+          model: 'gpt-4o-mini',
+          apiKey: '<REDACTED-IN-CONTENT-CONTEXT>',
+        },
+      },
+    });
+
+    expect(response.ok).toBe(true);
+    expect(mockStreamBatch).toHaveBeenCalledWith(expect.objectContaining({
+      cfg: {
+        endpoint: 'https://api.longcat.chat/openai/chat/completions',
+        model: 'LongCat-2.0-Preview',
+        apiKey: 'sk-real-longcat-key'
+      },
+    }));
+  });
+
+  it('falls back to local dictionary when streamBatch errors', async () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    mockStreamBatch.mockRejectedValue(new Error('Unsupported model (model=gpt-4o-mini)'));
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: async () => ({ test: '测试' }),
+    });
 
     const response = await callHandler({
       type: 'TRANSLATE_MANY',
@@ -486,8 +545,17 @@ describe('TRANSLATE_MANY LLM mode', () => {
       cfg: LLM_CFG,
     });
 
-    expect(response.ok).toBe(false);
-    expect(response.error).toContain('LLM connection failed');
+    expect(response.ok).toBe(true);
+    expect(response.fallback).toBe('local');
+    expect(response.error).toContain('Unsupported model');
+    expect(response.results).toEqual([
+      [{ word: 'test', occurrence: 0, translation: '测试' }],
+    ]);
+    expect(warnSpy).toHaveBeenCalledWith(
+      '[readto] LLM translation failed, falling back to local dictionary:',
+      expect.any(Error),
+    );
+    warnSpy.mockRestore();
   });
 });
 
@@ -562,8 +630,10 @@ describe('rate limiting', () => {
       cfg: LLM_CFG,
     });
 
-    expect(response.ok).toBe(false);
+    expect(response.ok).toBe(true);
+    expect(response.fallback).toBe('local');
     expect(response.error).toContain('rate-limit');
+    expect(response.results).toEqual([[]]);
     expect(mockStreamBatch).not.toHaveBeenCalled();
   });
 
@@ -593,6 +663,13 @@ describe('rate limiting', () => {
     // Need to re-import since session storage is checked at call time via globalThis
     vi.resetModules();
     mockFetch.mockResolvedValue({ ok: true, json: async () => ({}) });
+    mockGetLlmConfig.mockResolvedValue({
+      level: 'B2',
+      translationMode: 'llm',
+      llm: { endpoint: LLM_CFG.endpoint, model: LLM_CFG.model, apiKey: LLM_CFG.apiKey },
+      autoSpeak: false,
+    });
+    mockIsFullConfig.mockReturnValue(true);
     mockStreamBatch.mockResolvedValue([]);
     await import('../src/background/service-worker');
     const handler = mockOnMessageAddListener.mock.calls[mockOnMessageAddListener.mock.calls.length - 1][0];
