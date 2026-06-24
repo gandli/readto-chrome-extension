@@ -92,9 +92,11 @@ test.describe('Readto Landing Page', () => {
 
       const spacing = await page.locator('#demo-content p:has([data-readto])').first().evaluate((paragraph) => {
         const getTextRect = (element: HTMLElement) => {
-          const textNode = Array.from(element.childNodes).find(
+          const directText = Array.from(element.childNodes).find(
             (node) => node.nodeType === Node.TEXT_NODE && (node.textContent || '').trim(),
           );
+          const rubyText = element.querySelector('ruby')?.firstChild;
+          const textNode = directText ?? rubyText;
           if (!textNode) return null;
 
           const range = document.createRange();
@@ -102,24 +104,26 @@ test.describe('Readto Landing Page', () => {
           const rect = range.getBoundingClientRect();
           range.detach();
           return {
-            top: rect.top,
+            left: rect.left,
             right: rect.right,
+            top: rect.top,
+            bottom: rect.bottom,
           };
         };
 
         const words = Array.from(paragraph.querySelectorAll<HTMLElement>('[data-readto]'));
         const boxes = words.slice(0, 5).map((el) => {
-          const rect = el.getBoundingClientRect();
+          const textRect = getTextRect(el);
           return {
             word: el.dataset.word,
-            left: rect.left,
-            right: rect.right,
+            left: textRect?.left ?? 0,
+            right: textRect?.right ?? 0,
           };
         });
 
         const visibleAnnotations = words
           .map((el) => {
-            const rt = el.querySelector<HTMLElement>('.rt');
+            const rt = el.querySelector<HTMLElement>('rt, .rt');
             if (!rt || window.getComputedStyle(rt).display === 'none') return null;
 
             const wordRect = getTextRect(el);
@@ -136,13 +140,9 @@ test.describe('Readto Landing Page', () => {
           })
           .filter((item): item is NonNullable<typeof item> => item !== null);
 
-        const cornerMismatches = visibleAnnotations
-          .filter((item) => {
-            const rightDelta = Math.abs(item.annotationRight - item.wordRight);
-            const topDelta = Math.abs(item.annotationTop - item.wordTop);
-            return rightDelta > 1 || topDelta > 4;
-          })
-          .map((item) => item.word);
+        const missingNativeRuby = words
+          .filter((item) => !item.querySelector('ruby > rt'))
+          .map((item) => item.dataset.word);
 
         const annotationOverlaps: string[] = [];
         for (let i = 0; i < visibleAnnotations.length; i += 1) {
@@ -156,7 +156,7 @@ test.describe('Readto Landing Page', () => {
         }
 
         const paragraphWithoutAnnotations = paragraph.cloneNode(true) as HTMLElement;
-        paragraphWithoutAnnotations.querySelectorAll('.rt').forEach((element) => element.remove());
+        paragraphWithoutAnnotations.querySelectorAll('rt, .rt').forEach((element) => element.remove());
 
         return {
           text: paragraphWithoutAnnotations.textContent?.replace(/\s+/g, ' ').trim() ?? '',
@@ -164,7 +164,7 @@ test.describe('Readto Landing Page', () => {
             pair: `${boxes[index].word}-${box.word}`,
             gap: box.left - boxes[index].right,
           })),
-          cornerMismatches,
+          missingNativeRuby,
           annotationOverlaps,
         };
       });
@@ -173,7 +173,7 @@ test.describe('Readto Landing Page', () => {
       for (const item of spacing.gaps) {
         expect(item.gap, `${item.pair} should keep a visible word gap`).toBeGreaterThan(2);
       }
-      expect(spacing.cornerMismatches, 'annotations should sit on each word top-right corner').toEqual([]);
+      expect(spacing.missingNativeRuby, 'annotations should use the options-page native ruby structure').toEqual([]);
       expect(spacing.annotationOverlaps, 'annotations should not overlap each other').toEqual([]);
     });
   });
@@ -330,35 +330,35 @@ test.describe('Readto Landing Page', () => {
   test.describe('Level-Annotation Linkage', () => {
     test('入门 should show 53 annotations', async ({ page }) => {
       await page.locator('.slider-label:has-text("入门")').click();
-      await expect(page.locator('#demo-content .rt:visible')).toHaveCount(53);
+      await expect(page.locator('#demo-content rt:visible')).toHaveCount(53);
     });
 
     test('基础 should show 36 annotations', async ({ page }) => {
       await page.locator('.slider-label:has-text("基础")').click();
-      await expect(page.locator('#demo-content .rt:visible')).toHaveCount(36);
+      await expect(page.locator('#demo-content rt:visible')).toHaveCount(36);
     });
 
     test('进阶 should show 20 annotations', async ({ page }) => {
       await page.locator('.slider-label:has-text("进阶")').click();
-      await expect(page.locator('#demo-content .rt:visible')).toHaveCount(20);
+      await expect(page.locator('#demo-content rt:visible')).toHaveCount(20);
     });
 
     test('熟练 should show 6 annotations', async ({ page }) => {
       await page.locator('.slider-label:has-text("熟练")').click();
-      await expect(page.locator('#demo-content .rt:visible')).toHaveCount(6);
+      await expect(page.locator('#demo-content rt:visible')).toHaveCount(6);
     });
 
     test('精通 should show 3 annotations', async ({ page }) => {
       await page.locator('.slider-label:has-text("精通")').click({ force: true });
-      await expect(page.locator('#demo-content .rt:visible')).toHaveCount(3);
+      await expect(page.locator('#demo-content rt:visible')).toHaveCount(3);
     });
 
     test('should update annotations in real-time', async ({ page }) => {
       await page.locator('.slider-label:has-text("入门")').click({ force: true });
-      await expect(page.locator('#demo-content .rt:visible')).toHaveCount(53);
+      await expect(page.locator('#demo-content rt:visible')).toHaveCount(53);
       
       await page.locator('.slider-label:has-text("精通")').click({ force: true });
-      await expect(page.locator('#demo-content .rt:visible')).toHaveCount(3);
+      await expect(page.locator('#demo-content rt:visible')).toHaveCount(3);
     });
   });
 
