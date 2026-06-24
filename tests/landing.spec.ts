@@ -418,12 +418,21 @@ test.describe('Readto Landing Page', () => {
         });
         Object.defineProperty(window, 'speechSynthesis', {
           value: {
-            cancel: () => {},
-            resume: () => {},
+            paused: false,
+            cancel: () => window.localStorage.setItem('speech-cancelled', 'true'),
+            resume: () => window.localStorage.setItem('speech-resumed', 'true'),
             addEventListener: () => {},
-            getVoices: () => [{ name: 'Microsoft Aria', lang: 'en-US' }],
-            speak: (utterance: { text: string; onend?: () => void }) => {
+            removeEventListener: () => {},
+            getVoices: () => [
+              { name: 'Generic English', lang: 'en-US', localService: true, default: true },
+              { name: 'Microsoft Aria Online', lang: 'en-US', localService: false, default: false },
+              { name: 'Chinese Voice', lang: 'zh-CN', localService: true, default: false },
+            ],
+            speak: (utterance: { text: string; lang: string; rate: number; voice?: SpeechSynthesisVoice; onend?: () => void }) => {
               window.localStorage.setItem('last-spoken-word', utterance.text);
+              window.localStorage.setItem('last-spoken-lang', utterance.lang);
+              window.localStorage.setItem('last-spoken-rate', String(utterance.rate));
+              window.localStorage.setItem('last-spoken-voice', utterance.voice?.name || '');
               utterance.onend?.();
             },
           },
@@ -437,7 +446,19 @@ test.describe('Readto Landing Page', () => {
       await expect(page.locator('#tooltip')).toHaveClass(/show/);
       await speaker.click();
       spoken = (await page.evaluate(() => window.localStorage.getItem('last-spoken-word'))) || '';
+      const meta = await page.evaluate(() => ({
+        voice: window.localStorage.getItem('last-spoken-voice'),
+        lang: window.localStorage.getItem('last-spoken-lang'),
+        rate: window.localStorage.getItem('last-spoken-rate'),
+        resumed: window.localStorage.getItem('speech-resumed'),
+        cancelled: window.localStorage.getItem('speech-cancelled'),
+      }));
       expect(spoken).toBe('overhaul');
+      expect(meta.voice).toBe('Microsoft Aria Online');
+      expect(meta.lang).toBe('en-US');
+      expect(meta.rate).toBe('0.88');
+      expect(meta.resumed).toBe('true');
+      expect(meta.cancelled).toBe('true');
     });
 
     test('should close on Escape', async ({ page }) => {

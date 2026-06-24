@@ -1817,46 +1817,115 @@ const howHref = `${base}#how`;
   const speechSupported =
     "speechSynthesis" in window && "SpeechSynthesisUtterance" in window;
   let cachedEnglishVoice: SpeechSynthesisVoice | null = null;
+  let voicesReadyPromise: Promise<SpeechSynthesisVoice[]> | null = null;
+
+  const preferredVoicePatterns = [
+    /google\s+(us|uk).*english/i,
+    /microsoft\s+(aria|jenny|guy|zira|david|mark)/i,
+    /samantha|alex|daniel|karen|moira|tessa|veena/i,
+    /natural|premium|neural/i,
+  ];
+
+  function scoreEnglishVoice(voice: SpeechSynthesisVoice): number {
+    const lang = voice.lang.toLowerCase();
+    const name = voice.name.toLowerCase();
+    if (!lang.startsWith("en")) return -1;
+
+    let score = 40;
+    if (lang === "en-us") score += 40;
+    else if (lang === "en-gb") score += 32;
+    else if (lang.startsWith("en-")) score += 24;
+
+    preferredVoicePatterns.forEach((pattern, index) => {
+      if (pattern.test(name)) score += 24 - index * 4;
+    });
+    if (voice.localService) score += 4;
+    if (voice.default) score += 3;
+    return score;
+  }
+
+  function getSortedEnglishVoices(): SpeechSynthesisVoice[] {
+    if (!speechSupported) return [];
+    return window.speechSynthesis
+      .getVoices()
+      .filter((voice) => scoreEnglishVoice(voice) >= 0)
+      .sort((a, b) => scoreEnglishVoice(b) - scoreEnglishVoice(a));
+  }
 
   function getEnglishVoice(): SpeechSynthesisVoice | null {
-    if (!speechSupported) return null;
-    const voices = window.speechSynthesis.getVoices();
-    cachedEnglishVoice =
-      voices.find((v) => v.lang.toLowerCase().startsWith("en") && /google/i.test(v.name)) ||
-      voices.find((v) => v.lang.toLowerCase().startsWith("en") && /microsoft|zira|aria|samantha|daniel/i.test(v.name)) ||
-      voices.find((v) => v.lang.toLowerCase().startsWith("en")) ||
-      voices[0] ||
-      cachedEnglishVoice ||
-      null;
+    const [bestVoice] = getSortedEnglishVoices();
+    cachedEnglishVoice = bestVoice || cachedEnglishVoice || null;
+    if (cachedEnglishVoice && speaker) {
+      speaker.setAttribute("title", `朗读音源：${cachedEnglishVoice.name}`);
+      speaker.setAttribute("aria-disabled", "false");
+      speaker.classList.remove("unsupported");
+    }
     return cachedEnglishVoice;
   }
 
-  if (speechSupported) {
-    getEnglishVoice();
-    window.speechSynthesis.addEventListener?.("voiceschanged", getEnglishVoice);
-  } else {
+  function markSpeechUnsupported(reason = "当前浏览器不支持系统朗读") {
     speaker?.setAttribute("aria-disabled", "true");
-    speaker?.setAttribute("title", "当前浏览器不支持系统朗读");
+    speaker?.setAttribute("title", reason);
     speaker?.classList.add("unsupported");
   }
 
-  // 朗读功能：优先使用浏览器原生 Web Speech API，兼容 Chrome / Edge / Safari / Firefox 的不同 voices 加载时机。
-  function speakWord(word: string) {
-    if (!speechSupported || !word) return;
+  function waitForVoices(timeout = 900): Promise<SpeechSynthesisVoice[]> {
+    if (!speechSupported) return Promise.resolve([]);
+    const voices = window.speechSynthesis.getVoices();
+    if (voices.length > 0) return Promise.resolve(voices);
+    if (voicesReadyPromise) return voicesReadyPromise;
+
+    voicesReadyPromise = new Promise((resolve) => {
+      const finish = () => {
+        window.clearTimeout(timer);
+        window.speechSynthesis.removeEventListener?.("voiceschanged", finish);
+        voicesReadyPromise = null;
+        resolve(window.speechSynthesis.getVoices());
+      };
+      const timer = window.setTimeout(finish, timeout);
+      window.speechSynthesis.addEventListener?.("voiceschanged", finish, { once: true });
+    });
+    return voicesReadyPromise;
+  }
+
+  if (speechSupported) {
+    speaker?.setAttribute("title", "点击朗读英文单词");
+    speaker?.setAttribute("aria-disabled", "false");
+    getEnglishVoice();
+    window.speechSynthesis.addEventListener?.("voiceschanged", getEnglishVoice);
+    void waitForVoices(1_200).then(() => getEnglishVoice());
+  } else {
+    markSpeechUnsupported();
+  }
+
+  // 朗读功能：浏览器原生 Web Speech API；音源按质量排序，兼容 Chrome / Edge / Safari / Firefox voices 异步加载。
+  async function speakWord(word: string) {
+    const text = word.trim().toLowerCase();
+    if (!text) return;
+    if (!speechSupported) {
+      markSpeechUnsupported();
+      return;
+    }
+
     const synth = window.speechSynthesis;
-    synth.cancel();
-    const utterance = new SpeechSynthesisUtterance(word);
-    utterance.lang = "en-US";
-    utterance.rate = 0.9;
-    utterance.pitch = 1;
+    await waitForVoices();
     const enVoice = getEnglishVoice();
+
+    synth.cancel();
+    synth.resume?.();
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = enVoice?.lang || "en-US";
+    utterance.rate = 0.88;
+    utterance.pitch = 1;
+    utterance.volume = 1;
     if (enVoice) utterance.voice = enVoice;
 
     speaker?.classList.remove("playing", "unsupported");
     void (speaker as HTMLElement)?.offsetWidth;
     speaker?.classList.add("playing");
     const clearPlaying = () => speaker?.classList.remove("playing");
-    const fallbackTimer = window.setTimeout(clearPlaying, 1600);
+    const fallbackTimer = window.setTimeout(clearPlaying, 1800);
     utterance.onend = () => {
       window.clearTimeout(fallbackTimer);
       clearPlaying();
@@ -1865,15 +1934,25 @@ const howHref = `${base}#how`;
       window.clearTimeout(fallbackTimer);
       clearPlaying();
     };
-    synth.speak(utterance);
-    // Safari / iOS 有时会把队列置为 paused；在用户点击事件内 resume 可提升兼容性。
-    window.setTimeout(() => synth.resume?.(), 0);
+
+    try {
+      synth.speak(utterance);
+      // Safari / iOS 有时会把队列置为 paused；用户点击事件后立即 resume 更稳。
+      window.setTimeout(() => synth.resume?.(), 0);
+      window.setTimeout(() => {
+        if (synth.paused) synth.resume?.();
+      }, 250);
+    } catch {
+      window.clearTimeout(fallbackTimer);
+      clearPlaying();
+      markSpeechUnsupported("当前浏览器阻止了朗读，请换用 Chrome / Edge / Safari 重试");
+    }
   }
 
   speaker?.addEventListener("click", (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (activeTooltipWord) speakWord(activeTooltipWord.toLowerCase());
+    if (activeTooltipWord) void speakWord(activeTooltipWord);
   });
 
   function showTooltip(word: string, rect: DOMRect, options: { autoHide?: boolean } = {}) {
