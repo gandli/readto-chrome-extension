@@ -37,6 +37,10 @@ export default defineConfig({
       },
     },
     options_page: 'options.html',
+    options_ui: {
+      page: 'options.html',
+      open_in_tab: true,
+    },
     web_accessible_resources: [
       {
         matches: ['http://*/*', 'https://*/*', 'chrome-extension://*/*'],

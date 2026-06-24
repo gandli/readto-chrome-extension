@@ -16,6 +16,7 @@ type Manifest = {
   version: string;
   background?: { service_worker?: string; type?: string };
   options_page?: string;
+  options_ui?: { page?: string; open_in_tab?: boolean };
   content_scripts?: Array<{
     js?: string[];
     matches?: string[];
@@ -55,6 +56,7 @@ describe('WXT Chrome MV3 build output contract', () => {
     expect(manifest.version).toBe('0.3.1');
     expect(manifest.background?.service_worker).toBeTruthy();
     expect(manifest.options_page).toBe('options.html');
+    expect(manifest.options_ui).toEqual({ page: 'options.html', open_in_tab: true });
     expect(manifest.content_scripts?.length).toBeGreaterThanOrEqual(5);
 
     for (const script of manifest.content_scripts ?? []) {

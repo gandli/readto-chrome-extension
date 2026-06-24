@@ -33,7 +33,10 @@ const rootOptions = path.join(target, 'options.html');
 if (fs.existsSync(wxtOptions)) {
   fs.copyFileSync(wxtOptions, rootOptions);
   manifest.options_page = 'options.html';
-  delete manifest.options_ui;
+  manifest.options_ui = {
+    page: 'options.html',
+    open_in_tab: true,
+  };
 }
 
 const resourcesFor = (matches) => ({
