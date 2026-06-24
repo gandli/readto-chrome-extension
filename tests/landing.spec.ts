@@ -88,9 +88,27 @@ test.describe('Readto Landing Page', () => {
     });
 
     test('should preserve readable spacing between annotated words in browser mockup', async ({ page }) => {
+      await page.locator('.slider-label:has-text("入门")').click({ force: true });
+
       const spacing = await page.locator('#demo-content p:has([data-readto])').first().evaluate((paragraph) => {
-        const words = Array.from(paragraph.querySelectorAll<HTMLElement>('[data-readto]')).slice(0, 5);
-        const boxes = words.map((el) => {
+        const getTextRect = (element: HTMLElement) => {
+          const textNode = Array.from(element.childNodes).find(
+            (node) => node.nodeType === Node.TEXT_NODE && (node.textContent || '').trim(),
+          );
+          if (!textNode) return null;
+
+          const range = document.createRange();
+          range.selectNodeContents(textNode);
+          const rect = range.getBoundingClientRect();
+          range.detach();
+          return {
+            top: rect.top,
+            bottom: rect.bottom,
+          };
+        };
+
+        const words = Array.from(paragraph.querySelectorAll<HTMLElement>('[data-readto]'));
+        const boxes = words.slice(0, 5).map((el) => {
           const rect = el.getBoundingClientRect();
           return {
             word: el.dataset.word,
@@ -99,12 +117,50 @@ test.describe('Readto Landing Page', () => {
           };
         });
 
+        const visibleAnnotations = words
+          .map((el) => {
+            const rt = el.querySelector<HTMLElement>('.rt');
+            if (!rt || window.getComputedStyle(rt).display === 'none') return null;
+
+            const wordRect = getTextRect(el);
+            const rtRect = rt.getBoundingClientRect();
+            return {
+              word: el.dataset.word,
+              wordTop: wordRect?.top ?? 0,
+              annotationBottom: rtRect.bottom,
+              annotationLeft: rtRect.left,
+              annotationRight: rtRect.right,
+              annotationTop: rtRect.top,
+            };
+          })
+          .filter((item): item is NonNullable<typeof item> => item !== null);
+
+        const wordOverlaps = visibleAnnotations
+          .filter((item) => item.annotationBottom > item.wordTop - 1)
+          .map((item) => item.word);
+
+        const annotationOverlaps: string[] = [];
+        for (let i = 0; i < visibleAnnotations.length; i += 1) {
+          for (let j = i + 1; j < visibleAnnotations.length; j += 1) {
+            const a = visibleAnnotations[i];
+            const b = visibleAnnotations[j];
+            const xOverlap = Math.min(a.annotationRight, b.annotationRight) - Math.max(a.annotationLeft, b.annotationLeft);
+            const yOverlap = Math.min(a.annotationBottom, b.annotationBottom) - Math.max(a.annotationTop, b.annotationTop);
+            if (xOverlap > 1 && yOverlap > 1) annotationOverlaps.push(`${a.word}-${b.word}`);
+          }
+        }
+
+        const paragraphWithoutAnnotations = paragraph.cloneNode(true) as HTMLElement;
+        paragraphWithoutAnnotations.querySelectorAll('.rt').forEach((element) => element.remove());
+
         return {
-          text: (paragraph as HTMLElement).innerText.replace(/\s+/g, ' ').trim(),
+          text: paragraphWithoutAnnotations.textContent?.replace(/\s+/g, ' ').trim() ?? '',
           gaps: boxes.slice(1).map((box, index) => ({
             pair: `${boxes[index].word}-${box.word}`,
             gap: box.left - boxes[index].right,
           })),
+          wordOverlaps,
+          annotationOverlaps,
         };
       });
 
@@ -112,6 +168,8 @@ test.describe('Readto Landing Page', () => {
       for (const item of spacing.gaps) {
         expect(item.gap, `${item.pair} should keep a visible word gap`).toBeGreaterThan(2);
       }
+      expect(spacing.wordOverlaps, 'annotations should not overlap English words').toEqual([]);
+      expect(spacing.annotationOverlaps, 'annotations should not overlap each other').toEqual([]);
     });
   });
 

@@ -56,6 +56,8 @@ button:focus-visible,
   display: inline-block;
   white-space: nowrap;
   position: relative;
+  padding-top: 0.82em;
+  line-height: 1.15;
   vertical-align: baseline;
   cursor: pointer;
 }
@@ -68,7 +70,7 @@ button:focus-visible,
 .rt {
   position: absolute;
   left: 50%;
-  bottom: 1.05em;
+  top: 0;
   transform: translateX(-50%);
   display: block;
   width: max-content;
@@ -334,8 +336,8 @@ button:focus-visible,
 
   [data-readto] {
     -webkit-tap-highlight-color: transparent;
-    padding: 4px 0;
-    margin: -4px 0;
+    padding: 0.9em 0 0;
+    margin: 0;
     display: inline-block;
   }
 
