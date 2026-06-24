@@ -4,8 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "prepare:wxt-assets": "node scripts/prepare-wxt-assets.mjs",
     "dev": "node scripts/run-wxt-dev.mjs --mv3",
-    "build": "wxt build --mv3 && node scripts/sync-wxt-dist.mjs",
+    "build": "bun run prepare:wxt-assets && wxt build --mv3 && node scripts/sync-wxt-dist.mjs",
     "preview": "node scripts/run-wxt-dev.mjs --mv3",
     "test": "vitest run",
     "test:watch": "vitest",

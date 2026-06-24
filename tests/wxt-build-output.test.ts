@@ -4,6 +4,7 @@ import path from 'node:path';
 
 const root = path.resolve(__dirname, '..');
 const distDir = path.join(root, 'dist');
+const outputDir = path.join(root, '.output', 'chrome-mv3');
 const manifestPath = path.join(distDir, 'manifest.json');
 
 function readJson<T>(file: string): T {
@@ -17,6 +18,7 @@ type Manifest = {
   background?: { service_worker?: string; type?: string };
   options_page?: string;
   options_ui?: { page?: string; open_in_tab?: boolean };
+  permissions?: string[];
   content_scripts?: Array<{
     js?: string[];
     matches?: string[];
@@ -57,6 +59,7 @@ describe('WXT Chrome MV3 build output contract', () => {
     expect(manifest.background?.service_worker).toBeTruthy();
     expect(manifest.options_page).toBe('options.html');
     expect(manifest.options_ui).toEqual({ page: 'options.html', open_in_tab: true });
+    expect(manifest.permissions).toEqual(expect.arrayContaining(['storage', 'tts']));
     expect(manifest.content_scripts?.length).toBeGreaterThanOrEqual(5);
 
     for (const script of manifest.content_scripts ?? []) {
@@ -101,6 +104,8 @@ describe('WXT Chrome MV3 build output contract', () => {
     expect(resourceAllows(resources, 'assets/detail/a.json')).toBe(true);
     expect(resourceAllows(resources, 'assets/detail/z.json')).toBe(true);
     expect(resourceAllows(resources, 'assets/tooltip-css.css'), 'tooltip CSS should be web-accessible').toBe(true);
+    expect(fs.existsSync(path.join(distDir, 'assets', 'tooltip-css.css')), 'dist tooltip CSS should exist').toBe(true);
+    expect(fs.existsSync(path.join(outputDir, 'assets', 'tooltip-css.css')), '.output tooltip CSS should exist for WXT dev/preview').toBe(true);
 
     const allPagesGroup = manifest.web_accessible_resources?.find(group => group.matches?.includes('chrome-extension://*/*'));
     expect(allPagesGroup, 'options page assets need chrome-extension://*/* web_accessible_resources').toBeTruthy();

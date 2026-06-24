@@ -100,6 +100,15 @@ test.describe('Tooltip 弹窗', () => {
     await setLevel(context, extensionId, 'A1');
 
     const page = await context.newPage();
+    const tooltipCssFailures: string[] = [];
+    page.on('requestfailed', (request) => {
+      if (request.url().includes('tooltip-css.css')) tooltipCssFailures.push(request.url());
+    });
+    page.on('response', (response) => {
+      if (response.url().includes('tooltip-css.css') && response.status() >= 400) {
+        tooltipCssFailures.push(`${response.status()} ${response.url()}`);
+      }
+    });
     await page.goto(`http://localhost:3456/article-all.html`, { waitUntil: 'domcontentloaded', timeout: 10_000 });
     await waitPageReady(page);
 
@@ -114,6 +123,7 @@ test.describe('Tooltip 弹窗', () => {
       return document.querySelector('[data-readto]')?.shadowRoot?.querySelector('.tooltip') !== null;
     }, { timeout: 8000 }).catch(() => null);
     expect(tooltipVisible, '悬停后应出现 tooltip').not.toBeNull();
+    expect(tooltipCssFailures, 'tooltip CSS 不应 404 或请求失败').toEqual([]);
 
     const tooltipContent = await page.evaluate(() => {
       const tip = document.querySelector('[data-readto]')?.shadowRoot?.querySelector('.tooltip');

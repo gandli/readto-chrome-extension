@@ -196,6 +196,35 @@ async function translateBatch(
   });
 }
 
+function speakWordWithChromeTts(word: string): Promise<void> {
+  const tts = globalThis.chrome?.tts;
+  if (!tts || typeof tts.speak !== 'function') {
+    return Promise.reject(new Error('chrome.tts unavailable'));
+  }
+
+  return new Promise((resolve, reject) => {
+    try {
+      tts.speak(word, {
+        lang: 'en-US',
+        rate: 0.85,
+        enqueue: false,
+        onEvent: (event: chrome.tts.TtsEvent) => {
+          if (event.type === 'error') reject(new Error(event.errorMessage || 'chrome.tts error'));
+        },
+      }, () => {
+        const err = globalThis.chrome?.runtime?.lastError;
+        if (err) {
+          reject(new Error(err.message));
+          return;
+        }
+        resolve();
+      });
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+
 // ─── Message Handler ───────────────────────────────────────────────
 
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
@@ -210,6 +239,23 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     getWordDetail(message.word)
       .then((detail) => {
         sendResponse({ ok: true, detail });
+      })
+      .catch((err) => {
+        sendResponse({ ok: false, error: String(err) });
+      });
+
+    return true; // async response
+  }
+
+  if (message.type === 'SPEAK_WORD') {
+    if (typeof message.word !== 'string' || message.word.trim().length === 0) {
+      sendResponse({ ok: false, error: 'malformed SPEAK_WORD' });
+      return;
+    }
+
+    speakWordWithChromeTts(message.word.trim().toLowerCase())
+      .then(() => {
+        sendResponse({ ok: true });
       })
       .catch((err) => {
         sendResponse({ ok: false, error: String(err) });

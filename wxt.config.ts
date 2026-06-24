@@ -26,7 +26,7 @@ export default defineConfig({
       48: 'icons/icon-48.png',
       128: 'icons/icon-128.png',
     },
-    permissions: ['storage'],
+    permissions: ['storage', 'tts'],
     host_permissions: ['<all_urls>'],
     action: {
       default_title: 'readto — configure',

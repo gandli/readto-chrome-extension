@@ -21,6 +21,7 @@ const mockOpenOptionsPage = vi.fn();
 const mockSessionGet = vi.fn().mockResolvedValue({});
 const mockSessionSet = vi.fn().mockResolvedValue(undefined);
 const mockFetch = vi.fn();
+const mockTtsSpeak = vi.fn();
 
 (globalThis as any).fetch = mockFetch;
 (globalThis as any).chrome = {
@@ -36,6 +37,9 @@ const mockFetch = vi.fn();
   },
   storage: {
     session: { get: mockSessionGet, set: mockSessionSet },
+  },
+  tts: {
+    speak: mockTtsSpeak,
   },
 };
 
@@ -79,6 +83,7 @@ beforeEach(async () => {
   mockSessionGet.mockResolvedValue({});
   mockSessionSet.mockResolvedValue(undefined);
   mockFetch.mockResolvedValue({ ok: true, json: async () => ({}) });
+  mockTtsSpeak.mockImplementation((_word, _options, callback) => callback?.());
   mockGetLlmConfig.mockResolvedValue({
     level: 'B2',
     translationMode: 'llm',
@@ -218,6 +223,26 @@ describe('GET_WORD_DETAIL', () => {
     const response = await callHandler({ type: 'GET_WORD_DETAIL', word: 42 });
 
     expect(response).toEqual({ ok: false, error: 'malformed GET_WORD_DETAIL' });
+  });
+});
+
+describe('SPEAK_WORD', () => {
+  it('speaks words through chrome.tts without requiring page user activation', async () => {
+    const response = await callHandler({ type: 'SPEAK_WORD', word: 'Hello' });
+
+    expect(response).toEqual({ ok: true });
+    expect(mockTtsSpeak).toHaveBeenCalledWith(
+      'hello',
+      expect.objectContaining({ lang: 'en-US', rate: 0.85, enqueue: false }),
+      expect.any(Function),
+    );
+  });
+
+  it('rejects malformed SPEAK_WORD messages', async () => {
+    const response = await callHandler({ type: 'SPEAK_WORD', word: '' });
+
+    expect(response).toEqual({ ok: false, error: 'malformed SPEAK_WORD' });
+    expect(mockTtsSpeak).not.toHaveBeenCalled();
   });
 });
 

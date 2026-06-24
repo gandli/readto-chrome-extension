@@ -144,6 +144,33 @@ async function playAudioUrl(url: string, signal?: AbortSignal): Promise<boolean>
   return true;
 }
 
+/* ── Extension TTS bridge ── */
+
+function sendRuntimeMessage<TResponse = any>(message: unknown): Promise<TResponse | null> {
+  const runtime = globalThis.chrome?.runtime;
+  if (!runtime || typeof runtime.sendMessage !== 'function') return Promise.resolve(null);
+
+  return new Promise((resolve) => {
+    try {
+      runtime.sendMessage(message, (response: TResponse) => {
+        if (runtime.lastError) {
+          resolve(null);
+          return;
+        }
+        resolve(response ?? null);
+      });
+    } catch {
+      resolve(null);
+    }
+  });
+}
+
+async function speakWithExtensionTts(word: string, signal?: AbortSignal): Promise<boolean> {
+  if (signal?.aborted) return false;
+  const response = await sendRuntimeMessage<{ ok?: boolean }>({ type: 'SPEAK_WORD', word });
+  return !signal?.aborted && response?.ok === true;
+}
+
 /* ── SpeechSynthesis fallback ── */
 
 async function speakWithSynthesis(
@@ -192,9 +219,13 @@ async function speakWithSynthesis(
 export async function speakWord(word: string, signal?: AbortSignal): Promise<void> {
   if (signal?.aborted) return;
 
-  // Fast path: browser SpeechSynthesis is local and starts immediately.  This
-  // avoids the visible click-to-audio delay caused by waiting on dictionary,
-  // Google, Edge WebSocket, and Youdao network fallbacks.
+  // Fast path 1: extension-level chrome.tts. Unlike page Web Speech, this does
+  // not depend on a prior page click/user activation, so hover auto-speak works
+  // from the first hover.
+  if (await speakWithExtensionTts(word, signal)) return;
+
+  // Fast path 2: browser SpeechSynthesis is local and starts immediately when
+  // the page is already allowed to speak.
   if (await speakWithSynthesis(word, signal)) return;
   if (signal?.aborted) return;
 

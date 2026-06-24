@@ -12,6 +12,16 @@ if (!fs.existsSync(chromePath)) {
   process.exit(1);
 }
 
+const prepareScript = path.join(projectRoot, 'scripts', 'prepare-wxt-assets.mjs');
+const prepare = spawn(process.execPath, [prepareScript], {
+  cwd: projectRoot,
+  stdio: 'inherit',
+  env: process.env,
+});
+
+const prepareCode = await new Promise((resolve) => prepare.on('exit', resolve));
+if (prepareCode !== 0) process.exit(Number(prepareCode) || 1);
+
 const args = process.argv.slice(2);
 const child = spawn(
   process.execPath,

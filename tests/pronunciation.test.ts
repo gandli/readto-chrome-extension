@@ -75,6 +75,7 @@ describe('pronunciation.ts', () => {
   const origAudio = (globalThis as any).Audio;
   const origSpeechSynthesis = (globalThis as any).speechSynthesis;
   const origSpeechSynthesisUtterance = (globalThis as any).SpeechSynthesisUtterance;
+  const origChrome = (globalThis as any).chrome;
 
   beforeEach(() => {
     vi.useRealTimers();
@@ -86,6 +87,7 @@ describe('pronunciation.ts', () => {
     (globalThis as any).Audio = origAudio;
     (globalThis as any).speechSynthesis = origSpeechSynthesis;
     (globalThis as any).SpeechSynthesisUtterance = origSpeechSynthesisUtterance;
+    (globalThis as any).chrome = origChrome;
   });
 
   // ════════════════════════════════════════════════
@@ -93,7 +95,36 @@ describe('pronunciation.ts', () => {
   // ════════════════════════════════════════════════
 
   describe('speakWord low-latency local playback', () => {
-    it('starts browser SpeechSynthesis immediately without waiting for network TTS', async () => {
+    it('uses extension chrome.tts bridge first so hover auto-speak works before page click', async () => {
+      const sendMessage = vi.fn((_message, callback) => callback({ ok: true }));
+      (globalThis as any).chrome = {
+        runtime: {
+          sendMessage,
+          lastError: undefined,
+        },
+      };
+      const speakMock = vi.fn();
+      (globalThis as any).speechSynthesis = {
+        getVoices: () => [makeVoice('TestVoice', 'en-US')],
+        speak: speakMock,
+        cancel: vi.fn(),
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      };
+      (globalThis as any).SpeechSynthesisUtterance = class {
+        constructor(_text: string) {}
+      };
+
+      vi.resetModules();
+      const { speakWord } = await import('../src/lib/pronunciation');
+      await speakWord('Hover');
+
+      expect(sendMessage).toHaveBeenCalledWith({ type: 'SPEAK_WORD', word: 'Hover' }, expect.any(Function));
+      expect(speakMock).not.toHaveBeenCalled();
+    });
+
+    it('starts browser SpeechSynthesis immediately without waiting for network TTS when extension TTS is unavailable', async () => {
+      (globalThis as any).chrome = undefined;
       const speakMock = vi.fn();
       const cancelMock = vi.fn();
       (globalThis as any).speechSynthesis = {
@@ -120,6 +151,7 @@ describe('pronunciation.ts', () => {
       const { speakWord } = await import('../src/lib/pronunciation');
       void speakWord('instant', controller.signal);
 
+      await Promise.resolve();
       await Promise.resolve();
 
       expect(speakMock).toHaveBeenCalledTimes(1);
