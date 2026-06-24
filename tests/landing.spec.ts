@@ -102,18 +102,21 @@ test.describe('Readto Landing Page', () => {
           const rect = range.getBoundingClientRect();
           range.detach();
           return {
-            top: rect.top,
+            left: rect.left,
             right: rect.right,
+            top: rect.top,
+            bottom: rect.bottom,
           };
         };
 
         const words = Array.from(paragraph.querySelectorAll<HTMLElement>('[data-readto]'));
         const boxes = words.slice(0, 5).map((el) => {
-          const rect = el.getBoundingClientRect();
+          const textRect = getTextRect(el);
           return {
             word: el.dataset.word,
-            left: rect.left,
-            right: rect.right,
+            left: textRect?.left ?? 0,
+            right: textRect?.right ?? 0,
+            top: textRect?.top ?? 0,
           };
         });
 
@@ -124,6 +127,7 @@ test.describe('Readto Landing Page', () => {
 
             const wordRect = getTextRect(el);
             const rtRect = rt.getBoundingClientRect();
+            const rtStyle = window.getComputedStyle(rt);
             return {
               word: el.dataset.word,
               wordRight: wordRect?.right ?? 0,
@@ -132,16 +136,15 @@ test.describe('Readto Landing Page', () => {
               annotationTop: rtRect.top,
               annotationBottom: rtRect.bottom,
               annotationLeft: rtRect.left,
+              display: rtStyle.display,
+              position: rtStyle.position,
+              verticalAlign: rtStyle.verticalAlign,
             };
           })
           .filter((item): item is NonNullable<typeof item> => item !== null);
 
-        const cornerMismatches = visibleAnnotations
-          .filter((item) => {
-            const rightDelta = Math.abs(item.annotationRight - item.wordRight);
-            const topDelta = Math.abs(item.annotationTop - item.wordTop);
-            return rightDelta > 1 || topDelta > 4;
-          })
+        const legacyStyleMismatches = visibleAnnotations
+          .filter((item) => item.display !== 'inline' || item.position !== 'static' || item.verticalAlign !== 'super')
           .map((item) => item.word);
 
         const annotationOverlaps: string[] = [];
@@ -162,18 +165,19 @@ test.describe('Readto Landing Page', () => {
           text: paragraphWithoutAnnotations.textContent?.replace(/\s+/g, ' ').trim() ?? '',
           gaps: boxes.slice(1).map((box, index) => ({
             pair: `${boxes[index].word}-${box.word}`,
+            sameLine: Math.abs(box.top - boxes[index].top) < 2,
             gap: box.left - boxes[index].right,
           })),
-          cornerMismatches,
+          legacyStyleMismatches,
           annotationOverlaps,
         };
       });
 
       expect(spacing.text).toContain('The president announced sweeping reforms');
-      for (const item of spacing.gaps) {
+      for (const item of spacing.gaps.filter((item) => item.sameLine)) {
         expect(item.gap, `${item.pair} should keep a visible word gap`).toBeGreaterThan(2);
       }
-      expect(spacing.cornerMismatches, 'annotations should sit on each word top-right corner').toEqual([]);
+      expect(spacing.legacyStyleMismatches, 'annotations should keep the original cloned inline superscript style').toEqual([]);
       expect(spacing.annotationOverlaps, 'annotations should not overlap each other').toEqual([]);
     });
   });
