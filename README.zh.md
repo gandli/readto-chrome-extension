@@ -261,7 +261,7 @@ Astro 静态页面
 | `--color-readto-accent` | 品牌强调色 |
 | `--font-sans` | UI/正文无衬线字体 |
 | `--font-serif` | 标题/阅读感字体 |
-| `--max-w-content` | 页面最大内容宽度 |
+| `--container-content` | 页面最大内容宽度，对应 `max-w-content` |
 
 静态布局主要使用 Tailwind utility class；动态生成/交互元素，如 `.tooltip`、`.rt`、`.slider-*`，写在全局 CSS 中，避免 Astro scoped CSS 对动态 DOM 不生效的问题。
 

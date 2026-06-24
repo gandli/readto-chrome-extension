@@ -18,8 +18,13 @@
   --font-sans: 'Inter', 'Noto Sans SC', system-ui, -apple-system, sans-serif;
   --font-serif: 'Charter', 'Iowan Old Style', 'Source Serif 4', Georgia, serif;
 
-  /* 最大宽度 */
-  --max-w-content: 1180px;
+  /* 最大宽度：Tailwind v4 的 max-w-* 命名空间是 --container-* */
+  --container-content: 1180px;
+}
+
+/* 兜底 utility：保证 max-w-content 在 dev/build 下都生效 */
+.max-w-content {
+  max-width: 1180px;
 }
 
 /* ─── 全局基础 ─── */

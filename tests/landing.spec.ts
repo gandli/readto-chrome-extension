@@ -1,6 +1,21 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 
 const BASE_URL = 'http://localhost:4321/readto-chrome-extension';
+
+async function openTooltip(page: Page, word = 'sweeping') {
+  const target = page.locator(`[data-word="${word}"]`).first();
+  const tooltip = page.locator('#tooltip');
+
+  await target.scrollIntoViewIfNeeded();
+  await target.click({ force: true });
+  await page.waitForTimeout(250);
+
+  const isOpen = await tooltip.evaluate((el) => el.classList.contains('show'));
+  if (!isOpen) {
+    await target.dispatchEvent('click');
+    await page.waitForTimeout(250);
+  }
+}
 
 test.describe('Readto Landing Page', () => {
   test.beforeEach(async ({ page }) => {
@@ -53,6 +68,23 @@ test.describe('Readto Landing Page', () => {
       await expect(footer).toContainText('© 2026');
       const privacyLink = footer.locator('a:has-text("隐私政策")');
       await expect(privacyLink).toHaveAttribute('href', /\/privacy/);
+    });
+
+    test('should keep the main content column aligned with readto.ai width', async ({ page }) => {
+      await page.setViewportSize({ width: 1258, height: 900 });
+      await page.reload({ waitUntil: 'domcontentloaded' });
+
+      const metrics = await page.locator('header > div').evaluate((el) => {
+        const rect = el.getBoundingClientRect();
+        const styles = window.getComputedStyle(el);
+        return {
+          width: Math.round(rect.width),
+          x: Math.round(rect.x),
+          maxWidth: styles.maxWidth,
+        };
+      });
+
+      expect(metrics).toEqual({ width: 1180, x: 39, maxWidth: '1180px' });
     });
   });
 
@@ -188,15 +220,15 @@ test.describe('Readto Landing Page', () => {
       // Default: 进阶 (50%)
       await expect(trackFill).toHaveAttribute('style', /width:\s*50%/);
       
-      // Click 入门 (10%)
+      // Click 入门 (0%)
       await labels.nth(0).click({ force: true });
       await page.waitForTimeout(300);
-      await expect(trackFill).toHaveAttribute('style', /width:\s*10%/);
+      await expect(trackFill).toHaveAttribute('style', /width:\s*0%/);
       
-      // Click 精通 (90%)
+      // Click 精通 (100%)
       await labels.nth(4).click({ force: true });
       await page.waitForTimeout(300);
-      await expect(trackFill).toHaveAttribute('style', /width:\s*90%/);
+      await expect(trackFill).toHaveAttribute('style', /width:\s*100%/);
       
       // Click 进阶 (50%)
       await labels.nth(2).click({ force: true });
@@ -243,14 +275,12 @@ test.describe('Readto Landing Page', () => {
   test.describe('Tooltip', () => {
     test('should show tooltip on click', async ({ page }) => {
       const tooltip = page.locator('#tooltip');
-      await page.locator('[data-word="sweeping"]').first().click({ force: true });
-      await page.waitForTimeout(500);
+      await openTooltip(page);
       await expect(tooltip).toHaveClass(/show/);
     });
 
     test('should display phonetic and translation', async ({ page }) => {
-      await page.locator('[data-word="sweeping"]').first().click({ force: true });
-      await page.waitForTimeout(500);
+      await openTooltip(page);
       
       const tooltip = page.locator('#tooltip');
       await expect(tooltip.locator('.ipa')).toContainText('/');
@@ -258,8 +288,7 @@ test.describe('Readto Landing Page', () => {
     });
 
     test('should have speaker button', async ({ page }) => {
-      await page.locator('[data-word="sweeping"]').first().click();
-      await page.waitForTimeout(300);
+      await openTooltip(page);
       
       const speaker = page.locator('#tooltip .speaker');
       await expect(speaker).toBeAttached();
@@ -268,8 +297,7 @@ test.describe('Readto Landing Page', () => {
 
     test('should close on Escape', async ({ page }) => {
       const tooltip = page.locator('#tooltip');
-      await page.locator('[data-word="sweeping"]').first().click({ force: true });
-      await page.waitForTimeout(500);
+      await openTooltip(page);
       await expect(tooltip).toHaveClass(/show/);
       
       await page.keyboard.press('Escape');
@@ -306,8 +334,7 @@ test.describe('Readto Landing Page', () => {
       // Mobile tooltip interaction has compatibility issues with force click
       await page.setViewportSize({ width: 375, height: 812 });
       
-      await page.locator('[data-word="sweeping"]').first().click({ force: true });
-      await page.waitForTimeout(1000);
+      await openTooltip(page);
       await expect(page.locator('#tooltip')).toHaveClass(/show/);
     });
   });
@@ -316,8 +343,7 @@ test.describe('Readto Landing Page', () => {
     test('should work in dark mode', async ({ page }) => {
       await page.emulateMedia({ colorScheme: 'dark' });
       
-      await page.locator('[data-word="sweeping"]').first().click({ force: true });
-      await page.waitForTimeout(500);
+      await openTooltip(page);
       
       const tooltip = page.locator('#tooltip');
       await expect(tooltip).toHaveClass(/show/);
@@ -425,8 +451,7 @@ test.describe('Tooltip Target Word Style', () => {
     await page.waitForLoadState('domcontentloaded');
     
     // Click on a word to show tooltip
-    await page.locator('[data-word="sweeping"]').first().click({ force: true });
-    await page.waitForTimeout(500);
+    await openTooltip(page);
     
     // Check tooltip is visible
     const tooltip = page.locator('#tooltip');

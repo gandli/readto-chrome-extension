@@ -259,7 +259,7 @@ Design tokens live in `src/styles/global.css`.
 | `--color-readto-accent` | Brand accent color |
 | `--font-sans` | UI and body text |
 | `--font-serif` | Display and reading-like text |
-| `--max-w-content` | Main content max width |
+| `--container-content` | Main content max width, exposed as `max-w-content` |
 
 Static layout uses Tailwind utility classes. Dynamic or script-controlled elements, such as `.tooltip`, `.rt`, and `.slider-*`, are styled in global CSS so they are not affected by Astro scoped-style limitations.
 
