@@ -103,7 +103,7 @@ test.describe('Readto Landing Page', () => {
           range.detach();
           return {
             top: rect.top,
-            bottom: rect.bottom,
+            right: rect.right,
           };
         };
 
@@ -126,17 +126,22 @@ test.describe('Readto Landing Page', () => {
             const rtRect = rt.getBoundingClientRect();
             return {
               word: el.dataset.word,
+              wordRight: wordRect?.right ?? 0,
               wordTop: wordRect?.top ?? 0,
-              annotationBottom: rtRect.bottom,
-              annotationLeft: rtRect.left,
               annotationRight: rtRect.right,
               annotationTop: rtRect.top,
+              annotationBottom: rtRect.bottom,
+              annotationLeft: rtRect.left,
             };
           })
           .filter((item): item is NonNullable<typeof item> => item !== null);
 
-        const wordOverlaps = visibleAnnotations
-          .filter((item) => item.annotationBottom > item.wordTop - 1)
+        const cornerMismatches = visibleAnnotations
+          .filter((item) => {
+            const rightDelta = Math.abs(item.annotationRight - item.wordRight);
+            const topDelta = Math.abs(item.annotationTop - item.wordTop);
+            return rightDelta > 1 || topDelta > 4;
+          })
           .map((item) => item.word);
 
         const annotationOverlaps: string[] = [];
@@ -159,7 +164,7 @@ test.describe('Readto Landing Page', () => {
             pair: `${boxes[index].word}-${box.word}`,
             gap: box.left - boxes[index].right,
           })),
-          wordOverlaps,
+          cornerMismatches,
           annotationOverlaps,
         };
       });
@@ -168,7 +173,7 @@ test.describe('Readto Landing Page', () => {
       for (const item of spacing.gaps) {
         expect(item.gap, `${item.pair} should keep a visible word gap`).toBeGreaterThan(2);
       }
-      expect(spacing.wordOverlaps, 'annotations should not overlap English words').toEqual([]);
+      expect(spacing.cornerMismatches, 'annotations should sit on each word top-right corner').toEqual([]);
       expect(spacing.annotationOverlaps, 'annotations should not overlap each other').toEqual([]);
     });
   });
