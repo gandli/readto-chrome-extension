@@ -20,6 +20,7 @@ import { getTranslator } from '../lib/translations';
 import { applyAnnotations } from '../lib/inline-renderer';
 import type { FilteredWord } from '../lib/level-filter';
 import { hasQueryParams, chatCompletionsUrl } from '../lib/llm-url';
+import { sanitizeError } from '../lib/error-sanitize';
 
 /* ─── Constants ─────────────────────────────────────────────────── */
 
@@ -945,7 +946,10 @@ function App() {
       JSON.parse(content);
       setTestResult({ ok: true, msg: '连通了。' });
     } catch (e) {
-      setTestResult({ ok: false, msg: (e as Error).message });
+      // Pattern shadow #3 (audit v2 P1-E): errors from LLM providers can echo
+      // Authorization headers or partial API keys. Route through the same
+      // sanitizeError chokepoint the service-worker uses.
+      setTestResult({ ok: false, msg: sanitizeError(e).message });
     } finally {
       setTesting(false);
     }

@@ -13,6 +13,7 @@
 import type { CefrLevel, SiteRule } from './types';
 import { speakWordSync as speakWord } from './pronunciation';
 import { loadLevelData } from './level-data';
+import { SPEAKER_SVG } from './icons';
 
 /* ─── CEFR Level Ordering ─── */
 
@@ -405,9 +406,6 @@ export function computeTooltipPosition(params: {
 
 /** speakWord — now imported from pronunciation.ts (4-source fallback) */
 
-/** SVG speaker icon — matches original */
-const SPEAKER_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>`;
-
 /** Parse {target} markers in example sentences */
 function parseExampleSegments(text: string): Array<{ kind: 'text' | 'target'; value: string }> {
   if (!text) return [];
@@ -616,7 +614,7 @@ function setupHoverDetail(
   autoSpeak?: boolean,
 ): void {
   let showTimer: ReturnType<typeof setTimeout> | null = null;
-  let hideTimer: ReturnType<typeof setTimeout> | null = false as any;
+  let hideTimer: ReturnType<typeof setTimeout> | null = null;
   let isPinned = false;
   let seq = 0;
   let speakAbort: AbortController | null = null;
