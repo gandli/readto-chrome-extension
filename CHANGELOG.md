@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 📚 Documentation
 
+- update CHANGELOG.md [skip ci] (`d0ceaa9`)
 - **design:** 落地 Readto 设计系统 (DESIGN.md · Google alpha spec) (#17) (`73f4b2c`)
 - update CHANGELOG.md [skip ci] (`99a58dd`)
 - update CHANGELOG.md [skip ci] (`72ab339`)
@@ -58,6 +59,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 🔧 Chores
 
+- **deps:** bump the runtime group with 3 updates (#16) (`a73b30d`)
+- **deps-dev:** bump the dev-tooling group across 1 directory with 2 updates (#15) (`dc52656`)
 - **deps:** block dependabot semver-major PRs globally (#14) (`ed6ed32`)
 - 优化依赖结构 (`f662bb4`)
 - update test:e2e script to use inject-test.mjs (`c52f87b`)
