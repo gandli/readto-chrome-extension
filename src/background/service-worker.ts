@@ -255,6 +255,7 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
         sendResponse({ ok: true, detail });
       })
       .catch((err) => {
+        // No LLM apiKey involved in local-dict path — pass raw for regex-only sanitize.
         sendResponse({ ok: false, error: sanitizeError(err) });
       });
 
@@ -288,7 +289,15 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
         sendResponse({ ok: true, results });
       })
       .catch((err) => {
-        sendResponse({ ok: false, error: sanitizeError(err) });
+        // audit v4 P1-C: pass cfg.apiKey for literal-fallback redaction.
+        // Provider error bodies (Cloudflare, upstream 4xx) may echo the raw
+        // Authorization value; the regex covers Bearer/sk-*/x-api-key but
+        // custom formats (DeepSeek dsk-*, Qwen, Kimi) need the belt-and-
+        // suspenders literal replace.
+        sendResponse({
+          ok: false,
+          error: sanitizeError(err, cfg?.apiKey),
+        });
       });
 
     return true; // async response

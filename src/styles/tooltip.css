@@ -149,3 +149,13 @@
   .example .target { color: hsl(30 90% 65%); }
   .example .zh { color: hsl(25 5% 65%); }
 }
+
+/* Reduced motion — audit v4 P2-C */
+@media (prefers-reduced-motion: reduce) {
+  .tooltip,
+  .tooltip * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

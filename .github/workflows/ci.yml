@@ -52,14 +52,16 @@ jobs:
 
       - name: Coverage floor gate
         run: |
-          # Coverage baseline: 63.30 (Linux CI observed 2026-07-08 after audit v2).
-          # Local macOS reads ~64.06% due to v8 coverage instrumentation
-          # differences on non-Linux; we pin the floor to the CI-observed
-          # value to prevent flaky regressions.
-          # Note: baseline dropped from 63.50 → 63.30 because audit v2 P2-A
-          # dedupped SPEAKER_SVG across two files (-2 statements net; the new
-          # icons.ts is fully covered but total denominator moved).
-          FLOOR=63.30
+          # Coverage baseline: 39.00 (recalibrated 2026-07-08 by audit v4 P1-A).
+          # Previous floor 63.30 was measured against a narrow include list
+          # (src/lib/*.ts + src/background/*.ts only). Extending include to
+          # `src/**/*.{ts,tsx}` revealed content/*.ts (bilibili/youtube) and
+          # options/App.tsx were entirely absent from the denominator. Real
+          # numerator/denominator is now honest at 39.62% → floor 39.00.
+          # Historical baseline (narrow include, kept for reference):
+          #   v2  63.50 → v2 P2-A 63.30 (SPEAKER_SVG dedup)
+          # New baseline (full include) starts here.
+          FLOOR=39.00
           PCT=$(node -e "const c = require('./coverage/coverage-summary.json'); console.log(c.total.statements.pct.toFixed(2));")
           echo "Statement coverage: ${PCT}% (floor: ${FLOOR}%)"
           awk -v pct="$PCT" -v floor="$FLOOR" 'BEGIN { exit (pct + 0 >= floor + 0) ? 0 : 1 }'
@@ -80,3 +82,54 @@ jobs:
           name: dist-${{ github.sha }}
           path: dist/
           retention-days: 7
+
+  e2e-smoke:
+    # audit v4 P1-B: e2e/ had 4 specs but 0 CI runs — dead code territory.
+    # Start with `minimal.spec.ts` which just verifies the extension loads
+    # (no page interactions), then expand once stable. Other specs stay
+    # gated behind `test:e2e` for local dev + nightly manual triggers.
+    name: E2E smoke (extension boots)
+    runs-on: ubuntu-latest
+    needs: quality-gate
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Build extension
+        run: npm run build
+
+      - name: Run minimal e2e smoke
+        # audit v4 P1-B: extension is bootable via Playwright.
+        # Marked as informational for the first CI run — MV3 SW startup timing
+        # varies between headless/headed and Linux/macOS. Once we observe
+        # stable green runs on ubuntu-latest, drop continue-on-error and
+        # treat as blocking gate. Tracked for v5 audit.
+        continue-on-error: true
+        run: npx playwright test e2e/minimal.spec.ts
+
+      - name: Upload e2e results (on failure)
+        # CodeRabbit review: keep test-results/ + playwright-report/ available
+        # so a failing smoke run leaves debug evidence in CI artifacts.
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: e2e-results-${{ github.sha }}
+          path: |
+            test-results/
+            playwright-report/
+          retention-days: 7
+
