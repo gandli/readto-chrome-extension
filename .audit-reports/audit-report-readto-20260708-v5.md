@@ -244,3 +244,189 @@ src/options/
 **Effort**: **10-14h**（v6 独立 PR · 与 v5 平行进行）
 
 ---
+
+## 修复日志（Fix Log）
+
+按提交时序 · 4 个原子 commit 分片：
+
+### Commit 1 · `4bda037` chore: P1-D lint + P2-A/B/C governance
+- **P1-D**（20 min）：5 处 tests/ lint warning 全清（`_afterEach` / `_FilteredWord` / `_firstTextNode` / `_p`）· 无 src/ 改动
+- **P2-A** SECURITY.md（20 min）：56 lines · Supported Versions 表 + private disclosure via GitHub Security Advisory + response SLA
+- **P2-B** CODEOWNERS（5 min）：`* @gandli`
+- **P2-C** PR/Issue templates（1.5 h）：PULL_REQUEST_TEMPLATE.md（5 段结构 · pr-description-standard 引用）· bug_report.md · feature_request.md · config.yml（禁 blank issue）
+- 三件套：tsc 0 · lint 0 err · 0 warn · 510/510 test
+
+### Commit 2 · `226a8c5` fix: P1-B tooltip CSS single source of truth
+- **P1-B**（3 h）：
+  - `src/vite-raw.d.ts` 新增（Vite `?raw` import 类型声明）
+  - `src/lib/level-filter.ts`: 删除 358-373 行的 15 行硬编码 `FALLBACK_TOOLTIP_CSS` 精简副本 · 改用 `import TOOLTIP_CSS_RAW from '../styles/tooltip.css?raw'`
+  - **单一真值源**：`@keyframes readto-speaker-pulse` + `@media (prefers-reduced-motion: reduce)` 现在通过构建期内联从 canonical CSS 继承
+- 回归测试：`tests/audit-v5-p1b-tooltip-css-parity.test.ts`（4 test · 断言 canonical CSS 关键条款存在 + level-filter.ts 使用 `?raw` import + 不再有硬编码 `.tooltip{...}` 字面量）
+- 三件套：tsc 0 · lint 0 · 514/514 test · build ok
+
+### Commit 3 · `90647e6` refactor: P1-C extract validation from App.tsx
+- **P1-C**（4 h）：
+  - `src/options/validation.ts` 新增（54 loc · 3 个纯函数 + 4 个常量 + type SaveStatus）
+  - `src/options/App.tsx`: 1172 → 1147 loc（-25）· 通过 import 引用抽出的定义
+  - 语义等价：validation.ts 逐字复制 App.tsx 原实现，import 替换 in-place
+- 单元测试：`tests/audit-v5-p1c-validation.test.ts`（20 test）
+  - isLlmConfigValid: 9 cases（null / query params / localhost / apiKey missing / http vs https / model missing）
+  - isConfigEmpty: 2 cases
+  - validateLlmConfig: 9 cases（local mode bypass / http scheme / apiKey length / model empty / query params）
+- Coverage：validation.ts **100%** · 全局 Statements **39.62% → 40.86%**
+- 三件套：tsc 0 · lint 0 · 534/534 test
+
+### Commit 4 · `5b10b33` test: P1-A selection-tooltip skeleton
+- **P1-A**（3 h）：3 个纯函数从 module-private 改 `export`（附 `@internal Exported for testing only`）：
+  - `parseExampleSegments` — 例句 `{target}` 标记解析
+  - `positionTooltip` — 视口自适应定位
+  - `isInReadtoElement` — 跨 Shadow DOM 边界 `[data-readto]` 检测
+- 骨架测试：`tests/audit-v5-p1a-selection-tooltip.test.ts`（18 test · `@vitest-environment jsdom`）
+  - parseExampleSegments 8 cases（空 / 单文本 / marker 位置 / 多 marker / 嵌套 / Unicode）
+  - positionTooltip 5 cases（below/above 切换 + 左右 clamp + wide selection centering）
+  - isInReadtoElement 5 cases（外部 / 内部 / 元素本身 / 跨 Shadow / host 无 attr）
+- Coverage：selection-tooltip.ts **0% → 26.58%** · 全局 Statements **40.86% → 43.18%**
+- 三件套：tsc 0 · lint 0 · 552/552 test
+
+---
+
+## 复审（Post-Fix Verification）
+
+### CI 三件套
+
+| 检查 | v5 baseline | v5 修复后 | 结果 |
+|---|:-:|:-:|:-:|
+| `npx tsc --noEmit` | 0 err | **0 err** | ✅ |
+| `bun run lint` (0 err ceiling) | 0 err · **5 warn** | **0 err · 0 warn** | ✅ |
+| `bun run test` | 510 / 510 | **552 / 552** | ✅ (+42 test) |
+| `bun run build` | ok | **ok** | ✅ |
+
+### Coverage 对比
+
+| 指标 | v4 修 include 后 | v5 baseline | v5 修复后 | Δ |
+|---|:-:|:-:|:-:|:-:|
+| Statements | 39.62% | 39.62% | **43.18%** | +3.56% |
+| Branches | 41.66% | 41.66% | **46.87%** | +5.21% |
+| Functions | 40.66% | 40.66% | **42.66%** | +2.00% |
+| Lines | 40.4% | 40.4% | **43.77%** | +3.37% |
+
+### 关键文件覆盖率变化
+
+| 文件 | v5 baseline | v5 修复后 | Δ |
+|---|:-:|:-:|:-:|
+| `src/options/validation.ts` | N/A（不存在） | **100%** | ✅ 新建即满覆盖 |
+| `src/lib/selection-tooltip.ts` | 0% | **26.58%** | +26.58% |
+| `src/options/App.tsx` | 0% (1172 loc) | 0% (1147 loc) | -25 loc（validation 抽出） |
+| `src/lib/level-filter.ts` | 55.51% | 55.51% | 单一真值源不影响覆盖率 |
+
+### Pattern Shadow 消灭
+
+| 类型 | v5 前 | v5 后 |
+|---|---|---|
+| tooltip CSS 双源（`tooltip.css` vs `level-filter.ts` 内嵌 15 行副本） | 存在 | ✅ 已消灭（`?raw` import） |
+| LLM 配置校验逻辑内嵌 App.tsx | 存在 | ✅ 已抽到 validation.ts |
+| selection-tooltip 纯函数无测试 | 存在 | ✅ 3 个函数已有骨架回归 |
+
+### 治理文档
+
+| 文件 | v5 前 | v5 后 |
+|---|:-:|:-:|
+| SECURITY.md | ❌ | ✅ |
+| .github/CODEOWNERS | ❌ | ✅ |
+| .github/PULL_REQUEST_TEMPLATE.md | ❌ | ✅ |
+| .github/ISSUE_TEMPLATE/{bug_report,feature_request,config}.* | ❌ | ✅ |
+
+---
+
+## 综合评分（Post-Fix）
+
+| 维度 | v5 baseline | v5 修复后 | Δ | 一句判词 |
+|---|:-:|:-:|:-:|---|
+| Security | 9.5 | 9.5 | — | 无攻击面变化，SECURITY.md 是治理层加分 |
+| Testing | 5.0 | **7.5** | ⬆️ 2.5 | 4 个骨架/单元测试模块 + coverage 提升 3.56 个点 |
+| Documentation | 8.5 | **9.5** | ⬆️ 1.0 | +SECURITY / CODEOWNERS / PR/Issue templates |
+| Maintainability | 6.5 | **8.0** | ⬆️ 1.5 | tooltip CSS 单一真值源 · validation 抽出 |
+| Architecture | 5.5 | **6.0** | ⬆️ 0.5 | App.tsx -25 loc（validation 抽出）· 完整 SRP 拆分留 v6 |
+| Performance | 8.0 | 8.0 | — | build ok · bundle size 稳定 |
+| Release Readiness | 7.5 | **9.0** | ⬆️ 1.5 | Chrome Web Store 审核加分（SECURITY.md + 治理三件套） |
+| **综合** | **76 / C+** | **~86 / A-** | ⬆️ 10 | **超过 v4 后水位** |
+
+**评分理由**：v5 从 76 回升到 ~86，主因是把 v4 曝光的两大 0% 覆盖率黑洞（App.tsx / selection-tooltip）真正开始补测试——validation.ts 达 100% · selection-tooltip.ts 从 0% 到 26.58%——加上治理文档三件套。**A- 级门槛达成**。
+
+---
+
+## v6 Backlog（留给下一轮）
+
+按优先级：
+
+1. **P3-A / App.tsx 完整 SRP 拆分**（10-14h）
+   - 目标：App.tsx 1147 loc → ~200 loc main + 4-6 子组件
+   - 拆分：LevelSlider.tsx / LevelPreview.tsx / LlmConfigForm.tsx / common.tsx / use-settings.ts
+   - 独立 refactor PR · 与功能开发解耦
+
+2. **selection-tooltip.ts 剩余 73.42%**（8-10h）
+   - `setupSelectionTooltip` 主入口 · `showTooltip` 渲染链
+   - 需 mock `getWordDetail` / `speakWord` · E2E-style with jsdom + Selection API polyfill
+   - 目标：0% → 80%+
+
+3. **App.tsx useSettings hook 独立测试**（4-6h）
+   - 前置：v6 P3-A 拆分完成后 use-settings.ts 已在独立文件
+   - `renderHook(() => useSettings())` + `chrome.storage.sync.get/set` mock
+   - 覆盖：初始化加载 / debounce 保存 / LLM 配置校验联动 / 空配置清空
+
+4. **content/ 目录覆盖率**（12-16h · v5 未动）
+   - `youtube.ts` (335 loc · 0%) · `bilibili.ts` (344 loc · 0%) · loader (7 loc · 0%)
+   - 需 mock 页面 DOM + MutationObserver + `chrome.runtime.sendMessage`
+   - 目标：0% → 40%+
+
+5. **edge-tts.ts** (37% coverage · 189-225 uncovered)
+   - 补 WebSocket 错误处理路径测试
+   - 目标：37% → 70%+
+
+6. **accessibility 自动化**（4-6h）
+   - `@axe-core/playwright` 集成到 E2E · 每个 test 附加 aria-label 检查
+   - options page + selection-tooltip 均需通过 axe basic rules
+
+**总估算**：**38-56h** · 建议按 v6→v7 分两轮消化。
+
+---
+
+## 附录 · v5 决策记录（Decision Log）
+
+1. **务实缩减 v5 范围**：v5 baseline 后原本想在一个 PR 里 sink 全部 P1，但 SRP 拆分（P3-A）本身就是 10-14h 大工程，与其他修复混合会让 PR 无法 review。**决策**：P3-A 单独留 v6 · v5 只做骨架测试 + 单源化 + 治理文档。
+2. **Vite `?raw` 而非 fetch**：MV3 CSP 对 fetch 内部资源有约束 · runtime IO 增加冷启动延迟。**决策**：构建期内联（`?raw`）胜。
+3. **validation.ts 逐字抽出**：保持字节级语义等价，不趁机改写逻辑。**决策**：refactor 与 improvement 分开走，避免语义漂移。
+4. **selection-tooltip 只测纯函数**：完整 setup/render 链需要跨模块 mock，5-8 小时投入 · v5 时间盒紧张。**决策**：骨架先行 · 达 26.58% ≠ 80% 目标但拿到关键回归护栏。
+5. **App.tsx 保持 0% coverage**：单测组件级 UI 与 E2E 高度重复 · 优先补纯函数。**决策**：validation.ts 100% + App.tsx 全部依赖 validation → 关键校验语义已有回归。
+
+---
+
+## 附录 · 命令快照
+
+```bash
+# baseline
+git checkout main && git pull
+bunx vitest run --coverage
+bun run lint
+
+# v5 修复分支
+git checkout -b fix/audit-v5
+
+# 逐步 commit（4 个原子分片见修复日志）
+
+# 复审
+npx tsc --noEmit && bun run lint && bun run test && bun run build
+bunx vitest run --coverage
+
+# PR
+gh pr create -t "chore: audit v5 comprehensive fixes" -b "$(cat .audit-reports/audit-report-readto-20260708-v5.md)"
+```
+
+---
+
+## 尾声
+
+v5 的核心贡献是**把 v4 曝光的两大 0% 覆盖率黑洞真正开始补测试**，而非扩大 `coverage.include` 掩盖问题。同时消灭 v4 后新暴露的 tooltip CSS 双源 pattern shadow（这是 v3→v4→v5 连续三轮 sanitize pattern shadow 的**CSS 层同型问题**）。综合分从 76 回到 ~86 是**诚实分**——不再有 include 谎报，coverage 数字直接对应真实测试量。
+
+v6 建议聚焦 App.tsx SRP 拆分（大工程 · 独立 refactor PR）+ content/ 目录覆盖率（0% 的 700+ loc）。
+
