@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 📚 Documentation
 
+- update CHANGELOG.md [skip ci] (`0d98164`)
 - update CHANGELOG.md [skip ci] (`89c3c95`)
 - update CHANGELOG.md [skip ci] (`d0ceaa9`)
 - **design:** 落地 Readto 设计系统 (DESIGN.md · Google alpha spec) (#17) (`73f4b2c`)
@@ -60,6 +61,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 🔧 Chores
 
+- **audit-v3:** src/ 48→13 warning + Actions pin SHA — 82→88 (B→B+) (#19) (`65fb881`)
 - **audit-v2:** close 5 P1 + 3 P2 findings — 79→88 (B-→B+) (#18) (`5dc0b56`)
 - **deps:** bump the runtime group with 3 updates (#16) (`a73b30d`)
 - **deps-dev:** bump the dev-tooling group across 1 directory with 2 updates (#15) (`dc52656`)
