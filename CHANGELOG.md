@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 📚 Documentation
 
+- update CHANGELOG.md [skip ci] (`7c8d882`)
 - update CHANGELOG.md [skip ci] (`9d3bfea`)
 - update CHANGELOG.md [skip ci] (`b6fb940`)
 - update CHANGELOG.md [skip ci] (`0d98164`)
@@ -68,6 +69,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 🔧 Chores
 
+- **audit-v5:** comprehensive fixes — 76→86 + coverage 39.62%→43.18% (#22) (`b775178`)
 - **audit-v3:** src/ 48→13 warning + Actions pin SHA — 82→88 (B→B+) (#19) (`65fb881`)
 - **audit-v2:** close 5 P1 + 3 P2 findings — 79→88 (B-→B+) (#18) (`5dc0b56`)
 - **deps:** bump the runtime group with 3 updates (#16) (`a73b30d`)
