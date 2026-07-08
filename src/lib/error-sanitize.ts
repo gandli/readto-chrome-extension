@@ -46,7 +46,9 @@ export function sanitizeError(err: unknown): SanitizedError {
   let raw: string;
 
   if (err instanceof Error) {
-    raw = err.message;
+    // Defensive: some custom Error subclasses / cross-context serialization
+    // may set .message to a non-string. String() coerces safely without throwing.
+    raw = typeof err.message === 'string' ? err.message : String(err.message);
   } else if (err === null) {
     raw = 'null';
   } else if (err === undefined) {

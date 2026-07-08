@@ -82,6 +82,16 @@ describe('sanitizeError', () => {
     expect(result.message.endsWith('…')).toBe(true);
   });
 
+  it('coerces non-string Error.message to string without throwing (defensive)', () => {
+    // Custom Error subclass may override .message with a non-string.
+    // The point is not to preserve fidelity but to avoid TypeError in `msg.replace()`.
+    const err = new Error();
+    (err as any).message = { nested: 'object' };
+    expect(() => sanitizeError(err)).not.toThrow();
+    const result = sanitizeError(err);
+    expect(typeof result.message).toBe('string');
+  });
+
   it('handles non-Error values (string / null / undefined / object)', () => {
     expect(sanitizeError('boom').message).toBe('boom');
     expect(sanitizeError(null).message).toBe('null');
