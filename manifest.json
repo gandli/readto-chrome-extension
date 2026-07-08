@@ -5,6 +5,7 @@
   "version": "0.3.1",
   "description": "Chinese ruby annotations for English words above your CEFR level 为超出你CEFR等级的英文单词标注中文注音（Ruby注释）",
   "homepage_url": "https://readto.ai",
+  "minimum_chrome_version": "116",
   "icons": {
     "16": "icons/icon-16.png",
     "48": "icons/icon-48.png",
@@ -13,9 +14,13 @@
   "permissions": [
     "storage"
   ],
-  "host_permissions": [
-    "<all_urls>"
+  "optional_host_permissions": [
+    "http://*/*",
+    "https://*/*"
   ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; base-uri 'self';"
+  },
   "background": {
     "service_worker": "service-worker-loader.js",
     "type": "module"

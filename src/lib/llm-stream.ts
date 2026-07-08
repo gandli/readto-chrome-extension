@@ -126,21 +126,11 @@ export async function streamBatch(params: StreamBatchParams): Promise<WordTransl
   const openai = createOpenAI({
     baseURL,
     apiKey: cfg.apiKey || undefined,
-  } as any);
+  });
 
   const completed = new Set<number>();
   const results: WordTranslation[][] = items.map(() => []);
-  let lastPartial: z.infer<typeof BatchedResultsSchema> | null = null;
-
-  const handlePartial = (index: number, raw: unknown) => {
-    if (completed.has(index) || index < 0 || index >= items.length) return;
-    const validated = validateTranslations(raw, [items[index]]);
-    results[index] = validated;
-    completed.add(index);
-    onParagraphDone?.(index, validated);
-  };
-
-  const streamResult = (streamObject as any)({
+  const streamResult = streamObject({
     model: openai.chat(cfg.model),
     schema: BatchedResultsSchema,
     system: BATCHED_SYSTEM_PROMPT,
@@ -150,11 +140,22 @@ export async function streamBatch(params: StreamBatchParams): Promise<WordTransl
     abortSignal,
   });
   const { partialObjectStream } = streamResult;
+  type PartialResult = typeof partialObjectStream extends AsyncIterable<infer T> ? T : never;
+  let lastPartial: PartialResult | null = null;
 
-  for await (const partial of partialObjectStream as AsyncIterable<any>) {
+  const handlePartial = (index: number, raw: unknown) => {
+    if (completed.has(index) || index < 0 || index >= items.length) return;
+    const validated = validateTranslations(raw, [items[index]]);
+    results[index] = validated;
+    completed.add(index);
+    onParagraphDone?.(index, validated);
+  };
+
+
+  for await (const partial of partialObjectStream) {
     if (abortSignal?.aborted) throw new DOMException('LLM stream aborted', 'AbortError');
 
-    lastPartial = partial as any;
+    lastPartial = partial;
     const partialResults = partial?.results ?? [];
 
     // Process all but the last paragraph (which may still be streaming)

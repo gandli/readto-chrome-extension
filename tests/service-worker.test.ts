@@ -35,6 +35,10 @@ const mockFetch = vi.fn();
   storage: {
     session: { get: mockSessionGet, set: mockSessionSet },
   },
+  permissions: {
+    contains: vi.fn().mockResolvedValue(true),
+    request: vi.fn().mockResolvedValue(true),
+  },
 };
 
 // ── Module mocks ──────────────────────────────────────────────────────
@@ -78,6 +82,12 @@ beforeEach(async () => {
   mockSessionSet.mockResolvedValue(undefined);
   mockFetch.mockResolvedValue({ ok: true, json: async () => ({}) });
   mockStreamBatch.mockResolvedValue([]);
+
+  // Re-attach permission mocks (vi.resetAllMocks() wiped them)
+  (globalThis as any).chrome.permissions = {
+    contains: vi.fn().mockResolvedValue(true),
+    request: vi.fn().mockResolvedValue(true),
+  };
 
   // Import the service worker — this registers all listeners
   await import('../src/background/service-worker');
@@ -173,7 +183,7 @@ describe('GET_WORD_DETAIL', () => {
     const response = await callHandler({ type: 'GET_WORD_DETAIL', word: 'apple' });
 
     expect(response.ok).toBe(false);
-    expect(response.error).toContain('Network error');
+    expect(response.error.message).toContain('Network error');
   });
 
   it('handles non-OK response status', async () => {
@@ -182,7 +192,7 @@ describe('GET_WORD_DETAIL', () => {
     const response = await callHandler({ type: 'GET_WORD_DETAIL', word: 'apple' });
 
     expect(response.ok).toBe(false);
-    expect(response.error).toContain('404');
+    expect(response.error.message).toContain('404');
   });
 
   it('normalises word to lowercase for lookup', async () => {
@@ -379,7 +389,8 @@ describe('TRANSLATE_MANY local mode', () => {
       cfg: LOCAL_CFG,
     });
 
-    expect(response).toEqual({ ok: false, error: 'malformed TRANSLATE_MANY' });
+    expect(response.ok).toBe(false);
+    expect(response.error.message).toContain('malformed TRANSLATE_MANY');
   });
 
   it('rejects malformed TRANSLATE_MANY (missing cfg)', async () => {
@@ -388,7 +399,8 @@ describe('TRANSLATE_MANY local mode', () => {
       items: [],
     });
 
-    expect(response).toEqual({ ok: false, error: 'malformed TRANSLATE_MANY' });
+    expect(response.ok).toBe(false);
+    expect(response.error.message).toContain('malformed TRANSLATE_MANY');
   });
 });
 
@@ -410,8 +422,8 @@ describe('TRANSLATE_MANY LLM mode', () => {
     });
 
     expect(response.ok).toBe(false);
-    expect(response.error).toContain('201 targets');
-    expect(response.error).toContain('200');
+    expect(response.error.message).toContain('201 targets');
+    expect(response.error.message).toContain('200');
     // streamBatch should never be called
     expect(mockStreamBatch).not.toHaveBeenCalled();
   });
@@ -445,7 +457,7 @@ describe('TRANSLATE_MANY LLM mode', () => {
     });
 
     expect(response.ok).toBe(false);
-    expect(response.error).toContain('120000');
+    expect(response.error.message).toContain('120000');
     expect(mockStreamBatch).not.toHaveBeenCalled();
   });
 
@@ -487,7 +499,7 @@ describe('TRANSLATE_MANY LLM mode', () => {
     });
 
     expect(response.ok).toBe(false);
-    expect(response.error).toContain('LLM connection failed');
+    expect(response.error.message).toContain('LLM connection failed');
   });
 });
 
@@ -563,7 +575,7 @@ describe('rate limiting', () => {
     });
 
     expect(response.ok).toBe(false);
-    expect(response.error).toContain('rate-limit');
+    expect(response.error.message).toContain('rate-limit');
     expect(mockStreamBatch).not.toHaveBeenCalled();
   });
 
