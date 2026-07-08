@@ -121,3 +121,15 @@ jobs:
         continue-on-error: true
         run: npx playwright test e2e/minimal.spec.ts
 
+      - name: Upload e2e results (on failure)
+        # CodeRabbit review: keep test-results/ + playwright-report/ available
+        # so a failing smoke run leaves debug evidence in CI artifacts.
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: e2e-results-${{ github.sha }}
+          path: |
+            test-results/
+            playwright-report/
+          retention-days: 7
+

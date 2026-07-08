@@ -39,7 +39,7 @@ If you find a security issue, do **not** open a public issue. Follow [.github/SE
 
 ## Architecture at a glance
 
-```
+```text
 src/
 ├── background/service-worker.ts   MV3 SW — LLM translation gateway, local dict
 ├── content/                        page/bilibili/youtube/index — DOM scanning
