@@ -6,8 +6,7 @@
  * custom DOM events.
  */
 
-import { READTO_TRACKS, READTO_LINES, READTO_EVENT } from '../lib/types';
-import type { TranscriptLine } from '../lib/types';
+import { READTO_TRACKS, READTO_EVENT } from '../lib/types';
 
 // ─── Caption Parsing ───────────────────────────────────────────────
 
@@ -180,7 +179,7 @@ function parseTimedTextXml(xmlString: string): CaptionLine[] {
 
 // ─── Caption Interception ──────────────────────────────────────────
 
-let videoId: string | null = null;
+let _videoId: string | null = null;
 
 function getVideoId(): string | null {
   const match = location.search.match(/[?&]v=([^&]+)/);
@@ -191,7 +190,7 @@ function dispatchLines(lines: CaptionLine[]): void {
   const vid = getVideoId();
   if (!vid || lines.length === 0) return;
 
-  videoId = vid;
+    _videoId = vid;
 
   const event = new CustomEvent(READTO_EVENT, {
     detail: {

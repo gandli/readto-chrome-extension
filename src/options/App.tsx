@@ -10,10 +10,10 @@ import React, {
   useMemo,
 } from 'react';
 import { createRoot } from 'react-dom/client';
-import { CircleCheck, Info, LoaderCircle, OctagonX, TriangleAlert } from 'lucide-react';
+import { LoaderCircle } from 'lucide-react';
 import { toast, Toaster } from 'sonner';
 import type { CefrLevel, TranslationMode, LlmConfig } from '../lib/types';
-import { getFullConfig, getSettings, getLlmConfig, saveSettings, saveLlmConfig, isLocalhost } from '../lib/storage';
+import { getLlmConfig, saveSettings, saveLlmConfig, isLocalhost } from '../lib/storage';
 import { requestHostPermission } from '../lib/permissions';
 import { loadWordlist, filterForLevel } from '../lib/level-filter';
 import { getTranslator } from '../lib/translations';

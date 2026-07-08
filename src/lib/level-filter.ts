@@ -43,7 +43,7 @@ interface TokenizedWord {
 }
 
 /** Regex matching English words (including accented characters, apostrophes, hyphens) */
-const WORD_RE = /[A-Za-z\u00C0-\u024F][A-Za-z\u00C0-\u024F'\u2019\-]*[A-Za-z\u00C0-\u024F]|[A-Za-z\u00C0-\u024F]/g;
+const WORD_RE = /[A-Za-z\u00C0-\u024F][A-Za-z\u00C0-\u024F'\u2019-]*[A-Za-z\u00C0-\u024F]|[A-Za-z\u00C0-\u024F]/g;
 
 /** Tokenize text into words with position information */
 export function tokenizeWords(text: string): TokenizedWord[] {

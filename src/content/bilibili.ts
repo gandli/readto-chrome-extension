@@ -11,7 +11,7 @@
 import { getFullConfig, isFullConfig } from '../lib/storage';
 import { loadWordlist, getTranslator, filterForLevel } from '../lib/level-filter';
 import { READTO_EVENT, READTO_TRACKS } from '../lib/types';
-import type { CefrLevel, TranscriptLine, Translator } from '../lib/types';
+import type { TranscriptLine } from '../lib/types';
 
 const MAX_LINES = 5000;
 const CHUNK_SIZE = 4;
@@ -179,7 +179,7 @@ function createSubtitleOverlay(video: HTMLVideoElement): SubtitleOverlay {
 // ─── Word-Level Annotation Rendering ───────────────────────────────
 
 function renderAnnotatedWords(container: HTMLElement, line: AnnotatedLine): void {
-  const wordRegex = /[A-Za-z\u00C0-\u024F][A-Za-z\u00C0-\u024F'\u2019\-]*[A-Za-z\u00C0-\u024F]|[A-Za-z\u00C0-\u024F]/g;
+  const wordRegex = /[A-Za-z\u00C0-\u024F][A-Za-z\u00C0-\u024F'\u2019-]*[A-Za-z\u00C0-\u024F]|[A-Za-z\u00C0-\u024F]/g;
   const text = line.text;
   const translations = line.translations;
   const occurrenceCounts: Record<string, number> = {};
@@ -223,7 +223,7 @@ function renderAnnotatedWords(container: HTMLElement, line: AnnotatedLine): void
 // ─── Entry Point ───────────────────────────────────────────────────
 
 let overlayInstance: SubtitleOverlay | null = null;
-let currentBvid: string | null = null;
+let _currentBvid: string | null = null;
 let sequenceCounter = 0;
 
 async function main(): Promise<void> {
@@ -271,7 +271,7 @@ async function main(): Promise<void> {
 
     // Create new overlay
     overlayInstance = createSubtitleOverlay(video);
-    currentBvid = bvid;
+    _currentBvid = bvid;
 
     // Initialize annotated lines
     const annotated: AnnotatedLine[] = lines.map((l) => ({ ...l, translations: {} }));

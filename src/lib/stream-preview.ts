@@ -1,7 +1,7 @@
 import { streamBatch } from './llm-stream';
 import { loadWordlist, getTranslator, filterForLevel } from './level-filter';
 import { applyAnnotations } from './inline-renderer';
-import type { CefrLevel, LlmConfig, WordMatch } from './types';
+import type { CefrLevel, LlmConfig } from './types';
 
 interface StreamPreviewParams {
   items: Array<{ context: string; targets: Array<{ word: string; occurrence: number }> }>;

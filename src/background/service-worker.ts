@@ -8,7 +8,7 @@
  * - Open options page on install and action click
  */
 
-import { initStorage, getReadableConfig, isFullConfig } from '../lib/storage';
+import { initStorage } from '../lib/storage';
 import { sanitizeError } from '../lib/error-sanitize';
 import { hasHostPermission } from '../lib/permissions';
 import { z } from 'zod';

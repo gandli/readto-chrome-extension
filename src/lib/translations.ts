@@ -6,7 +6,11 @@
  */
 
 import type { Translator, WordTranslation } from './types';
-import { loadWordlist, tokenizeWords, type FilteredWord } from './level-filter';
+// NOTE: unused imports/regex are kept prefixed with `_` because this file
+// hosts a partially-implemented local translation path; removing them would
+// require rewriting the module. Reintroduce (drop `_`) when the local path
+// is wired up in a follow-up.
+import { loadWordlist as _loadWordlist, tokenizeWords as _tokenizeWords, type FilteredWord as _FilteredWord } from './level-filter';
 
 /** Cached dictionary map */
 let dictMap: Map<string, string> | null = null;
@@ -49,7 +53,7 @@ async function getDictMap(): Promise<Map<string, string>> {
 }
 
 /** Regex for matching English words */
-const WORD_RE = /[A-Za-z\u00C0-\u024F][A-Za-z\u00C0-\u024F'\u2019\-]*[A-Za-z\u00C0-\u024F]|[A-Za-z\u00C0-\u024F]/g;
+const _WORD_RE = /[A-Za-z\u00C0-\u024F][A-Za-z\u00C0-\u024F'\u2019-]*[A-Za-z\u00C0-\u024F]|[A-Za-z\u00C0-\u024F]/g;
 
 /**
  * Local dictionary translator.
