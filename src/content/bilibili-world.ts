@@ -83,15 +83,29 @@ function dispatchLines(lines: TranscriptLine[]): void {
  *   }
  * }
  */
+/** Narrow shape of a single Bilibili subtitle entry we care about */
+interface BilibiliSubtitleEntry {
+  subtitle_url?: unknown;
+}
+
+/** Narrow shape of the wbi/v2 player response envelope we walk into */
+interface BilibiliPlayerResponse {
+  data?: {
+    subtitle?: {
+      subtitles?: unknown;
+    };
+  };
+}
+
 function extractSubtitleUrls(data: unknown): string[] {
   try {
-    const subtitles = (data as any)?.data?.subtitle?.subtitles;
+    const subtitles = (data as BilibiliPlayerResponse | null)?.data?.subtitle?.subtitles;
     if (!Array.isArray(subtitles)) return [];
 
-    return subtitles
-      .filter((s: any) => typeof s?.subtitle_url === 'string')
-      .map((s: any) => {
-        const url = s.subtitle_url as string;
+    return (subtitles as BilibiliSubtitleEntry[])
+      .filter((s): s is { subtitle_url: string } => typeof s?.subtitle_url === 'string')
+      .map((s) => {
+        const url = s.subtitle_url;
         // Bilibili subtitle URLs may start with // or https:
         return url.startsWith('//') ? `https:${url}` : url;
       });
@@ -186,20 +200,33 @@ function interceptXHR(): void {
   const originalOpen = XMLHttpRequest.prototype.open;
   const originalSend = XMLHttpRequest.prototype.send;
 
+  // Type-safe tagged XHR: we stash the request URL on the instance so the
+  // `load` listener can inspect it without keeping a WeakMap.
+  type TaggedXHR = XMLHttpRequest & { _readto_url?: string };
+
   XMLHttpRequest.prototype.open = function (
+    this: TaggedXHR,
     method: string,
     url: string | URL,
-    ...rest: [boolean?, (string | null)?, (string | null)?]
+    ...rest: unknown[]
   ) {
-    (this as any)._readto_url = typeof url === 'string' ? url : url.href;
-    return (originalOpen as any).call(this, method, url, ...rest);
+    this._readto_url = typeof url === 'string' ? url : url.href;
+    // Cast is intentional: XMLHttpRequest.open has 5 overloads and TS can't
+    // dispatch on a rest spread. Runtime behaviour is unchanged.
+    return (originalOpen as (...args: unknown[]) => void).call(
+      this,
+      method,
+      url,
+      ...rest,
+    );
   };
 
   XMLHttpRequest.prototype.send = function (
+    this: TaggedXHR,
     body?: Document | XMLHttpRequestBodyInit | null,
   ) {
     this.addEventListener('load', () => {
-      const url = (this as any)._readto_url as string | undefined;
+      const url = this._readto_url;
       if (!url) return;
 
       try {

@@ -182,7 +182,10 @@ function isInReadtoElement(node: Node): boolean {
     if (current.nodeType === Node.ELEMENT_NODE) {
       if ((current as Element).closest?.('[data-readto]')) return true;
     }
-    const root = (current as any).getRootNode?.() as ShadowRoot | Document | undefined;
+    const root = (current as Node & { getRootNode?: () => Node }).getRootNode?.() as
+      | ShadowRoot
+      | Document
+      | undefined;
     if (root && root !== document && 'host' in root) {
       current = (root as ShadowRoot).host;
       if ((current as Element).hasAttribute?.('data-readto')) return true;

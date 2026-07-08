@@ -764,10 +764,15 @@ export function getTranslator(config: { level: CefrLevel; translationMode: strin
           cfg: config,
         });
         if (response?.ok && Array.isArray(response.results)) {
-          return (response.results[0] ?? []).map((r: any) => ({
-            word: r.word,
-            occurrence: r.occurrence,
-            translation: r.translation,
+          const rawItems = (response.results[0] ?? []) as Array<{
+            word?: unknown;
+            occurrence?: unknown;
+            translation?: unknown;
+          }>;
+          return rawItems.map((r) => ({
+            word: String(r.word ?? ''),
+            occurrence: Number(r.occurrence ?? 0),
+            translation: String(r.translation ?? ''),
           }));
         }
         return [];
