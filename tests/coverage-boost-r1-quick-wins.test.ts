@@ -3,18 +3,17 @@
  * Coverage boost — quick wins Round 1
  *
  * Targets small uncovered branches in already high-coverage files.
- * Only branches with clear, mockable entry points are included here.
- *   - permissions.ts     L26 (non-http scheme) L42, 57, 73 (catch paths)
- *   - storage.ts         L196-198 (getReadableConfig merge)
- *   - error-sanitize.ts  L85 (JSON.stringify throw → Object toString fallback)
+ * Uses vi.stubGlobal() (recommended by Gemini review) so cleanup is automatic
+ * via vi.unstubAllGlobals() and there's no risk of state leaking across tests.
+ *
+ *   - permissions.ts     L26 (non-http scheme) L42, 57 (chrome API catches)
+ *   - storage.ts         L195-198 (getReadableConfig merges real settings + llm)
+ *   - error-sanitize.ts  L85 (JSON.stringify throw → toString fallback)
  *   - translations.ts    L25 (dictPromise cache hit on concurrent load)
  */
 import { describe, it, expect, vi, afterEach } from 'vitest';
 
-// Preserve original chrome across tests
-const ORIGINAL_CHROME = (globalThis as unknown as { chrome?: unknown }).chrome;
 afterEach(() => {
-  (globalThis as unknown as { chrome?: unknown }).chrome = ORIGINAL_CHROME;
   vi.unstubAllGlobals();
   vi.resetModules();
 });
@@ -34,71 +33,116 @@ describe('coverage-boost round 1: permissions.ts', () => {
   });
 
   it('hasHostPermission returns false when chrome.permissions.contains throws (L42 catch)', async () => {
-    (globalThis as unknown as { chrome: unknown }).chrome = {
+    vi.stubGlobal('chrome', {
       permissions: { contains: () => { throw new Error('permission API boom'); } },
-    };
+    });
     const { hasHostPermission } = await import('../src/lib/permissions');
     await expect(hasHostPermission('https://api.example.com')).resolves.toBe(false);
   });
 
   it('requestHostPermission returns false when chrome.permissions.request throws (L57 catch)', async () => {
-    (globalThis as unknown as { chrome: unknown }).chrome = {
+    vi.stubGlobal('chrome', {
       permissions: { request: () => { throw new Error('permission API boom'); } },
-    };
+    });
     const { requestHostPermission } = await import('../src/lib/permissions');
     await expect(requestHostPermission('https://api.example.com')).resolves.toBe(false);
   });
-
-  // L73 catch is inside the same requestHostPermission function; covered above.
-  // (The uncovered range 42/57/73 in the coverage report reflected multiple try/catches
-  // but the current source only has hasHostPermission + requestHostPermission catches.)
 });
 
 describe('coverage-boost round 1: storage.ts', () => {
-  it('getReadableConfig merges settings + llm (L195-198)', async () => {
-    const store: Record<string, unknown> = {
-      settings: {
-        translationMode: 'local',
-        cefrLevel: 'B2',
-        preferLevelFiltering: true,
-      },
+  it('getReadableConfig returns real settings + llm merged from storage (L195-198)', async () => {
+    // Match the actual chrome.storage.* shape the module reads:
+    // - sync: 'level' | 'translationMode' | 'autoSpeak' (see storage.ts:66)
+    // - local: 'llmConfig' (STORAGE_KEY_CONFIG)
+    //          'llmApiKey' (STORAGE_KEY_API_KEY) — apiKey is stored SEPARATELY
+    const syncStore: Record<string, unknown> = {
+      level: 'B2',
+      translationMode: 'llm',
+      autoSpeak: true,
+    };
+    const localStore: Record<string, unknown> = {
       llmConfig: {
         endpoint: 'https://api.example.com/v1/chat/completions',
-        apiKey: 'sk-test-1234',
         model: 'gpt-4o-mini',
+        hasApiKey: true,
       },
+      llmApiKey: 'sk-test-1234',
     };
-    // chrome.storage.* .get in this project returns a Promise (MV3 style),
-    // NOT a callback. Both getSettings (sync) and getFullConfig (local) await it.
-    const syncGet = vi.fn(async (_keys: unknown) => store);
-    const localGet = vi.fn(async (_keys: unknown) => store);
-    (globalThis as unknown as { chrome: unknown }).chrome = {
+
+    const filter = (store: Record<string, unknown>, keys: unknown): Record<string, unknown> => {
+      if (typeof keys === 'string') return { [keys]: store[keys] };
+      if (Array.isArray(keys)) {
+        const out: Record<string, unknown> = {};
+        for (const k of keys) if (k in store) out[k as string] = store[k as string];
+        return out;
+      }
+      return { ...store };
+    };
+
+    vi.stubGlobal('chrome', {
       storage: {
-        sync: { get: syncGet },
-        local: { get: localGet },
+        sync: {
+          get: vi.fn(async (keys: unknown) => filter(syncStore, keys)),
+        },
+        local: {
+          get: vi.fn(async (keys: unknown) => filter(localStore, keys)),
+          set: vi.fn(async () => undefined),
+          remove: vi.fn(async () => undefined),
+        },
       },
       runtime: { lastError: undefined },
-    };
+    });
+
     const { getReadableConfig } = await import('../src/lib/storage');
     const cfg = await getReadableConfig();
-    // Should have both settings shape and llm slot
-    expect(cfg).toBeDefined();
-    expect(cfg).toHaveProperty('llm');
+
+    // getReadableConfig destructures { level, translationMode, autoSpeak } from
+    // getSettings() then spreads { ...settings, llm } from getLlmConfig().
+    // NOTE: the `llm` variable inside getReadableConfig is the ENTIRE FullConfig
+    // object (getLlmConfig returns FullConfig, not LlmConfig) — a naming quirk in
+    // storage.ts:196-197. So cfg.llm.llm is the real LlmConfig block. We assert
+    // both the outer shape (level/translationMode) and the nested llm details.
+    expect(cfg.level).toBe('B2');
+    expect(cfg.translationMode).toBe('llm');
+    expect(cfg.autoSpeak).toBe(true);
+    // cfg.llm is a FullConfig; its .llm slot is the real LlmConfig
+    const inner = (cfg.llm as unknown as { llm: unknown | null }).llm;
+    expect(inner).toEqual({
+      endpoint: 'https://api.example.com/v1/chat/completions',
+      model: 'gpt-4o-mini',
+      apiKey: 'sk-test-1234',
+    });
+  });
+
+  it('getReadableConfig returns null inner llm when llmConfig is missing', async () => {
+    vi.stubGlobal('chrome', {
+      storage: {
+        sync: { get: vi.fn(async () => ({ level: 'A2', translationMode: 'local', autoSpeak: false })) },
+        local: {
+          get: vi.fn(async () => ({})),
+          set: vi.fn(async () => undefined),
+          remove: vi.fn(async () => undefined),
+        },
+      },
+      runtime: { lastError: undefined },
+    });
+    const { getReadableConfig } = await import('../src/lib/storage');
+    const cfg = await getReadableConfig();
+    // Same naming quirk — the outer .llm is a FullConfig object; check inner slot
+    const inner = (cfg.llm as unknown as { llm: unknown | null }).llm;
+    expect(inner).toBeNull();
+    expect(cfg.translationMode).toBe('local');
   });
 });
 
 describe('coverage-boost round 1: error-sanitize.ts', () => {
   it('handles error object whose JSON.stringify throws (L85 fallback)', async () => {
     const { sanitizeError } = await import('../src/lib/error-sanitize');
-    // Circular reference → JSON.stringify throws
-    // Object is NOT a string, NOT null/undefined, has no .message string,
-    // so it falls into the JSON.stringify branch (L83).
+    // Circular reference → JSON.stringify throws → toString fallback path
     const circular: Record<string, unknown> = { name: 'weird' };
     circular.self = circular;
-    // Not throwing is the success criterion; result must be a string.
     const out = sanitizeError(circular);
     expect(typeof out.message).toBe('string');
-    // "[object Object]" is the toString fallback shape
     expect(out.message).toContain('[object');
   });
 });
@@ -108,15 +152,14 @@ describe('coverage-boost round 1: translations.ts', () => {
     let resolveFetch: (v: Response) => void = () => {};
     const fetchMock = vi.fn(() => new Promise<Response>((res) => { resolveFetch = res; }));
     vi.stubGlobal('fetch', fetchMock);
-    (globalThis as unknown as { chrome: unknown }).chrome = {
+    vi.stubGlobal('chrome', {
       runtime: { getURL: (p: string) => `chrome-extension://x/${p}` },
-    };
+    });
 
-    // Import fresh module so the private dictMap/dictPromise start null.
     const { default: localTranslator } = await import('../src/lib/translations');
 
-    // Kick off two concurrent translations — first triggers fetch,
-    // second must hit the L25 `if (dictPromise) return dictPromise` branch
+    // Two concurrent calls — first sets dictPromise, second must hit
+    // L25 `if (dictPromise) return dictPromise` cache branch
     // (because the first fetch hasn't resolved yet).
     const p1 = localTranslator.translate({
       context: 'hello world',
@@ -127,7 +170,6 @@ describe('coverage-boost round 1: translations.ts', () => {
       targets: [{ word: 'world', occurrence: 1 }],
     });
 
-    // Resolve fetch with an empty dict so both promises settle
     resolveFetch(new Response(JSON.stringify({}), {
       status: 200,
       headers: { 'content-type': 'application/json' },
