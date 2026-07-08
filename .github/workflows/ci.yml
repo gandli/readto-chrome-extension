@@ -65,7 +65,7 @@ jobs:
           jq -e '.optional_host_permissions | length > 0' dist/manifest.json
 
       - name: Upload dist artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: dist-${{ github.sha }}
           path: dist/
