@@ -239,5 +239,30 @@ describe('validation.ts (audit v5 P1-C)', () => {
         })
       ).not.toThrow();
     });
+
+    // Regression: CodeRabbit-caught case-sensitivity mismatch with
+    // isLlmConfigValid (which uses /i flag). Both functions must agree on
+    // uppercase HTTPS:// or a config is simultaneously "valid" and "rejected".
+    it('accepts uppercase HTTPS:// scheme (consistent with isLlmConfigValid)', () => {
+      expect(
+        validateLlmConfig({
+          ...base,
+          endpoint: 'HTTPS://api.openai.com/v1/chat/completions',
+          apiKey: 'sk-abcd1234',
+          model: DEFAULT_MODEL,
+        })
+      ).toBeNull();
+    });
+
+    it('accepts uppercase HTTP:// scheme too', () => {
+      expect(
+        validateLlmConfig({
+          ...base,
+          endpoint: 'HTTP://localhost:8080/v1/chat/completions',
+          apiKey: '',
+          model: DEFAULT_MODEL,
+        })
+      ).toBeNull();
+    });
   });
 });

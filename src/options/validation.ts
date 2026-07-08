@@ -49,8 +49,8 @@ export function validateLlmConfig(cfg: {
   const endpoint = cfg.endpoint || '';
   const apiKey = cfg.apiKey || '';
   const model = cfg.model || '';
-  if (!/^https?:\/\//.test(endpoint)) return '接口地址要以 http:// 或 https:// 开头';
-  if (!/^https:\/\//.test(endpoint) && !isLocalhost(endpoint))
+  if (!/^https?:\/\//i.test(endpoint)) return '接口地址要以 http:// 或 https:// 开头';
+  if (!/^https:\/\//i.test(endpoint) && !isLocalhost(endpoint))
     return '非本机地址必须用 https://，否则 API key 会明文传输';
   if (!isLocalhost(endpoint) && apiKey.length < 8) return 'API key 太短';
   if (!model) return '模型不能为空';

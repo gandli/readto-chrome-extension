@@ -80,7 +80,7 @@ v4 修复 6 个 findings 后综合分从 78/C+ 升至 ~85/A-，coverage 从虚�
 **文件**: `src/lib/selection-tooltip.ts` · **loc**: 429 · **coverage**: 0% (0/429)
 
 **证据**：
-```
+```text
 lib
   selection-tooltip.ts  |   0    |   0    |   0    |   0    | 20-423
 ```
@@ -112,7 +112,7 @@ lib
 - `src/lib/level-filter.ts:362` → 内嵌 `.tooltip{...}` CSS 字符串（**pattern shadow**：与 `src/styles/tooltip.css` 双源）
 
 **证据**：
-```
+```text
 src/lib/selection-tooltip.ts:16:import { SPEAKER_SVG } from './icons';
 src/lib/level-filter.ts:16:import { SPEAKER_SVG } from './icons';
 src/lib/level-filter.ts:362:.tooltip{position:fixed;background:hsl(30 7% 97%);... 内嵌 500+ chars CSS
@@ -137,7 +137,7 @@ src/lib/level-filter.ts:362:.tooltip{position:fixed;background:hsl(30 7% 97%);..
 **文件**: `src/options/App.tsx` · **loc**: 1172 · **coverage**: 0% (0/1172)
 
 **证据**：
-```
+```text
 options
   App.tsx  |   0    |   0    |   0    |   0    | 27-1168
 ```
@@ -161,7 +161,7 @@ v4 明确标注"P1-D App.tsx 拆分留独立 refactor PR"，v5 复扫仍是 0%�
 ### 🔴 P1-D · 5 处 lint warning 未清
 
 **文件**（bun run lint 输出）：
-```
+```text
   5:48  warning  'afterEach' is defined but never used
   50:8   warning  'FilteredWord' is defined but never used
   61:10  warning  'firstTextNode' is defined but never used
@@ -230,7 +230,7 @@ v4 明确标注"P1-D App.tsx 拆分留独立 refactor PR"，v5 复扫仍是 0%�
 - App main (872-1165 · 293 loc)
 
 **建议拆分**（v6 refactor PR）：
-```
+```text
 src/options/
   App.tsx                  (~200 loc · main + layout only)
   use-settings.ts          (~200 loc · 独立 hook · v5 已做)
