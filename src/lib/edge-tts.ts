@@ -160,7 +160,7 @@ export async function edgeTtsSynthesize(
             chunks.push(audio);
           }
           if (isTurn) {
-            const blob = new Blob(chunks, { type: 'audio/mpeg' });
+            const blob = new Blob(chunks as BlobPart[], { type: 'audio/mpeg' });
             settle(blob);
           }
         }
