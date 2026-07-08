@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 🐛 Bug Fixes
 
+- **audit-v4:** 6 findings 修复 — sanitize/coverage/E2E/a11y (78→~85) (#21) (`3d9bb35`)
 - **audit:** phase 1 remediation — P0×4 + governance (72→~85 pts) (#4) (`012fde1`)
 - **security:** Chrome Store P0 hardening — permissions + error sanitize + no as any (#3) (`aba7022`)
 - update AI SDK dependencies (`e962d96`)
@@ -34,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 📚 Documentation
 
+- update CHANGELOG.md [skip ci] (`9d3bfea`)
 - update CHANGELOG.md [skip ci] (`b6fb940`)
 - update CHANGELOG.md [skip ci] (`0d98164`)
 - update CHANGELOG.md [skip ci] (`89c3c95`)
