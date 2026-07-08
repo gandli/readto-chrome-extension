@@ -175,9 +175,13 @@ function cleanup(): void {
  * Check whether a DOM node lives inside a data-readto annotation.
  * Handles cross-shadow-DOM boundaries (text inside readto spans lives
  * in the span's shadow root).
+ *
+ * @internal Exported for testing only (audit v5 P1-A).
  */
-function isInReadtoElement(node: Node): boolean {
-  let current: Node | null = node;
+export function isInReadtoElement(node: Node): boolean {
+  // range.startContainer is typically a Text node — promote to parentElement
+  // so the walker's element-only checks (.closest / .hasAttribute) fire.
+  let current: Node | null = node.nodeType === Node.ELEMENT_NODE ? node : node.parentElement;
   while (current) {
     if (current.nodeType === Node.ELEMENT_NODE) {
       if ((current as Element).closest?.('[data-readto]')) return true;
@@ -199,8 +203,10 @@ function isInReadtoElement(node: Node): boolean {
 
 /**
  * Parse {target} markers in example sentences to highlight the word.
+ *
+ * @internal Exported for testing only (audit v5 P1-A).
  */
-function parseExampleSegments(text: string): Array<{ kind: 'text' | 'target'; value: string }> {
+export function parseExampleSegments(text: string): Array<{ kind: 'text' | 'target'; value: string }> {
   if (!text) return [];
   const segments: Array<{ kind: 'text' | 'target'; value: string }> = [];
   const re = /\{([^{}]+)\}/g;
@@ -217,7 +223,8 @@ function parseExampleSegments(text: string): Array<{ kind: 'text' | 'target'; va
 
 /* ─── Tooltip positioning ─── */
 
-function positionTooltip(
+/** @internal Exported for testing only (audit v5 P1-A). */
+export function positionTooltip(
   container: HTMLDivElement,
   rangeRect: DOMRect,
 ): void {

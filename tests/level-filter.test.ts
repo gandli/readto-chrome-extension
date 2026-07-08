@@ -79,7 +79,7 @@ import {
   createReadtoSpan,
   computeTooltipPosition,
   getTranslator,
-  type FilteredWord,
+  type FilteredWord as _FilteredWord,
 } from '../src/lib/level-filter';
 
 /* ── Helpers ── */

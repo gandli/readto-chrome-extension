@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 讨论与提问
+    url: https://github.com/gandli/readto-chrome-extension/discussions
+    about: 使用方法、想法交流、社区讨论请去 Discussions
+  - name: 🔒 私密报告安全漏洞
+    url: https://github.com/gandli/readto-chrome-extension/security/advisories/new
+    about: 请不要在 public issue 中报告安全漏洞

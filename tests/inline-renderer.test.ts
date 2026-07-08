@@ -2,7 +2,7 @@
 /**
  * Tests for inline-renderer.ts — getWordDetail (LRU cache) and applyAnnotations.
  */
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach as _afterEach } from 'vitest';
 
 // Must mock chrome.runtime before importing the module under test
 const sendMessageMock = vi.fn();

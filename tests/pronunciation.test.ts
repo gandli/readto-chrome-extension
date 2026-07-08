@@ -327,7 +327,7 @@ describe('pronunciation.ts', () => {
       vi.resetModules();
       const { speakWord } = await import('../src/lib/pronunciation');
 
-      const p = speakWord('abort-synth', controller.signal);
+      const _p = speakWord('abort-synth', controller.signal);
 
       // Now voices load (which clears the waitForVoices wait)
       if (voicesReady) voicesReady();
