@@ -14,7 +14,7 @@
 |---|---|
 | **综合评分** | **72 / 100** — Grade **C**（可用但阻断上架） |
 | **技术债估算** | **~18–24 人时**（P0 修复 6h · P1 修复 10h · P2 打磨 8h） |
-| **推荐 Gate** | 阻断上架：3 项 P0 未清 → 上架前必须清 P0 |
+| **推荐 Gate** | 阻断上架：4 项 P0 未清 → 上架前必须清 P0 |
 
 ### 维度得分（0.0–10.0，越高越好）
 
@@ -163,7 +163,7 @@ error TS2353: Object literal may only specify known properties, and 'level' does
 ## 🟢 P2 · 优化项详解
 
 - **P2-1 覆盖率补齐（Phase 2）**：`level-filter.ts` 55%→85% · `pronunciation.ts` 75%→85% · `edge-tts.ts` 37%→60%。
-- **P2-2 治理文档**：加 SECURITY / CONTRIBUTING / CODEOWNERS / dependabot / issue+PR template。
+- **P2-2 治理文档**：加 SECURITY / CODEOWNERS / dependabot / PR template（本次 PR 已交付）。CONTRIBUTING.md 归入 Phase 2 follow-up，可与代码风格 sweep 一并落。
 - **P2-3 Edge TTS token 注释**：`EDGE_TRUST_TOKEN` 上加块注释说明"公开服务 token，非机密"。
 - **P2-4 types.ts 覆盖噪音**：`vite.config.ts` `test.coverage.exclude` 加 `src/lib/types.ts`。
 - **P2-5 移除 update_url**：`manifestPatchPlugin.closeBundle` 里 `delete manifest.update_url`。
