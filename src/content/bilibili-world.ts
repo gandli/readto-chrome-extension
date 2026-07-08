@@ -44,7 +44,8 @@ function getBvid(): string | null {
   return match ? match[1] : null;
 }
 
-function getCidFromUrl(): string | null {
+function _getCidFromUrl(): string | null {
+  // Currently unused; kept for potential future cid-based caption fetch.
   const params = new URLSearchParams(location.search);
   return params.get('cid');
 }
@@ -113,7 +114,6 @@ function pickBestSubtitleUrl(urls: string[]): string | null {
 // ─── Fetch Interception ───────────────────────────────────────────
 
 const fetchedSubtitleUrls = new Set<string>();
-let pendingPlayerResponse: unknown = null;
 
 function tryFetchSubtitle(url: string): void {
   if (fetchedSubtitleUrls.has(url)) return;

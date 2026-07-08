@@ -22,10 +22,9 @@ import {
   isInExclude,
   isInStayOriginal,
 } from '../lib/level-filter';
-import { applyAnnotations, getWordDetail } from '../lib/inline-renderer';
+import { applyAnnotations } from '../lib/inline-renderer';
 import { setupSelectionTooltip } from '../lib/selection-tooltip';
 import type { CefrLevel, Translator } from '../lib/types';
-import type { WordMatch } from '../lib/level-filter';
 
 /** Minimum text length for an element to be considered for annotation */
 const MIN_TEXT_LENGTH = 20;
@@ -265,7 +264,7 @@ function scan(level: CefrLevel, translator: Translator): void {
 
 // ─── Entry Point ───────────────────────────────────────────────────
 
-export async function onExecute(perf?: { injectTime: number; loadTime: number }): Promise<void> {
+export async function onExecute(_perf?: { injectTime: number; loadTime: number }): Promise<void> {
   // 1. Detect language
   const isEn = await isEnglishPage();
   if (!isEn) return;

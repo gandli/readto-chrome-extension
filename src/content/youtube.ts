@@ -9,7 +9,7 @@
 import { getFullConfig, isFullConfig } from '../lib/storage';
 import { loadWordlist, getTranslator, filterForLevel } from '../lib/level-filter';
 import { READTO_EVENT, READTO_TRACKS } from '../lib/types';
-import type { CefrLevel, TranscriptLine, Translator, TranslationResult } from '../lib/types';
+import type { TranscriptLine } from '../lib/types';
 
 const MAX_LINES = 2000;
 const CHUNK_SIZE = 4;
@@ -164,7 +164,7 @@ function createCaptionOverlay(video: HTMLVideoElement): CaptionOverlay {
 // ─── Word-Level Annotation Rendering ───────────────────────────────
 
 function renderAnnotatedWords(container: HTMLElement, line: AnnotatedLine): void {
-  const wordRegex = /[A-Za-z\u00C0-\u024F][A-Za-z\u00C0-\u024F'\u2019\-]*[A-Za-z\u00C0-\u024F]|[A-Za-z\u00C0-\u024F]/g;
+  const wordRegex = /[A-Za-z\u00C0-\u024F][A-Za-z\u00C0-\u024F'\u2019-]*[A-Za-z\u00C0-\u024F]|[A-Za-z\u00C0-\u024F]/g;
   const text = line.text;
   const translations = line.translations;
   const occurrenceCounts: Record<string, number> = {};
@@ -210,7 +210,7 @@ function renderAnnotatedWords(container: HTMLElement, line: AnnotatedLine): void
 // ─── Entry Point ───────────────────────────────────────────────────
 
 let overlayInstance: CaptionOverlay | null = null;
-let currentVideoId: string | null = null;
+let _currentVideoId: string | null = null;
 let sequenceCounter = 0;
 
 async function main(): Promise<void> {
@@ -262,7 +262,7 @@ async function main(): Promise<void> {
 
     // Create new overlay
     overlayInstance = createCaptionOverlay(video);
-    currentVideoId = videoId;
+    _currentVideoId = videoId;
 
     // Initialize annotated lines
     const annotated: AnnotatedLine[] = lines.map((l) => ({ ...l, translations: {} }));
@@ -276,7 +276,6 @@ async function main(): Promise<void> {
       if (seq !== sequenceCounter) return;
 
       const chunk = lines.slice(i, i + CHUNK_SIZE);
-      const chunkAnnotated = annotated.slice(i, i + CHUNK_SIZE);
 
       // Find words that need translation
       const allWords = new Set<string>();

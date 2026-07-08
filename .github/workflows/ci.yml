@@ -13,7 +13,7 @@ jobs:
     timeout-minutes: 15
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           # No later step needs full history (no changelog gen, no
           # release tagging in this workflow), so keep it shallow. Also
@@ -22,7 +22,7 @@ jobs:
           fetch-depth: 1
           persist-credentials: false
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: '20'
           cache: 'npm'
@@ -33,8 +33,15 @@ jobs:
       - name: TypeScript check (must be 0 errors)
         run: npx tsc --noEmit
 
-      - name: Lint (eslint) — 0 errors required, warnings allowed
-        run: npm run lint
+      - name: Lint (eslint) — 0 errors + src ≤15 warnings gate
+        # After audit v3 hygiene cleanup src/ warnings dropped from 48 → 13
+        # (all remaining are `any` in Bilibili/YouTube DOM API paths, tracked
+        # as Phase 3b P2-A). tests/ warnings are excluded from the ceiling.
+        run: |
+          npm run lint
+          SRC_WARN=$(npx eslint "src/**/*.{ts,tsx}" -f json 2>/dev/null | node -e "const j=JSON.parse(require('fs').readFileSync(0));console.log(j.reduce((s,f)=>s+f.warningCount,0))")
+          echo "src/ warnings: ${SRC_WARN} (ceiling: 15)"
+          awk -v w="$SRC_WARN" 'BEGIN { exit (w + 0 <= 15) ? 0 : 1 }'
 
       - name: Format check (prettier) — informational until repo-wide format lands
         run: npm run format:check
@@ -68,7 +75,7 @@ jobs:
           jq -e '.optional_host_permissions | length > 0' dist/manifest.json
 
       - name: Upload dist artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: dist-${{ github.sha }}
           path: dist/
