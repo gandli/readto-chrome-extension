@@ -11,3 +11,4 @@ test-results/
 test-*.cjs
 skills-lock.json
 .agents/
+coverage/
