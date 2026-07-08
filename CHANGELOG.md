@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 🐛 Bug Fixes
 
+- **audit:** phase 1 remediation — P0×4 + governance (72→~85 pts) (#4) (`012fde1`)
 - **security:** Chrome Store P0 hardening — permissions + error sanitize + no as any (#3) (`aba7022`)
 - update AI SDK dependencies (`e962d96`)
 - 选项页加载 Tailwind CSS + 使用 readto.ai 示例文章截图 (`f5fbbb5`)
@@ -29,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 📚 Documentation
 
+- update CHANGELOG.md [skip ci] (`1be5c85`)
 - update CHANGELOG.md [skip ci] (`96a11e6`)
 - update CHANGELOG.md [skip ci] (`2af3681`)
 - update CHANGELOG.md [skip ci] (`f3768b8`)
