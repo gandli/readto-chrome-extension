@@ -126,14 +126,38 @@ function parseTimedCaptionEvents(events: RawCaptionEvent[]): CaptionLine[] {
     .filter((l) => l.text.trim().length > 0);
 }
 
+/** Narrow shape of YouTube transcript panel envelope we walk into */
+interface YouTubeTranscriptEnvelope {
+  actions?: Array<{
+    updateEngagementPanelAction?: {
+      content?: {
+        transcriptRenderer?: {
+          content?: {
+            transcriptSearchPanelRenderer?: {
+              body?: {
+                transcriptSegmentListRenderer?: {
+                  initialSegments?: unknown;
+                };
+              };
+            };
+          };
+        };
+      };
+    };
+  }>;
+  events?: unknown;
+}
+
 /** Parse transcript panel format (actions → transcriptSegmentRenderer) */
 function parseTranscriptPanel(data: unknown): CaptionLine[] {
-  const segments: RawTranscriptSegment[] =
-    (data as any)?.actions?.[0]?.updateEngagementPanelAction?.content
-      ?.transcriptRenderer?.content?.transcriptSearchPanelRenderer?.body
-      ?.transcriptSegmentListRenderer?.initialSegments ?? [];
+  const rawSegments =
+    (data as YouTubeTranscriptEnvelope | null)?.actions?.[0]
+      ?.updateEngagementPanelAction?.content?.transcriptRenderer?.content
+      ?.transcriptSearchPanelRenderer?.body?.transcriptSegmentListRenderer
+      ?.initialSegments ?? [];
 
-  if (!Array.isArray(segments) || segments.length === 0) return [];
+  if (!Array.isArray(rawSegments) || rawSegments.length === 0) return [];
+  const segments = rawSegments as RawTranscriptSegment[];
 
   return segments
     .map((seg) => {
@@ -150,7 +174,7 @@ function parseTranscriptPanel(data: unknown): CaptionLine[] {
 function parseTimedTextJson(data: unknown): CaptionLine[] {
   if (!data || typeof data !== 'object') return [];
 
-  const events = (data as any).events as RawCaptionEvent[] | undefined;
+  const events = (data as YouTubeTranscriptEnvelope).events as RawCaptionEvent[] | undefined;
   if (Array.isArray(events) && events.length > 0) {
     return isAsrEvents(events) ? parseAsrEvents(events) : parseTimedCaptionEvents(events);
   }
@@ -254,14 +278,33 @@ function interceptXHR(): void {
   const originalOpen = XMLHttpRequest.prototype.open;
   const originalSend = XMLHttpRequest.prototype.send;
 
-  XMLHttpRequest.prototype.open = function (method: string, url: string | URL, ...rest: [boolean?, (string | null)?, (string | null)?]) {
-    (this as any)._readto_url = typeof url === 'string' ? url : url.href;
-    return (originalOpen as any).call(this, method, url, ...rest);
+  // Type-safe tagged XHR: stash the request URL on the instance so the
+  // `load` listener can inspect it without a WeakMap.
+  type TaggedXHR = XMLHttpRequest & { _readto_url?: string };
+
+  XMLHttpRequest.prototype.open = function (
+    this: TaggedXHR,
+    method: string,
+    url: string | URL,
+    ...rest: unknown[]
+  ) {
+    this._readto_url = typeof url === 'string' ? url : url.href;
+    // Cast is intentional: XMLHttpRequest.open has 5 overloads and TS can't
+    // dispatch on a rest spread. Runtime behaviour is unchanged.
+    return (originalOpen as (...args: unknown[]) => void).call(
+      this,
+      method,
+      url,
+      ...rest,
+    );
   };
 
-  XMLHttpRequest.prototype.send = function (body?: Document | XMLHttpRequestBodyInit | null) {
+  XMLHttpRequest.prototype.send = function (
+    this: TaggedXHR,
+    body?: Document | XMLHttpRequestBodyInit | null,
+  ) {
     this.addEventListener('load', () => {
-      const url = (this as any)._readto_url as string | undefined;
+      const url = this._readto_url;
       if (url && /timedtext|caption/i.test(url)) {
         try {
           tryParseAndDispatch(this.responseText);

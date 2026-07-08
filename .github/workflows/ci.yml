@@ -33,15 +33,15 @@ jobs:
       - name: TypeScript check (must be 0 errors)
         run: npx tsc --noEmit
 
-      - name: Lint (eslint) — 0 errors + src ≤15 warnings gate
-        # After audit v3 hygiene cleanup src/ warnings dropped from 48 → 13
-        # (all remaining are `any` in Bilibili/YouTube DOM API paths, tracked
-        # as Phase 3b P2-A). tests/ warnings are excluded from the ceiling.
+      - name: Lint (eslint) — 0 errors + 0 src warnings (strict)
+        # Phase 3b closed src/ warnings from 13 → 0 by typing Bilibili/YouTube
+        # DOM API responses. Ceiling now enforces zero drift; tests/ warnings
+        # are still layered-exempt.
         run: |
           npm run lint
           SRC_WARN=$(npx eslint "src/**/*.{ts,tsx}" -f json 2>/dev/null | node -e "const j=JSON.parse(require('fs').readFileSync(0));console.log(j.reduce((s,f)=>s+f.warningCount,0))")
-          echo "src/ warnings: ${SRC_WARN} (ceiling: 15)"
-          awk -v w="$SRC_WARN" 'BEGIN { exit (w + 0 <= 15) ? 0 : 1 }'
+          echo "src/ warnings: ${SRC_WARN} (ceiling: 0)"
+          awk -v w="$SRC_WARN" 'BEGIN { exit (w + 0 == 0) ? 0 : 1 }'
 
       - name: Format check (prettier) — informational until repo-wide format lands
         run: npm run format:check
