@@ -13,14 +13,25 @@ import { createRoot } from 'react-dom/client';
 import { LoaderCircle } from 'lucide-react';
 import { toast, Toaster } from 'sonner';
 import type { CefrLevel, TranslationMode, LlmConfig } from '../lib/types';
-import { getLlmConfig, saveSettings, saveLlmConfig, isLocalhost } from '../lib/storage';
+import { getLlmConfig, saveSettings, saveLlmConfig } from '../lib/storage';
 import { requestHostPermission } from '../lib/permissions';
 import { loadWordlist, filterForLevel } from '../lib/level-filter';
 import { getTranslator } from '../lib/translations';
 import { applyAnnotations } from '../lib/inline-renderer';
 import type { FilteredWord } from '../lib/level-filter';
-import { hasQueryParams, chatCompletionsUrl } from '../lib/llm-url';
+import { chatCompletionsUrl } from '../lib/llm-url';
 import { sanitizeError } from '../lib/error-sanitize';
+// Audit v5 P1-C: extracted validation + defaults + hook for testability.
+import {
+  DEFAULT_ENDPOINT,
+  DEFAULT_MODEL,
+  SAVE_DEBOUNCE_MS,
+  LLM_SAVE_DEBOUNCE_MS,
+  isLlmConfigValid,
+  isConfigEmpty,
+  validateLlmConfig,
+  type SaveStatus,
+} from './validation';
 
 /* ─── Constants ─────────────────────────────────────────────────── */
 
@@ -39,11 +50,6 @@ const POS_TO_LEVEL: Record<number, CefrLevel> = {
   1: 'A1', 2: 'A2', 3: 'B1', 4: 'B2', 5: 'C1',
 };
 
-const DEFAULT_ENDPOINT = 'https://api.openai.com/v1/chat/completions';
-const DEFAULT_MODEL = 'gpt-4o-mini';
-
-const SAVE_DEBOUNCE_MS = 200;
-const LLM_SAVE_DEBOUNCE_MS = 500;
 const STATUS_VISIBLE_MS = 1200;
 const PREVIEW_DELAY_MS = 300;
 
@@ -65,35 +71,6 @@ function clampPos(n: number): number {
   return n < 1 ? 1 : n > LEVEL_COUNT ? LEVEL_COUNT : n;
 }
 
-/** Check if LLM config is fully filled and valid */
-function isLlmConfigValid(llm: LlmConfig | null): boolean {
-  if (!llm || !llm.endpoint || !llm.model || hasQueryParams(llm.endpoint)) return false;
-  if (isLocalhost(llm.endpoint)) return true;
-  return /^https:\/\//i.test(llm.endpoint) ? !!llm.apiKey : false;
-}
-
-/** Check if config is completely empty */
-function isConfigEmpty(cfg: { endpoint: string; apiKey: string; model: string }): boolean {
-  return !cfg.endpoint && !cfg.apiKey && !cfg.model;
-}
-
-/** Validate LLM config and return error message or null */
-function validateLlmConfig(cfg: {
-  level: CefrLevel;
-  mode: string;
-  endpoint: string;
-  apiKey: string;
-  model: string;
-}): string | null {
-  if (cfg.mode === 'local' || isConfigEmpty(cfg)) return null;
-  if (!/^https?:\/\//.test(cfg.endpoint)) return '接口地址要以 http:// 或 https:// 开头';
-  if (!/^https:\/\//.test(cfg.endpoint) && !isLocalhost(cfg.endpoint))
-    return '非本机地址必须用 https://，否则 API key 会明文传输';
-  if (!isLocalhost(cfg.endpoint) && cfg.apiKey.length < 8) return 'API key 太短';
-  if (!cfg.model) return '模型不能为空';
-  if (hasQueryParams(cfg.endpoint)) return '接口地址不能带 ?查询参数（运行时会被丢弃）';
-  return null;
-}
 
 /**
  * Annotate a text paragraph using the local dictionary translator.
@@ -244,8 +221,6 @@ function LabeledInput({
 }
 
 /* ─── Status Indicator ──────────────────────────────────────────── */
-
-type SaveStatus = 'idle' | 'pending' | 'saving' | 'saved' | 'error';
 
 function StatusIndicator({ status }: { status: SaveStatus }) {
   const [showSaved, setShowSaved] = useState(status === 'saved');
