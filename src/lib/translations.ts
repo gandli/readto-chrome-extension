@@ -82,7 +82,12 @@ export default localTranslator;
  * Get the appropriate translator for the given configuration.
  * Returns local dict translator for 'local' mode, LLM translator for 'llm' mode.
  */
-export function getTranslator(config: { translationMode: 'local' | 'llm'; llm?: unknown }): Translator {
+export function getTranslator(config: {
+  translationMode: 'local' | 'llm';
+  llm?: unknown;
+  /** Passed by callers such as options preview; not used by local translator but kept for API symmetry. */
+  level?: import('./types').CefrLevel;
+}): Translator {
   if (config.translationMode === 'llm') {
     // LLM translator is loaded lazily to avoid bundling AI SDK in content scripts
     return createLlmTranslator(config.llm as { endpoint: string; model: string; apiKey: string });

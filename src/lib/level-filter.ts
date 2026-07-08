@@ -333,13 +333,20 @@ export function filterWords(element: Element, level: CefrLevel): FilteredWord[] 
  * In test environments (jsdom), the CSS is injected synchronously via an inline
  * <style> element since adoptedStyleSheets + fetch are not available.
  */
-function getTooltipCssUrl(): string {
+/**
+ * Resolve the URL of the tooltip stylesheet. Handles MV3
+ * `web_accessible_resources` in both legacy string form and the current
+ * object form (P0-3 audit fix — old code assumed object form only and
+ * would crash on `.some` when a string entry appeared).
+ * Exported for test coverage.
+ */
+export function getTooltipCssUrl(): string {
   // In dev: Vite serves from assets/; in build: hashed filename (tooltip-css-*.css)
   // Read the actual hashed filename from the built manifest at runtime
   try {
     const manifest = chrome.runtime.getManifest();
     const cssAsset = manifest.web_accessible_resources
-      ?.flatMap(g => g.resources)
+      ?.flatMap(g => (typeof g === 'string' ? [g] : g.resources))
       .find(r => r.startsWith('assets/tooltip-css-') && r.endsWith('.css'));
     if (cssAsset) return chrome.runtime.getURL(cssAsset);
   } catch {}

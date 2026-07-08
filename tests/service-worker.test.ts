@@ -220,6 +220,50 @@ describe('GET_WORD_DETAIL', () => {
 
     expect(response).toEqual({ ok: false, error: 'malformed GET_WORD_DETAIL' });
   });
+
+  // ── P0-2 audit regression: malformed WordDetail rows are dropped ────
+  it('drops malformed WordDetail entries and returns null for them', async () => {
+    // apple has wrong shape (`p` is number, not string) — must be silently dropped
+    // banana is well-formed.
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        apple: { p: 42, t: 'n. 苹果' }, // ❌ p is number → invalid
+        banana: { p: 'bə.ˈnæn.ə', t: 'n. 香蕉' }, // ✅ valid
+      }),
+    });
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+    const badResp = await callHandler({ type: 'GET_WORD_DETAIL', word: 'apple' });
+    expect(badResp).toEqual({ ok: true, detail: null });
+
+    const goodResp = await callHandler({ type: 'GET_WORD_DETAIL', word: 'banana' });
+    // banana is in letter 'b', will trigger a second fetch — set that up.
+    // For this synthetic test we allow re-fetch by making the mock return
+    // the same shape for 'b' too:
+    // (Already returned above — mockResolvedValue keeps returning same shape.)
+    expect(goodResp).toEqual({
+      ok: true,
+      detail: { p: 'bə.ˈnæn.ə', t: 'n. 香蕉' },
+    });
+
+    // The invalid apple row triggers a dropped-entry warning.
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining('dropped'),
+    );
+  });
+
+  it('drops WordDetail rows with wrong `e` (examples) shape', async () => {
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        cat: { t: 'n. 猫', e: 'not an array' }, // ❌ e must be array
+      }),
+    });
+    vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const resp = await callHandler({ type: 'GET_WORD_DETAIL', word: 'cat' });
+    expect(resp).toEqual({ ok: true, detail: null });
+  });
 });
 
 // ═══════════════════════════════════════════════════════════════════════

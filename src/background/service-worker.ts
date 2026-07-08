@@ -11,6 +11,7 @@
 import { initStorage, getReadableConfig, isFullConfig } from '../lib/storage';
 import { sanitizeError } from '../lib/error-sanitize';
 import { hasHostPermission } from '../lib/permissions';
+import { z } from 'zod';
 
 // ─── Constants ─────────────────────────────────────────────────────
 
@@ -32,6 +33,45 @@ interface WordDetail {
   e?: Array<{ en: string; zh: string }>; // examples
 }
 
+/**
+ * zod schema for validating a single WordDetail entry from the on-disk
+ * translations-detail JSON. Chrome storage / bundled JSON deserializes to
+ * `unknown`; we validate here to prevent silent shape drift (P0-2 audit fix).
+ */
+const wordDetailSchema = z
+  .object({
+    p: z.string().optional(),
+    t: z.string().optional(),
+    e: z
+      .array(z.object({ en: z.string(), zh: z.string() }))
+      .optional(),
+  })
+  .strict();
+
+/**
+ * Convert a raw JSON object (`{ word: unknown }`) into a validated
+ * `Map<string, WordDetail>` — silently skips malformed entries and warns
+ * via sanitized logging. This is the P0-2 fix: previously the code did an
+ * unchecked `new Map(Object.entries(data))` and cast to WordDetail.
+ */
+function parseDetailData(raw: unknown): Map<string, WordDetail> {
+  const out = new Map<string, WordDetail>();
+  if (!raw || typeof raw !== 'object') return out;
+  let dropped = 0;
+  for (const [word, value] of Object.entries(raw as Record<string, unknown>)) {
+    const parsed = wordDetailSchema.safeParse(value);
+    if (parsed.success) {
+      out.set(word, parsed.data);
+    } else {
+      dropped += 1;
+    }
+  }
+  if (dropped > 0) {
+    console.warn(`[readto] dropped ${dropped} malformed WordDetail entries`);
+  }
+  return out;
+}
+
 /** Per-letter cache: 'a' → Map of word→detail */
 const letterCaches = new Map<string, Map<string, WordDetail>>();
 const letterPromises = new Map<string, Promise<Map<string, WordDetail>>>();
@@ -45,8 +85,8 @@ async function loadLetter(letter: string): Promise<Map<string, WordDetail>> {
     try {
       const resp = await fetch(chrome.runtime.getURL(`${DETAIL_DIR}/${key}.json`));
       if (!resp.ok) throw new Error(`fetch ${key}.json → ${resp.status}`);
-      const data = await resp.json();
-      const map = new Map(Object.entries(data));
+      const data: unknown = await resp.json();
+      const map = parseDetailData(data);
       letterCaches.set(key, map);
       return map;
     } catch (err) {

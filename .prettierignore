@@ -1,0 +1,8 @@
+dist/
+coverage/
+node_modules/
+package-lock.json
+*.min.js
+src/lib/level-data.ts
+src/lib/translations-data.json
+src/lib/translations-detail/
