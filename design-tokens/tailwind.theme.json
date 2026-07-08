@@ -1,0 +1,170 @@
+{
+  "theme": {
+    "extend": {
+      "colors": {
+        "brand-bg": "#f5f2eb",
+        "brand-ink": "#111111",
+        "brand-fg-2": "#3d3530",
+        "brand-muted": "#8a857e",
+        "brand-muted-2": "#b8b3ac",
+        "brand-rule": "#e3dfd8",
+        "brand-accent": "#c97b4a",
+        "brand-track": "#d6d0c4",
+        "background": "#f7f5f2",
+        "foreground": "#1c1917",
+        "card": "#f7f5f2",
+        "card-foreground": "#1c1917",
+        "popover": "#f7f5f2",
+        "popover-foreground": "#1c1917",
+        "primary": "#1c1917",
+        "primary-foreground": "#f7f5f2",
+        "secondary": "#efece7",
+        "secondary-foreground": "#1c1917",
+        "muted": "#efece7",
+        "muted-foreground": "#78716c",
+        "accent": "#ebe7e1",
+        "accent-foreground": "#1c1917",
+        "destructive": "#ab2323",
+        "destructive-foreground": "#f7f5f2",
+        "border": "#d6d0c7",
+        "input": "#d6d0c7",
+        "ring": "#1c1917",
+        "tooltip-speaker-playing-light": "#1a73e8",
+        "tooltip-speaker-playing-dark": "#66b1ff",
+        "dark-background": "#111111",
+        "dark-foreground": "#f0ede6",
+        "dark-border": "#2e2a27",
+        "dark-muted-fg": "#a8a29e",
+        "dark-target-highlight": "#f5a623"
+      },
+      "fontFamily": {
+        "display-lg": [
+          "'Newsreader Variable', 'Noto Serif SC Variable', Georgia, serif"
+        ],
+        "display-md": [
+          "'Newsreader Variable', 'Noto Serif SC Variable', Georgia, serif"
+        ],
+        "body-md": [
+          "'Segoe UI', Arial, 'Microsoft Yahei', sans-serif"
+        ],
+        "body-sm": [
+          "'Segoe UI', Arial, 'Microsoft Yahei', sans-serif"
+        ],
+        "caption": [
+          "'Segoe UI', Arial, 'Microsoft Yahei', sans-serif"
+        ],
+        "ui-lg": [
+          "'Inter Variable', -apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif"
+        ],
+        "ui-md": [
+          "'Inter Variable', -apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif"
+        ],
+        "ui-sm": [
+          "'Inter Variable', -apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif"
+        ],
+        "tooltip-word": [
+          "Charter, 'Iowan Old Style', 'Source Serif 4', Georgia, serif"
+        ],
+        "tooltip-example-en": [
+          "Charter, 'Iowan Old Style', 'Source Serif 4', Georgia, serif"
+        ],
+        "tooltip-example-zh": [
+          "'Segoe UI', Arial, 'Microsoft Yahei', sans-serif"
+        ],
+        "ruby-rt": [
+          "'Segoe UI', Arial, 'Microsoft Yahei', sans-serif"
+        ]
+      },
+      "fontSize": {
+        "display-lg": [
+          "2.5rem",
+          {
+            "letterSpacing": "-0.02em",
+            "fontWeight": "500"
+          }
+        ],
+        "display-md": [
+          "1.75rem",
+          {
+            "letterSpacing": "-0.015em",
+            "fontWeight": "500"
+          }
+        ],
+        "body-md": [
+          "14px",
+          {
+            "fontWeight": "400"
+          }
+        ],
+        "body-sm": [
+          "13px",
+          {
+            "fontWeight": "400"
+          }
+        ],
+        "caption": [
+          "12px",
+          {
+            "fontWeight": "400"
+          }
+        ],
+        "ui-lg": [
+          "1.125rem",
+          {
+            "fontWeight": "500"
+          }
+        ],
+        "ui-md": [
+          "0.9375rem",
+          {
+            "fontWeight": "500"
+          }
+        ],
+        "ui-sm": [
+          "0.875rem",
+          {
+            "fontWeight": "400"
+          }
+        ],
+        "tooltip-word": [
+          "14px",
+          {
+            "fontWeight": "400"
+          }
+        ],
+        "tooltip-example-en": [
+          "13px",
+          {
+            "fontWeight": "400"
+          }
+        ],
+        "tooltip-example-zh": [
+          "12px",
+          {
+            "fontWeight": "400"
+          }
+        ],
+        "ruby-rt": [
+          "0.6em",
+          {
+            "fontWeight": "400"
+          }
+        ]
+      },
+      "borderRadius": {
+        "sm": "4px",
+        "md": "6px",
+        "lg": "8px",
+        "full": "9999px"
+      },
+      "spacing": {
+        "xs": "2px",
+        "sm": "4px",
+        "md": "8px",
+        "lg": "12px",
+        "xl": "16px",
+        "xxl": "24px"
+      }
+    }
+  }
+}
