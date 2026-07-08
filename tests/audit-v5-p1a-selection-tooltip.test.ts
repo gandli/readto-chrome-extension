@@ -156,9 +156,19 @@ describe('isInReadtoElement (audit v5 P1-A)', () => {
     inner.textContent = 'cat';
     wrapper.appendChild(inner);
     document.body.appendChild(wrapper);
-    // Function walks up from element nodes via .closest(); text nodes are
-    // outside its contract (real caller always passes element from range).
     expect(isInReadtoElement(inner)).toBe(true);
+  });
+
+  it('returns true for a Text node inside a [data-readto] wrapper (real range.startContainer case)', () => {
+    // range.startContainer from window.getSelection() is typically a Text node.
+    // The walker must promote text nodes to their parentElement before running
+    // element-only checks like .closest().
+    const wrapper = document.createElement('span');
+    wrapper.setAttribute('data-readto', 'cat');
+    const textNode = document.createTextNode('cat');
+    wrapper.appendChild(textNode);
+    document.body.appendChild(wrapper);
+    expect(isInReadtoElement(textNode)).toBe(true);
   });
 
   it('returns true for the [data-readto] element itself', () => {

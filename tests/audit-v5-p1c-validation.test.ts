@@ -198,10 +198,46 @@ describe('validation.ts (audit v5 P1-C)', () => {
         validateLlmConfig({
           ...base,
           endpoint: DEFAULT_ENDPOINT,
-          apiKey: 'sk-testtest12345',
+          apiKey: 'sk-abcd1234',
           model: DEFAULT_MODEL,
         })
       ).toBeNull();
+    });
+
+    // Regression: Gemini-caught defensive undefined path (audit v5 post-review).
+    // Storage may return partial configs on legacy installs; direct property
+    // access on cfg.apiKey.length would previously throw TypeError.
+    it('does not throw when apiKey is undefined (legacy storage)', () => {
+      expect(() =>
+        validateLlmConfig({
+          ...base,
+          endpoint: 'https://api.example.com/v1/chat/completions',
+          apiKey: undefined as unknown as string,
+          model: DEFAULT_MODEL,
+        })
+      ).not.toThrow();
+    });
+
+    it('does not throw when endpoint is undefined', () => {
+      expect(() =>
+        validateLlmConfig({
+          ...base,
+          endpoint: undefined as unknown as string,
+          apiKey: 'sk-abcd1234',
+          model: DEFAULT_MODEL,
+        })
+      ).not.toThrow();
+    });
+
+    it('does not throw when model is undefined', () => {
+      expect(() =>
+        validateLlmConfig({
+          ...base,
+          endpoint: DEFAULT_ENDPOINT,
+          apiKey: 'sk-abcd1234',
+          model: undefined as unknown as string,
+        })
+      ).not.toThrow();
     });
   });
 });

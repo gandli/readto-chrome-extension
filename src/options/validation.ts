@@ -44,11 +44,16 @@ export function validateLlmConfig(cfg: {
   model: string;
 }): string | null {
   if (cfg.mode === 'local' || isConfigEmpty(cfg)) return null;
-  if (!/^https?:\/\//.test(cfg.endpoint)) return '接口地址要以 http:// 或 https:// 开头';
-  if (!/^https:\/\//.test(cfg.endpoint) && !isLocalhost(cfg.endpoint))
+  // Defensive: fields may be undefined when storage read returns a partial
+  // record (e.g. legacy install missing new keys). Coerce to '' before use.
+  const endpoint = cfg.endpoint || '';
+  const apiKey = cfg.apiKey || '';
+  const model = cfg.model || '';
+  if (!/^https?:\/\//.test(endpoint)) return '接口地址要以 http:// 或 https:// 开头';
+  if (!/^https:\/\//.test(endpoint) && !isLocalhost(endpoint))
     return '非本机地址必须用 https://，否则 API key 会明文传输';
-  if (!isLocalhost(cfg.endpoint) && cfg.apiKey.length < 8) return 'API key 太短';
-  if (!cfg.model) return '模型不能为空';
-  if (hasQueryParams(cfg.endpoint)) return '接口地址不能带 ?查询参数（运行时会被丢弃）';
+  if (!isLocalhost(endpoint) && apiKey.length < 8) return 'API key 太短';
+  if (!model) return '模型不能为空';
+  if (hasQueryParams(endpoint)) return '接口地址不能带 ?查询参数（运行时会被丢弃）';
   return null;
 }

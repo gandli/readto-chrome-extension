@@ -179,7 +179,9 @@ function cleanup(): void {
  * @internal Exported for testing only (audit v5 P1-A).
  */
 export function isInReadtoElement(node: Node): boolean {
-  let current: Node | null = node;
+  // range.startContainer is typically a Text node — promote to parentElement
+  // so the walker's element-only checks (.closest / .hasAttribute) fire.
+  let current: Node | null = node.nodeType === Node.ELEMENT_NODE ? node : node.parentElement;
   while (current) {
     if (current.nodeType === Node.ELEMENT_NODE) {
       if ((current as Element).closest?.('[data-readto]')) return true;
