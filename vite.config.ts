@@ -18,16 +18,18 @@ function manifestPatchPlugin() {
 
       const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'));
 
-      // Force security hardening fields (source manifest may be overwritten by crx tooling)
+      // Safety net: enforce hardened fields even if source manifest was overwritten
+      // by crx tooling or a future WXT migration. Source manifest (public/manifest.json)
+      // is already hardened — these assignments are idempotent guards, not the primary
+      // truth. See audit v2 P1-B.
       manifest.minimum_chrome_version = '116';
       manifest.content_security_policy = {
         extension_pages: "script-src 'self'; object-src 'self'; base-uri 'self';",
       };
-      // Drop <all_urls> host_permissions in favour of optional_host_permissions.
+      // Ensure <all_urls> never leaks into shipped manifest, even if introduced upstream.
       delete manifest.host_permissions;
       manifest.optional_host_permissions = ['http://*/*', 'https://*/*'];
-      // P2-5 audit fix: strip update_url (WXT/crx tooling leftover; not needed
-      // for Chrome Web Store distribution and rejected during review).
+      // Chrome Web Store rejects manifests carrying update_url.
       delete manifest.update_url;
 
       // Scan dist/assets/ for JS files

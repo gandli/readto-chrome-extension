@@ -6,9 +6,25 @@ cdp-*.cjs
 src/lib/level-data-full.json
 src/lib/translations-data.json
 test-results/
-test-results/
 .test-profile/
 test-*.cjs
 skills-lock.json
 .agents/
 coverage/
+
+# Build residue that used to leak into the repo root (audit v2 P1-C).
+# Source of truth lives in public/manifest.json + dist/ output.
+/manifest.json
+/options.html
+/service-worker-loader.js
+/page-world-loader.js
+/index.ts-*-loader.js
+/*-world-loader.js
+
+# We standardised on npm (see .github/workflows/ci.yml). Keep only one lockfile
+# to prevent silent drift between local `bun install` and CI `npm ci` (audit v2 P1-D).
+bun.lock
+bun.lockb
+
+# Playwright screenshot outputs
+/screenshots/
