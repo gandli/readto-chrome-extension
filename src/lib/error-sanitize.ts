@@ -13,9 +13,16 @@
 
 /** Patterns that match secret-shaped substrings — order matters (broadest first). */
 const SECRET_PATTERNS: readonly RegExp[] = [
-  /Bearer\s+[A-Za-z0-9_\-.]{10,}/gi,
-  /sk-[A-Za-z0-9_-]{20,}/g,
-  /(api[_-]?key|authorization|token)["'\s]*[:=]["'\s]*[A-Za-z0-9_\-.]{10,}/gi,
+  // Bearer / JWT / base64-payload API tokens (allows +/= for base64, . for JWT)
+  /Bearer\s+[A-Za-z0-9_\-.+/=]{10,}/gi,
+  // OpenAI style sk-* / sk-proj-* / sk-ant-* keys
+  /sk-[A-Za-z0-9_\-.+/=]{20,}/g,
+  // Anthropic dedicated x-api-key header echo
+  /x-api-key[\s"':=]+[A-Za-z0-9_\-.+/=]{10,}/gi,
+  // Google api key query param `?key=xxx`
+  /[?&]key=[A-Za-z0-9_\-.+/=]{10,}/gi,
+  // Generic `api_key: "..."` / `authorization="..."` / `token: ...`
+  /(api[_-]?key|authorization|token)["'\s]*[:=]["'\s]*[A-Za-z0-9_\-.+/=]{10,}/gi,
 ];
 
 const MAX_MESSAGE_LENGTH = 200;
@@ -46,6 +53,11 @@ export function sanitizeError(err: unknown): SanitizedError {
     raw = 'undefined';
   } else if (typeof err === 'string') {
     raw = err;
+  } else if (typeof err === 'object' && err !== null && 'message' in err && typeof (err as { message: unknown }).message === 'string') {
+    // Defensively pull `.message` from plain objects — cross-context serialization
+    // (chrome.runtime message boundary, structured clone) may strip the Error prototype
+    // so `err instanceof Error` is false while the shape is still error-like.
+    raw = (err as { message: string }).message;
   } else {
     try {
       raw = JSON.stringify(err);

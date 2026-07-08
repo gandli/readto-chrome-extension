@@ -6,30 +6,66 @@
  * endpoints may echo the Authorization header, request bodies, or partial
  * API keys. Any page can read runtime messages targeted at its content
  * script, so we MUST redact before crossing the trust boundary.
+ *
+ * ⚠️ All secrets in this file are OBVIOUSLY FAKE placeholders:
+ *  - `FAKE_` / `TESTFAKE_` prefix
+ *  - repeated `x`/`0` padding
+ *  - not accepted by any real provider
+ * They exist purely to exercise regex redaction. GitGuardian-safe.
  */
 
 import { describe, it, expect } from 'vitest';
 import { sanitizeError } from '../src/lib/error-sanitize';
 
+// Obviously-fake fixtures (won't authenticate anywhere; GitGuardian-safe)
+const FAKE_BEARER_TOKEN = 'FAKE_TESTONLY_' + 'x'.repeat(20);
+const FAKE_SK_KEY = 'sk-FAKE_' + 'x'.repeat(30);
+const FAKE_XAPI_KEY = 'FAKE_TESTONLY_' + 'x'.repeat(20);
+const FAKE_GOOGLE_KEY = 'FAKE_TESTONLY_' + 'x'.repeat(20);
+const FAKE_INLINE_KEY = 'FAKE_TESTONLY_' + 'x'.repeat(20);
+
 describe('sanitizeError', () => {
   it('redacts `Bearer <token>` from error messages', () => {
-    const err = new Error('401 Unauthorized: Bearer sk-proj-abc123DEF456ghi789jkl012 rejected');
+    const err = new Error(`401 Unauthorized: Bearer ${FAKE_BEARER_TOKEN} rejected`);
     const result = sanitizeError(err);
-    expect(result.message).not.toContain('sk-proj-abc123DEF456ghi789jkl012');
+    expect(result.message).not.toContain(FAKE_BEARER_TOKEN);
     expect(result.message).toContain('[REDACTED]');
   });
 
   it('redacts sk-* style API keys', () => {
-    const err = new Error('Invalid API key: sk-1234567890abcdefghij1234567890abcdefghij');
+    const err = new Error(`Invalid API key: ${FAKE_SK_KEY}`);
     const result = sanitizeError(err);
-    expect(result.message).not.toContain('sk-1234567890abcdefghij');
+    expect(result.message).not.toContain(FAKE_SK_KEY);
     expect(result.message).toContain('[REDACTED]');
   });
 
-  it('redacts `api-key: <value>` pairs (JSON body echoes)', () => {
-    const err = new Error('Request body: {"api_key":"my-secret-key-xxxxxxxxxx","model":"gpt-4"}');
+  it('redacts `api_key: xxx` JSON body echoes', () => {
+    const err = new Error(`Request body: {"api_key":"${FAKE_INLINE_KEY}","model":"gpt-4"}`);
     const result = sanitizeError(err);
-    expect(result.message).not.toContain('my-secret-key-xxxxxxxxxx');
+    expect(result.message).not.toContain(FAKE_INLINE_KEY);
+    expect(result.message).toContain('[REDACTED]');
+  });
+
+  it('redacts Anthropic x-api-key header echoes', () => {
+    const err = new Error(`upstream error x-api-key: ${FAKE_XAPI_KEY} at ...`);
+    const result = sanitizeError(err);
+    expect(result.message).not.toContain(FAKE_XAPI_KEY);
+    expect(result.message).toContain('[REDACTED]');
+  });
+
+  it('redacts Google-style `?key=xxx` query params', () => {
+    const err = new Error(`GET https://gen.example/v1/models?key=${FAKE_GOOGLE_KEY} → 401`);
+    const result = sanitizeError(err);
+    expect(result.message).not.toContain(FAKE_GOOGLE_KEY);
+    expect(result.message).toContain('[REDACTED]');
+  });
+
+  it('redacts base64-shaped secrets with +, /, = characters', () => {
+    // Simulated JWT / base64 token — the `+/=` chars must be caught
+    const jwtLike = 'FAKE.eyJhbGciOiJIUzI1NiJ9.xxxxxxxxxxxx+/=xxxxxxxxxxx';
+    const err = new Error(`Bearer ${jwtLike} rejected`);
+    const result = sanitizeError(err);
+    expect(result.message).not.toContain(jwtLike);
     expect(result.message).toContain('[REDACTED]');
   });
 
@@ -53,16 +89,23 @@ describe('sanitizeError', () => {
     expect(sanitizeError({ foo: 'bar' }).message).toBeTypeOf('string');
   });
 
+  it('extracts .message from plain error-like objects (post structured-clone)', () => {
+    // Simulates an error that crossed a chrome.runtime message boundary —
+    // Error prototype is stripped but the .message shape survives.
+    const errLike = { message: 'downstream_timeout', code: 'UPSTREAM' };
+    expect(sanitizeError(errLike).message).toBe('downstream_timeout');
+  });
+
   it('returns a structured shape { code, message }', () => {
     const result = sanitizeError(new Error('anything'));
     expect(result).toMatchObject({ code: expect.any(String), message: expect.any(String) });
   });
 
   it('redacts multiple secrets in a single message', () => {
-    const err = new Error('Bearer sk-abc12345678901234567 and sk-xyz98765432109876543 both bad');
+    const err = new Error(`Bearer ${FAKE_BEARER_TOKEN} and ${FAKE_SK_KEY} both bad`);
     const result = sanitizeError(err);
-    expect(result.message).not.toContain('sk-abc12345678901234567');
-    expect(result.message).not.toContain('sk-xyz98765432109876543');
+    expect(result.message).not.toContain(FAKE_BEARER_TOKEN);
+    expect(result.message).not.toContain(FAKE_SK_KEY);
   });
 
   it('is safe for cross-context transmission (no Error prototype leak)', () => {

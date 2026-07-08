@@ -14,14 +14,20 @@
 
 /**
  * 将 endpoint URL 归一为 Chrome match pattern（origin 级别）。
- * @returns 形如 `https://api.example.com/*`；无效输入返回 `null`。
+ * 保留非默认端口 —— Chrome match pattern 语法允许 `scheme://host:port/*`，
+ * 端口丢失会导致 `chrome.permissions.contains` 在 Ollama (11434) / LM Studio (1234) /
+ * 自建反代 (8080/8000) 等场景下永远返回 false，弹窗后仍无法验证授权。
+ * @returns 形如 `https://api.example.com/*` 或 `http://localhost:11434/*`；无效输入返回 `null`。
  */
 export function endpointOriginPattern(endpoint: string): string | null {
   if (!endpoint) return null;
   try {
     const url = new URL(endpoint);
     if (url.protocol !== 'http:' && url.protocol !== 'https:') return null;
-    return `${url.protocol}//${url.hostname.toLowerCase()}/*`;
+    const host = url.hostname.toLowerCase();
+    // url.port 为非默认端口时才非空（http:80 / https:443 会返回 ''）
+    const authority = url.port ? `${host}:${url.port}` : host;
+    return `${url.protocol}//${authority}/*`;
   } catch {
     return null;
   }

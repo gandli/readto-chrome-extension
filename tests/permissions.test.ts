@@ -28,7 +28,24 @@ describe('endpointOriginPattern', () => {
   });
 
   it('produces an origin match pattern for http URLs', () => {
-    expect(endpointOriginPattern('http://localhost:11434/v1/chat/completions')).toBe('http://localhost/*');
+    expect(endpointOriginPattern('http://localhost:11434/v1/chat/completions')).toBe('http://localhost:11434/*');
+  });
+
+  it('preserves non-default ports in match pattern', () => {
+    // Chrome match pattern requires host:port literal for non-default ports;
+    // stripping it causes chrome.permissions.contains to always return false
+    // for Ollama (11434), LM Studio (1234), and self-hosted reverse proxies.
+    expect(endpointOriginPattern('http://localhost:11434/v1/chat/completions')).toBe(
+      'http://localhost:11434/*',
+    );
+    expect(endpointOriginPattern('https://api.example.com:8443/v1')).toBe(
+      'https://api.example.com:8443/*',
+    );
+  });
+
+  it('omits port for scheme defaults (http:80, https:443)', () => {
+    expect(endpointOriginPattern('http://example.com:80/v1')).toBe('http://example.com/*');
+    expect(endpointOriginPattern('https://example.com:443/v1')).toBe('https://example.com/*');
   });
 
   it('returns null for malformed URLs', () => {

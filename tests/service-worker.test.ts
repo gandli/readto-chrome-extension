@@ -484,6 +484,26 @@ describe('TRANSLATE_MANY LLM mode', () => {
     expect(mockStreamBatch).toHaveBeenCalledTimes(1);
   });
 
+  it('rejects when host permission is missing (guards translateBatch)', async () => {
+    // Simulate user not yet having authorized the endpoint domain.
+    (globalThis as any).chrome.permissions.contains = vi.fn().mockResolvedValue(false);
+
+    const response = await callHandler({
+      type: 'TRANSLATE_MANY',
+      items: [
+        {
+          context: 'hello world',
+          targets: [{ word: 'hello', occurrence: 0 }],
+        },
+      ],
+      cfg: LLM_CFG,
+    });
+
+    expect(response.ok).toBe(false);
+    expect(response.error.message).toContain('missing_host_permission');
+    expect(mockStreamBatch).not.toHaveBeenCalled();
+  });
+
   it('returns streamBatch error to caller', async () => {
     mockStreamBatch.mockRejectedValue(new Error('LLM connection failed'));
 
