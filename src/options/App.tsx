@@ -14,6 +14,7 @@ import { CircleCheck, Info, LoaderCircle, OctagonX, TriangleAlert } from 'lucide
 import { toast, Toaster } from 'sonner';
 import type { CefrLevel, TranslationMode, LlmConfig } from '../lib/types';
 import { getFullConfig, getSettings, getLlmConfig, saveSettings, saveLlmConfig, isLocalhost } from '../lib/storage';
+import { requestHostPermission } from '../lib/permissions';
 import { loadWordlist, filterForLevel } from '../lib/level-filter';
 import { getTranslator } from '../lib/translations';
 import { applyAnnotations } from '../lib/inline-renderer';
@@ -903,6 +904,14 @@ function App() {
 
     setTesting(true);
     setTestResult(null);
+
+    // Request host permission for the endpoint domain (user gesture required)
+    const granted = await requestHostPermission(endpoint);
+    if (!granted) {
+      setTesting(false);
+      setTestResult({ ok: false, msg: '需要授权访问该接口域名才能测试连接。' });
+      return;
+    }
 
     try {
       const headers: Record<string, string> = { 'Content-Type': 'application/json' };

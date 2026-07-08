@@ -18,6 +18,17 @@ function manifestPatchPlugin() {
 
       const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'));
 
+      // Force security hardening fields (source manifest may be overwritten by crx tooling)
+      manifest.minimum_chrome_version = '116';
+      manifest.content_security_policy = {
+        extension_pages: "script-src 'self'; object-src 'self'; base-uri 'self';",
+      };
+      // Drop <all_urls> host_permissions in favour of optional_host_permissions.
+      // Content scripts still run on http/https via `content_scripts.matches`;
+      // LLM endpoint access requires explicit user grant via chrome.permissions.request.
+      delete manifest.host_permissions;
+      manifest.optional_host_permissions = ['http://*/*', 'https://*/*'];
+
       // Scan dist/assets/ for JS files
       const assetsDir = resolve(distDir, 'assets');
       const files = fs.readdirSync(assetsDir);

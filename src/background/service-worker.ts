@@ -9,6 +9,8 @@
  */
 
 import { initStorage, getReadableConfig, isFullConfig } from '../lib/storage';
+import { sanitizeError } from '../lib/error-sanitize';
+import { hasHostPermission } from '../lib/permissions';
 
 // ─── Constants ─────────────────────────────────────────────────────
 
@@ -178,6 +180,15 @@ async function translateBatch(
     throw new Error(`LLM prompt too large: ~${promptSize} chars > ${BATCH_MAX_CHARS} cap`);
   }
 
+  // Verify host permission for the endpoint before making the request.
+  // Without this, fetch fails with a cryptic CORS/network error.
+  const granted = await hasHostPermission(cfg.endpoint);
+  if (!granted) {
+    throw new Error(
+      'missing_host_permission: 请在 readto 设置页点击 "测试连接" 授权该接口域名。',
+    );
+  }
+
   await checkRateLimit();
 
   const streamBatch = await getStreamBatch();
@@ -204,7 +215,7 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
         sendResponse({ ok: true, detail });
       })
       .catch((err) => {
-        sendResponse({ ok: false, error: String(err) });
+        sendResponse({ ok: false, error: sanitizeError(err) });
       });
 
     return true; // async response
@@ -213,7 +224,7 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   if (message.type === 'TRANSLATE_MANY') {
     const { items, cfg } = message;
     if (!Array.isArray(items) || !cfg) {
-      sendResponse({ ok: false, error: 'malformed TRANSLATE_MANY' });
+      sendResponse({ ok: false, error: sanitizeError('malformed TRANSLATE_MANY') });
       return;
     }
 
@@ -225,18 +236,19 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
           sendResponse({ ok: true, results });
         })
         .catch((err) => {
-          sendResponse({ ok: false, error: String(err) });
+          sendResponse({ ok: false, error: sanitizeError(err) });
         });
       return true;
     }
 
     // LLM mode: use LLM translation
+    // Size limits are checked inside translateBatch; permission check happens there too.
     translateBatch(items, cfg)
       .then((results) => {
         sendResponse({ ok: true, results });
       })
       .catch((err) => {
-        sendResponse({ ok: false, error: String(err) });
+        sendResponse({ ok: false, error: sanitizeError(err) });
       });
 
     return true; // async response
