@@ -5,6 +5,8 @@
 
 ## Executive Summary
 
+> **注**：以下"v2 观察"列为**扫描期快照**（审计写入时点，含 5 P1 + 8 P2 findings）。**最终结论看文末 Closure 章节**（88/B+ · 501/501 tests）。
+
 | 维度 | v1 (86分) | v2 观察 | 主要变化 |
 |---|---|---|---|
 | Security | 9.0 | **8.0** | 发现 UI 侧 `setTestResult((e as Error).message)` 未 sanitize（Pattern shadow #3）+ 源 manifest 未净化 |
@@ -81,7 +83,7 @@ delete manifest.update_url;
 #### P1-C · 根目录构建残留混入 git 追踪
 **文件**：`manifest.json`、`options.html`、`service-worker-loader.js`（项目根）
 
-```
+```bash
 $ git ls-files | grep -E '^(manifest|options.html|service-worker-loader)'
 manifest.json
 options.html
@@ -174,7 +176,7 @@ P2-B/D/E/G 留 Phase 3。
 
 ### 复审门禁
 
-```
+```text
 tsc --noEmit        : 0 errors
 eslint             : 0 errors · 198 warnings (纯 tests/ any，非阻断)
 vitest             : 501/501 passed (+3 新回归)
