@@ -14,6 +14,9 @@ import type { CefrLevel, SiteRule } from './types';
 import { speakWordSync as speakWord } from './pronunciation';
 import { loadLevelData } from './level-data';
 import { SPEAKER_SVG } from './icons';
+// Audit v5 P1-B: single source of truth for tooltip CSS (imports the canonical
+// stylesheet as a raw string, avoiding hand-maintained drift).
+import TOOLTIP_CSS_RAW from '../styles/tooltip.css?raw';
 
 /* ─── CEFR Level Ordering ─── */
 
@@ -355,24 +358,11 @@ export function getTooltipCssUrl(): string {
   return chrome.runtime.getURL('assets/tooltip-css.css');
 }
 
-/** Inline fallback CSS for environments where adoptedStyleSheets/fetch are unavailable (tests) */
-const FALLBACK_TOOLTIP_CSS = `
-:host{white-space:nowrap;position:relative}
-.rt{display:inline;font-size:0.6em;vertical-align:super;line-height:0;font-weight:400;color:inherit;opacity:.85;margin-left:1px;pointer-events:none;user-select:none}
-.tooltip{position:fixed;background:hsl(30 7% 97%);color:hsl(24 10% 10%);border:1px solid hsl(25 6% 85%);border-radius:6px;padding:10px 12px;font-family:Charter,Georgia,serif;font-size:14px;line-height:1.55;font-weight:400;text-align:left;white-space:pre-wrap;min-width:180px;max-width:340px;box-shadow:0 1px 2px rgba(24,20,18,.05),0 6px 16px rgba(24,20,18,.06);z-index:2147483647;user-select:text;pointer-events:auto}
-.tooltip .phonetic{display:flex;align-items:center;gap:6px;color:hsl(25 5% 45%);margin-bottom:6px}
-.tooltip .phonetic .ipa{font-style:italic}
-.tooltip .speaker{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;padding:2px;margin:0;background:transparent;border:none;border-radius:4px;color:inherit;cursor:pointer;transition:background .15s,color .15s,transform .08s}
-.tooltip .speaker:hover{background:rgba(24,20,18,.06)}
-.tooltip .speaker:active{transform:scale(.9)}
-.tooltip .speaker.playing{color:#1a73e8}
-.examples{margin-top:10px;padding-top:10px;border-top:1px dashed hsl(25 6% 85%)}
-.example{margin-top:8px}.example:first-child{margin-top:0}
-.example .en{font-size:13px;line-height:1.5;color:hsl(24 10% 18%)}
-.example .target{font-weight:600;color:hsl(24 80% 35%)}
-.example .zh{font-size:12px;line-height:1.45;color:hsl(25 5% 50%);margin-top:2px}
-@media (prefers-color-scheme:dark){.tooltip{background:hsl(24 10% 6%);color:hsl(30 7% 95%);border-color:hsl(24 6% 18%);box-shadow:0 1px 2px rgba(0,0,0,.4),0 6px 16px rgba(0,0,0,.45)}.tooltip .phonetic{color:hsl(25 5% 65%)}.tooltip .speaker:hover{background:rgba(245,243,240,.08);color:hsl(30 7% 95%)}.tooltip .speaker.playing{color:#66b1ff}.examples{border-top-color:hsl(24 6% 18%)}.example .en{color:hsl(30 7% 90%)}.example .target{color:hsl(30 90% 65%)}.example .zh{color:hsl(25 5% 65%)}}
-`;
+/** Inline fallback CSS for environments where adoptedStyleSheets/fetch are unavailable (tests).
+ *  Audit v5 P1-B fix: previously this was a hand-maintained copy of tooltip.css that drifted
+ *  (missing @keyframes readto-speaker-pulse + prefers-reduced-motion). Now imported at
+ *  build-time from the canonical stylesheet — single source of truth. See vite-raw.d.ts. */
+const FALLBACK_TOOLTIP_CSS = TOOLTIP_CSS_RAW;
 
 /**
  * Compute tooltip position relative to the host element.
