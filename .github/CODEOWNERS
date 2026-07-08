@@ -1,0 +1,17 @@
+# readto 代码所有者
+# 参考: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-security/customizing-your-repository/about-code-owners
+
+*                              @gandli
+
+# CI/CD 与治理配置
+.github/                       @gandli
+.github/workflows/             @gandli
+eslint.config.js               @gandli
+.prettierrc                    @gandli
+vite.config.ts                 @gandli
+
+# 安全敏感区域
+src/background/                @gandli
+src/lib/permissions.ts         @gandli
+src/lib/error-sanitize.ts      @gandli
+manifest.json                  @gandli

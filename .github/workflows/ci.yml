@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  quality-gate:
+    name: Type-check · Test · Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # No later step needs full history (no changelog gen, no
+          # release tagging in this workflow), so keep it shallow. Also
+          # drop the default persisted GITHUB_TOKEN — CodeRabbit review
+          # feedback: writing tokens to .git/config is unnecessary here.
+          fetch-depth: 1
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript check (must be 0 errors)
+        run: npx tsc --noEmit
+
+      - name: Lint (eslint) — 0 errors required, warnings allowed
+        run: npm run lint
+
+      - name: Format check (prettier) — informational until repo-wide format lands
+        run: npm run format:check
+        continue-on-error: true
+
+      - name: Unit tests with coverage
+        run: npm run test:coverage
+
+      - name: Coverage floor gate
+        run: |
+          # Coverage baseline: 63.50 (Linux CI observed 2026-07-08).
+          # Local macOS reads ~64.17% due to v8 coverage instrumentation
+          # differences on non-Linux; we pin the floor to the CI-observed
+          # value to prevent flaky regressions.
+          FLOOR=63.50
+          PCT=$(node -e "const c = require('./coverage/coverage-summary.json'); console.log(c.total.statements.pct.toFixed(2));")
+          echo "Statement coverage: ${PCT}% (floor: ${FLOOR}%)"
+          awk -v pct="$PCT" -v floor="$FLOOR" 'BEGIN { exit (pct + 0 >= floor + 0) ? 0 : 1 }'
+
+      - name: Build extension
+        run: npm run build
+
+      - name: Verify manifest hardening
+        run: |
+          jq -e '.minimum_chrome_version == "116"' dist/manifest.json
+          jq -e '.content_security_policy.extension_pages | contains("script-src") and contains("object-src")' dist/manifest.json
+          jq -e '.host_permissions == null' dist/manifest.json
+          jq -e '.optional_host_permissions | length > 0' dist/manifest.json
+
+      - name: Upload dist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-${{ github.sha }}
+          path: dist/
+          retention-days: 7

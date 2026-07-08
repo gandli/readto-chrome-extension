@@ -13,6 +13,14 @@
  */
 
 const EDGE_TTS_WSS = 'wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1';
+/**
+ * P2-3 audit note: this token is **NOT a secret**. It is the public
+ * TrustedClientToken value published by Microsoft Edge's read-aloud
+ * feature and hard-coded in every Edge TTS client implementation on
+ * GitHub. Static-analysis scanners (Gitleaks / GitGuardian / TruffleHog)
+ * may flag this hex constant as an entropy-based false positive; the
+ * project's PR/security workflow should whitelist this specific value.
+ */
 const EDGE_TRUST_TOKEN = '6A5AA1D4EAFF4E9FB37E23D68491D6F4';
 const EDGE_VOICE = 'Microsoft Server Speech Text to Speech Voice (en-US, AriaNeural)';
 

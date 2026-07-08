@@ -24,10 +24,11 @@ function manifestPatchPlugin() {
         extension_pages: "script-src 'self'; object-src 'self'; base-uri 'self';",
       };
       // Drop <all_urls> host_permissions in favour of optional_host_permissions.
-      // Content scripts still run on http/https via `content_scripts.matches`;
-      // LLM endpoint access requires explicit user grant via chrome.permissions.request.
       delete manifest.host_permissions;
       manifest.optional_host_permissions = ['http://*/*', 'https://*/*'];
+      // P2-5 audit fix: strip update_url (WXT/crx tooling leftover; not needed
+      // for Chrome Web Store distribution and rejected during review).
+      delete manifest.update_url;
 
       // Scan dist/assets/ for JS files
       const assetsDir = resolve(distDir, 'assets');
@@ -246,8 +247,18 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       include: ['src/lib/*.ts', 'src/background/*.ts'],
-      exclude: ['**/*.json', '**/*.test.ts', '**/*.spec.ts', '**/*.js'],
-      reporter: ['text', 'text-summary'],
+      // P2-4 audit fix: types.ts / level-data.ts are declaration-only,
+      // 0% executable coverage is expected. Add coverage summary json for
+      // CI floor gate.
+      exclude: [
+        '**/*.json',
+        '**/*.test.ts',
+        '**/*.spec.ts',
+        '**/*.js',
+        'src/lib/types.ts',
+        'src/lib/level-data.ts',
+      ],
+      reporter: ['text', 'text-summary', 'json-summary'],
       reportsDirectory: 'coverage',
       all: false,
       clean: true,
