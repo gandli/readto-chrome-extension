@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
-## [Unreleased] — 2026-06-23
+## [Unreleased] — 2026-07-08
 
 ### ✨ Features
 
@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 🐛 Bug Fixes
 
+- **security:** Chrome Store P0 hardening — permissions + error sanitize + no as any (#3) (`aba7022`)
 - update AI SDK dependencies (`e962d96`)
 - 选项页加载 Tailwind CSS + 使用 readto.ai 示例文章截图 (`f5fbbb5`)
 - 标注功能修复 + E2E 测试框架 + manifest-patch 改进 (`fa87fa8`)
@@ -28,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 📚 Documentation
 
+- update CHANGELOG.md [skip ci] (`96a11e6`)
 - update CHANGELOG.md [skip ci] (`2af3681`)
 - update CHANGELOG.md [skip ci] (`f3768b8`)
 - update CHANGELOG.md [skip ci] (`55dc2d4`)
