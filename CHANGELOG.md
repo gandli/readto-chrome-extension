@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 📚 Documentation
 
+- update CHANGELOG.md [skip ci] (`72ab339`)
 - **audit:** phase 1 closure report — 72→86 (C→B+) (#13) (`5ac638b`)
 - update CHANGELOG.md [skip ci] (`c14bf92`)
 - update CHANGELOG.md [skip ci] (`1be5c85`)
@@ -55,6 +56,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 🔧 Chores
 
+- **deps:** block dependabot semver-major PRs globally (#14) (`ed6ed32`)
 - 优化依赖结构 (`f662bb4`)
 - update test:e2e script to use inject-test.mjs (`c52f87b`)
 - add test-results to gitignore (`bc2f135`)
