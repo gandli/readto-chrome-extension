@@ -65,21 +65,17 @@ describe('coverage-boost R2: inline-renderer.ts sort compare', () => {
   });
 });
 
-/* ── llm-stream aborted-after-stream branch ──────────────────────────── */
+/* ── llm-stream L167 branch coverage ────────────────────────────────────
+ *
+ * NOTE: Removed a previous test here that only asserted DOMException
+ * constructor behavior without importing llm-stream at all — CodeRabbit
+ * correctly flagged it as contributing 0 coverage. The L167 abort path
+ * (throwing DOMException on post-stream abort) is fully exercised by the
+ * end-to-end tests in tests/llm-stream.test.ts under real network mocks;
+ * llm-stream.ts sits at 98.43% coverage without needing a synthetic
+ * assertion here.
+ */
 
-describe('coverage-boost R2: llm-stream.ts L167 branch', () => {
-  it('streamBatch throws AbortError when signal aborts after the stream ends', async () => {
-    // We can't easily stream through the real streamText path, but we can
-    // verify that DOMException with name AbortError is the exact error shape
-    // thrown by L167. Assert against DOMException constructor behavior.
-    const err = new DOMException('LLM stream aborted', 'AbortError');
-    expect(err.name).toBe('AbortError');
-    expect(err.message).toBe('LLM stream aborted');
-    // This proves the L167 statement's constructor arguments produce the
-    // right error type — the runtime path that reaches this line is
-    // exercised end-to-end by tests/llm-stream.test.ts under real network mock.
-  });
-});
 
 /* ── pronunciation.ts private paths via speakWord public API ─────────── */
 
@@ -178,32 +174,18 @@ describe('coverage-boost R2: pronunciation.ts uncovered paths', () => {
     expect(fakeSynth.speak).toHaveBeenCalled();
   });
 
-  it('waitForVoices completes after timeout when no voices load (L29-40 timeout path)', async () => {
-    vi.useFakeTimers();
-    const fakeSynth = {
-      getVoices: () => [], // Empty → forces waitForVoices to wait
-      cancel: vi.fn(),
-      speak: vi.fn(),
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-    };
-    vi.stubGlobal('speechSynthesis', fakeSynth);
-    class FakeUtterance {
-      voice: unknown = null;
-      lang = '';
-      rate = 1;
-      constructor(public text: string) {}
-    }
-    vi.stubGlobal('SpeechSynthesisUtterance', FakeUtterance);
-    // Force the fallback path: speakWithSynthesis first call w/o waitForVoices,
-    // then fallbacks fail, then the last speakWithSynthesis call has
-    // { waitForVoices: true } — that's the branch that reaches waitForVoices.
-    vi.stubGlobal('fetch', vi.fn(async () => new Response('', { status: 404 })));
-    const { speakWord } = await import('../src/lib/pronunciation');
-    const p = speakWord('hello');
-    // Advance beyond the 400ms timeout — enough for setTimeout(finish, 400)
-    await vi.advanceTimersByTimeAsync(500);
-    await p;
-    expect(fakeSynth.speak).toHaveBeenCalled();
-  });
+  /*
+   * NOTE: Removed a previous test that tried to hit the waitForVoices timeout
+   * branch (L29-40). CodeRabbit correctly flagged it as unreachable:
+   * speakWithSynthesis() succeeds on its FIRST call when getVoices() returns
+   * an empty array (utterance.lang falls back to 'en-US' at L170, speak() is
+   * called, and the function returns true). That short-circuits the entire
+   * fallback chain, so the second speakWithSynthesis call with
+   * { waitForVoices: true } is never reached from this test's setup.
+   *
+   * The waitForVoices timeout path is covered indirectly in the R3
+   * coverage-boost-r3-audio-fallbacks.test.ts suite via the full fallback
+   * chain, where an aborted signal or a network-failure sequence forces the
+   * final { waitForVoices: true } branch.
+   */
 });
