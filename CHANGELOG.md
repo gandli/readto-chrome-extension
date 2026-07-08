@@ -28,8 +28,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - 移除 208 个自定义字体文件 (-11MB)，改用系统字体 (`b3cfd72`)
 - translations-detail.json 按首字母拆分为 26 个按需加载文件 (`77e32fe`)
 
+### ♻️ Refactoring
+
+- **audit-v3b:** 类型化 Bilibili/YouTube DOM API — src warning 13→0 (#20) (`3b46265`)
+
 ### 📚 Documentation
 
+- update CHANGELOG.md [skip ci] (`b6fb940`)
 - update CHANGELOG.md [skip ci] (`0d98164`)
 - update CHANGELOG.md [skip ci] (`89c3c95`)
 - update CHANGELOG.md [skip ci] (`d0ceaa9`)
