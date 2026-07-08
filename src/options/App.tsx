@@ -949,7 +949,9 @@ function App() {
       // Pattern shadow #3 (audit v2 P1-E): errors from LLM providers can echo
       // Authorization headers or partial API keys. Route through the same
       // sanitizeError chokepoint the service-worker uses.
-      setTestResult({ ok: false, msg: sanitizeError(e).message });
+      // audit v4 P1-C: pass apiKey for literal-fallback (DeepSeek/Kimi/Qwen
+      // custom key formats that don't match SECRET_PATTERNS regex).
+      setTestResult({ ok: false, msg: sanitizeError(e, apiKey).message });
     } finally {
       setTesting(false);
     }

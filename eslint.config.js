@@ -73,4 +73,13 @@ export default [
       '@typescript-eslint/no-explicit-any': 'warn',
     },
   },
+  {
+    // Tests: `any` is legitimate for mocking untyped chrome APIs, testing-library
+    // helpers with widened types, and vitest mock factories. src/ still enforces
+    // zero-warning ceiling; tests/ noise (145 warnings) drowns real signals.
+    files: ['tests/**/*.{ts,tsx}'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
+  },
 ];

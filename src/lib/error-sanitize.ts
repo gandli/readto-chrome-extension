@@ -26,6 +26,19 @@ const SECRET_PATTERNS: readonly RegExp[] = [
 ];
 
 const MAX_MESSAGE_LENGTH = 200;
+/**
+ * Pre-truncate window before regex/literal sanitization. Prevents multi-KB
+ * error bodies (Cloudflare 5xx pages) from stalling the main thread while
+ * still large enough that secrets straddling the 200-char display boundary
+ * are fully redacted before slice. (校对鸭 v4 教训)
+ */
+const PRE_SANITIZE_WINDOW = 1000;
+/**
+ * Minimum apiKey length that qualifies for literal string-replace fallback.
+ * Below this we skip literal replace to avoid nuking UI copy that happens
+ * to contain a short test-key value. (校对鸭 v5 教训)
+ */
+const MIN_LITERAL_APIKEY_LENGTH = 8;
 const REDACTED = '[REDACTED]';
 
 export interface SanitizedError {
@@ -39,10 +52,15 @@ export interface SanitizedError {
  *
  * Guarantees:
  * - No `Bearer <token>`, `sk-…`, or `api_key=…` substrings survive
+ * - When `apiKey` (>= 8 chars) is provided, any literal occurrence is redacted
+ *   as a belt-and-suspenders defense for provider-specific formats
+ *   (`dsk-*` DeepSeek, `qwen-*` Alibaba, or fully custom formats).
  * - Message is <= 200 characters (ellipsis appended when truncated)
  * - Return value is a plain object (structured-clone safe)
+ * - Runtime is bounded: input is pre-truncated to PRE_SANITIZE_WINDOW before
+ *   the regex pass, so a 100KB Cloudflare error page cannot stall the thread.
  */
-export function sanitizeError(err: unknown): SanitizedError {
+export function sanitizeError(err: unknown, apiKey?: string): SanitizedError {
   let raw: string;
 
   if (err instanceof Error) {
@@ -68,9 +86,23 @@ export function sanitizeError(err: unknown): SanitizedError {
     }
   }
 
-  let msg = raw;
+  // Bound the sanitize window BEFORE regex to keep runtime bounded on huge bodies.
+  // 1000 chars is > 5× the display cap (200), so any secret that could survive
+  // to the visible slice is still covered.
+  let msg = raw.length > PRE_SANITIZE_WINDOW ? raw.slice(0, PRE_SANITIZE_WINDOW) : raw;
+
   for (const pattern of SECRET_PATTERNS) {
     msg = msg.replace(pattern, REDACTED);
+  }
+
+  // Literal apiKey fallback — belt & suspenders for custom formats
+  // (DeepSeek dsk-*, Kimi, Zhipu, Qwen) that don't match SECRET_PATTERNS.
+  // Guard against short/empty keys that could nuke innocent UI text.
+  if (apiKey) {
+    const trimmed = apiKey.trim();
+    if (trimmed.length >= MIN_LITERAL_APIKEY_LENGTH) {
+      msg = msg.split(trimmed).join(REDACTED);
+    }
   }
 
   if (msg.length > MAX_MESSAGE_LENGTH) {

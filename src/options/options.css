@@ -157,3 +157,18 @@
   outline: 2px solid var(--color-readto-ink);
   outline-offset: 4px;
 }
+
+/* ─── Reduced Motion (audit v4 P2-C) ────────────────────────────────── */
+/* Users opting into `prefers-reduced-motion: reduce` (system-level a11y
+   setting) get near-instant transitions to avoid vestibular triggers.
+   0.01ms is standard practice — completely 0 breaks some animation APIs. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

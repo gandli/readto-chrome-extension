@@ -39,7 +39,9 @@ describe('audit v2 P1-E · Options page routes LLM test errors through sanitizeE
     // Locate the connectivity tester's catch block (single occurrence: line ~950).
     const catchMatch = APP_TSX.match(/}\s*catch\s*\(e\)\s*\{[\s\S]{0,400}?setTestResult\([^)]*\)/);
     expect(catchMatch).not.toBeNull();
-    expect(catchMatch![0]).toContain('sanitizeError(e)');
+    // audit v4 P1-C: signature extended to sanitizeError(e, apiKey) for literal fallback.
+    // Match either the v2 form (single-arg) or the v4 form (with apiKey).
+    expect(catchMatch![0]).toMatch(/sanitizeError\(e(?:,\s*apiKey)?\)/);
   });
 
   it('no lingering `(e as Error).message` shortcut in connectivity tester catch', () => {

@@ -248,10 +248,14 @@ export default defineConfig({
     include: ['src/**/*.{test,spec}.{ts,tsx}', 'tests/**/*.{test,spec}.{ts,tsx}'],
     coverage: {
       provider: 'v8',
-      include: ['src/lib/*.ts', 'src/background/*.ts'],
-      // P2-4 audit fix: types.ts / level-data.ts are declaration-only,
-      // 0% executable coverage is expected. Add coverage summary json for
-      // CI floor gate.
+      // audit v4 P1-A fix: include ALL src/ files (was 'src/lib/*.ts',
+      // 'src/background/*.ts'). Previously coverage report was ~64% but
+      // that number covered only ~40% of the codebase — content/*.ts and
+      // options/*.tsx (2660+ loc) were entirely absent from the denominator.
+      include: ['src/**/*.{ts,tsx}'],
+      // Types/declarations, entry points that only bootstrap React, and
+      // content-script entrypoint (heavy DOM/chrome dependency, tested via e2e)
+      // are legitimately excluded.
       exclude: [
         '**/*.json',
         '**/*.test.ts',
@@ -259,10 +263,17 @@ export default defineConfig({
         '**/*.js',
         'src/lib/types.ts',
         'src/lib/level-data.ts',
+        // Entry points — bootstrap only, no logic to cover
+        'src/options/main.tsx',
+        'src/content/index.ts',
+        // Content-script world-injected scripts — run inside page context,
+        // require full browser environment; covered by e2e.
+        'src/content/bilibili-world.ts',
+        'src/content/page-world.ts',
       ],
       reporter: ['text', 'text-summary', 'json-summary'],
       reportsDirectory: 'coverage',
-      all: false,
+      all: true, // include untested source files in the report (P1-A: reveal gaps)
       clean: true,
     },
   },
