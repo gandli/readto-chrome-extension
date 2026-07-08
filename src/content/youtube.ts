@@ -276,10 +276,6 @@ async function main(): Promise<void> {
       if (seq !== sequenceCounter) return;
 
       const chunk = lines.slice(i, i + CHUNK_SIZE);
-            // TODO: chunkAnnotated slice is currently not consumed; the per-line
-      // annotation loop below re-indexes into `annotated[lineIdx]`. Kept as
-      // `_chunkAnnotated` to preserve the chunking intent for future refactor.
-      const _chunkAnnotated = annotated.slice(i, i + CHUNK_SIZE);
 
       // Find words that need translation
       const allWords = new Set<string>();
