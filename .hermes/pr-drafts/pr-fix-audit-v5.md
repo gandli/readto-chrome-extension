@@ -6,7 +6,7 @@ Refs: [.audit-reports/audit-report-readto-20260708-v5.md](.audit-reports/audit-r
 
 ## 📋 Overview / 改动概览
 
-**4 个原子 commit · 每个可独立 review**：
+**5 个原子 commit · 每个可独立 review**：
 
 - **[Testing]** `4bda037` P1-D · 5 处 tests/ lint warning 全清（`_afterEach` / `_FilteredWord` / `_firstTextNode` / `_p`）
 - **[Governance]** `4bda037` P2-A/B/C · SECURITY.md + CODEOWNERS + PR/Issue 3 template
