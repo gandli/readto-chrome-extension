@@ -13,7 +13,7 @@ jobs:
     timeout-minutes: 15
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           # No later step needs full history (no changelog gen, no
           # release tagging in this workflow), so keep it shallow. Also
