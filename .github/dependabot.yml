@@ -15,15 +15,17 @@ updates:
         update-types:
           - "minor"
           - "patch"
+      # Group patch + minor bumps of runtime deps too.
+      runtime:
+        dependency-type: "production"
+        update-types:
+          - "minor"
+          - "patch"
     ignore:
       # Major bumps are handled manually to control API-break blast radius.
-      - dependency-name: "react"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "react-dom"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "vite"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "vitest"
+      # This applies to *all* dependencies — API-breaking upgrades require
+      # human review + regression testing in a dedicated branch.
+      - dependency-name: "*"
         update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "github-actions"
@@ -33,3 +35,7 @@ updates:
     labels:
       - "dependencies"
       - "ci"
+    ignore:
+      # Action major bumps often break inputs/outputs — pin via SHA in Phase 2.
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
