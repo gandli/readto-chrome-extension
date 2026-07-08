@@ -37,7 +37,7 @@
     "@typescript-eslint/parser": "^8.63.0",
     "@vitejs/plugin-react": "^4.3.4",
     "@vitest/coverage-v8": "^4.1.10",
-    "eslint": "^9.39.4",
+    "eslint": "^10.6.0",
     "jsdom": "^29.1.1",
     "playwright-core": "^1.61.1",
     "prettier": "^3.9.4",
