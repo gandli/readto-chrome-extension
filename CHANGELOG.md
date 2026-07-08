@@ -30,6 +30,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 📚 Documentation
 
+- **audit:** phase 1 closure report — 72→86 (C→B+) (#13) (`5ac638b`)
+- update CHANGELOG.md [skip ci] (`c14bf92`)
 - update CHANGELOG.md [skip ci] (`1be5c85`)
 - update CHANGELOG.md [skip ci] (`96a11e6`)
 - update CHANGELOG.md [skip ci] (`2af3681`)
