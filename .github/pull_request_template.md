@@ -1,42 +1,34 @@
-## 目的
+# PR Purpose
 
-<!-- 用一句话说明这个 PR 干什么。 -->
+<!-- 一句话说明这个 PR 解决什么问题。避免"改进代码"、"重构"等模糊描述。 -->
 
-## 概览
+## Overview
 
-<!--
-- 修了 / 加了 / 改了什么？
-- 是否引入新的运行时依赖 / permission / host？
-- 是否修改 manifest.json / CSP / 权限？
--->
+<!-- 主要变更列表（3-5 条 bullet），关键 finding/issue 引用（#123 / audit-vN）。 -->
 
-## 上下文
+## Context
 
-<!--
-- 关联 issue：Closes #
-- 审计报告：`.audit-reports/audit-report-readto-*.md` 中的 P0/P1/P2 编号
-- 相关 PR：#
--->
+<!-- 为什么做这个改动？关联 issue 或审计 finding。风险是什么？-->
 
-## 验证
+## Verification
 
-<!-- 至少一项以下，最好全部 -->
+<!-- 你如何证明改动是对的？勾选/填写实际执行的命令。 -->
 
 - [ ] `npx tsc --noEmit` → 0 errors
-- [ ] `npm run test` → 全绿，未新增 skip
-- [ ] `npm run test:coverage` → 覆盖率 ≥ 64.14%
-- [ ] `npm run lint` → 0 errors
-- [ ] `npm run build` → dist/manifest.json 硬化字段就位
-- [ ] 手工冒烟：Chrome 加载 dist/，打开 options，切 LLM/local 翻译，选词看 tooltip
+- [ ] `bun run lint` → 0 errors, 0 warnings
+- [ ] `bun run test` → all pass
+- [ ] `bun run build` → success
+- [ ] Coverage 未回退（≥ CI floor）
+- [ ] Manual QA（如涉及 UI）：<!-- 描述测试路径 -->
 
-## Reviewer guidance
+## Reviewer Guidance
+
+<!-- Reviewer 应重点看哪里？哪些改动是机械的可以快速扫过？哪里需要仔细看逻辑？-->
 
 <!--
-- 重点看什么文件？
-- 有什么故意的取舍需要 reviewer 知情？
-- 需要 CodeRabbit / Gemini bot 复评的话点 "@coderabbitai review" / "@gemini-code-assist /gemini review"
+Checklist:
+- [ ] diff < 400 行（超过请拆分或声明分片）
+- [ ] 未粘贴 Telegram / 微信 / 机器人对话原文
+- [ ] 未粘贴大段 stack trace（保留最小复现路径即可）
+- [ ] 关联审计 finding 已在 body 引用（如 audit-vN P1-X）
 -->
-
----
-
-<sub>约定：≥400 行 diff 需拆分或声明分片；body 禁止粘 bot 对话原文与大段 stack trace；参考 `~/.hermes/skills/github/pr-description-standard/`。</sub>

@@ -47,7 +47,7 @@ import {
   isStayOriginal,
   isExcluded,
   checkLevel,
-  type FilteredWord,
+  type FilteredWord as _FilteredWord,
 } from '../src/lib/level-filter';
 
 // Helper: create a simple DOM element with text
@@ -58,7 +58,7 @@ function makeContainer(html: string): Element {
 }
 
 // Helper: get the first text node of an element
-function firstTextNode(el: Element): Text {
+function _firstTextNode(el: Element): Text {
   const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
   return walker.nextNode() as Text;
 }
