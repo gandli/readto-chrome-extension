@@ -30,6 +30,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 📚 Documentation
 
+- **design:** 落地 Readto 设计系统 (DESIGN.md · Google alpha spec) (#17) (`73f4b2c`)
+- update CHANGELOG.md [skip ci] (`99a58dd`)
 - update CHANGELOG.md [skip ci] (`72ab339`)
 - **audit:** phase 1 closure report — 72→86 (C→B+) (#13) (`5ac638b`)
 - update CHANGELOG.md [skip ci] (`c14bf92`)
