@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
-## [Unreleased] — 2026-07-08
+## [Unreleased] — 2026-07-13
 
 ### ✨ Features
 
@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 📚 Documentation
 
+- update CHANGELOG.md [skip ci] (`6459fc8`)
 - update CHANGELOG.md [skip ci] (`7c8d882`)
 - update CHANGELOG.md [skip ci] (`9d3bfea`)
 - update CHANGELOG.md [skip ci] (`b6fb940`)
@@ -58,6 +59,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 🧪 Tests
 
+- **coverage:** boost Round 1 — quick wins 43.18% → 54.00% (#23) (`8cbab97`)
 - 补充全模块测试 (+173 用例，覆盖率 60% → 81%) (`97a6306`)
 - 按 Skills 指导补充边界场景测试 (+58 用例) (`46b599b`)
 - 新增 123 个测试，覆盖率 27% → 56% (`c97fc9b`)
