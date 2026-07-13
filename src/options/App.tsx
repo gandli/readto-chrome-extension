@@ -63,11 +63,12 @@ const PREVIEW_ITEMS = [
 
 /* ─── Helpers ───────────────────────────────────────────────────── */
 
-function sliderPercent(pos: number): number {
+// Exported for unit testing. These are pure functions used internally.
+export function sliderPercent(pos: number): number {
   return ((pos - 0.5) / LEVEL_COUNT) * 100;
 }
 
-function clampPos(n: number): number {
+export function clampPos(n: number): number {
   return n < 1 ? 1 : n > LEVEL_COUNT ? LEVEL_COUNT : n;
 }
 
@@ -121,7 +122,7 @@ const LOGO_SIZES: Record<string, string> = {
   lg: 'text-[32px]',
 };
 
-function ReadtoLogo({
+export function ReadtoLogo({
   variant = 'plain',
   size = 'md',
   className = '',
@@ -147,7 +148,7 @@ const SUBTITLE_CN = '读懂每一个词';
 const SUBTITLE_EN = 'Read to know';
 const SUBTITLE_DOT = '·';
 
-function ReadtoSubtitle({ className = '' }: { className?: string }) {
+export function ReadtoSubtitle({ className = '' }: { className?: string }) {
   return (
     <span className={`text-[12px] text-readto-muted tracking-[0.02em] whitespace-nowrap${className ? ' ' + className : ''}`}>
       {SUBTITLE_CN}
@@ -159,7 +160,7 @@ function ReadtoSubtitle({ className = '' }: { className?: string }) {
 
 /* ─── Section Wrapper ───────────────────────────────────────────── */
 
-function Section({
+export function Section({
   title,
   lede,
   children,
@@ -185,7 +186,7 @@ function Section({
 
 /* ─── Labeled Input ─────────────────────────────────────────────── */
 
-function LabeledInput({
+export function LabeledInput({
   id,
   label,
   type,
@@ -222,7 +223,7 @@ function LabeledInput({
 
 /* ─── Status Indicator ──────────────────────────────────────────── */
 
-function StatusIndicator({ status }: { status: SaveStatus }) {
+export function StatusIndicator({ status }: { status: SaveStatus }) {
   const [showSaved, setShowSaved] = useState(status === 'saved');
 
   useEffect(() => {
@@ -1137,11 +1138,17 @@ function App() {
 }
 
 // ─── Mount ─────────────────────────────────────────────────────────
+//
+// The bootstrap is skipped when there is no #root (e.g. during vitest imports
+// or SSR) so this module can be safely imported for unit-testing the
+// presentational helpers above. In production/dev the options.html contains
+// a <div id="root"></div> so the mount always runs.
 
-const root = document.getElementById('root');
-if (!root) throw new Error('options: #root missing');
-createRoot(root).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-);
+const root = typeof document !== 'undefined' ? document.getElementById('root') : null;
+if (root) {
+  createRoot(root).render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>,
+  );
+}

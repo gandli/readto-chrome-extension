@@ -261,14 +261,22 @@ export default defineConfig({
         '**/*.test.ts',
         '**/*.spec.ts',
         '**/*.js',
+        // TS declaration files carry no runtime code
+        '**/*.d.ts',
         'src/lib/types.ts',
         'src/lib/level-data.ts',
         // Entry points — bootstrap only, no logic to cover
         'src/options/main.tsx',
         'src/content/index.ts',
-        // Content-script world-injected scripts — run inside page context,
-        // require full browser environment; covered by e2e.
+        // IIFE loaders — pure dynamic-import bootstraps that call
+        // chrome.runtime.getURL(); no branching logic. Covered by E2E smoke.
+        'src/content/loader.ts',
+        'src/content/page-world-loader.ts',
+        // Content scripts — run inside page context with heavy DOM/chrome
+        // deps (bilibili subtitle overlay, youtube caption hijack). E2E only.
+        'src/content/bilibili.ts',
         'src/content/bilibili-world.ts',
+        'src/content/youtube.ts',
         'src/content/page-world.ts',
       ],
       reporter: ['text', 'text-summary', 'json-summary'],
