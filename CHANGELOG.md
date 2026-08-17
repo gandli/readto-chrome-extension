@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 📚 Documentation
 
+- update CHANGELOG.md [skip ci] (`9c02779`)
 - update CHANGELOG.md [skip ci] (`38f91f6`)
 - update CHANGELOG.md [skip ci] (`6459fc8`)
 - update CHANGELOG.md [skip ci] (`7c8d882`)
@@ -72,6 +73,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 🔧 Chores
 
+- **deps-dev:** bump fast-uri from 3.1.2 to 3.1.5 (#29) (`855d28e`)
 - **deps:** bump actions/checkout from 4.3.1 to 4.4.0 (#28) (`50aa7b4`)
 - **deps:** bump the runtime group across 1 directory with 3 updates (#26) (`d1d35fe`)
 - **deps-dev:** bump the dev-tooling group with 6 updates (#24) (`968ddc5`)
