@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 📚 Documentation
 
+- update CHANGELOG.md [skip ci] (`af942b3`)
 - update CHANGELOG.md [skip ci] (`9c02779`)
 - update CHANGELOG.md [skip ci] (`38f91f6`)
 - update CHANGELOG.md [skip ci] (`6459fc8`)
@@ -73,6 +74,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 🔧 Chores
 
+- **deps-dev:** bump undici from 7.28.0 to 7.29.0 (#31) (`c62f447`)
+- **deps-dev:** bump brace-expansion from 1.1.15 to 1.1.18 (#30) (`de36730`)
 - **deps-dev:** bump fast-uri from 3.1.2 to 3.1.5 (#29) (`855d28e`)
 - **deps:** bump actions/checkout from 4.3.1 to 4.4.0 (#28) (`50aa7b4`)
 - **deps:** bump the runtime group across 1 directory with 3 updates (#26) (`d1d35fe`)
