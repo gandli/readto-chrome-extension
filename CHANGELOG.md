@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 📚 Documentation
 
+- update CHANGELOG.md [skip ci] (`2309ee4`)
 - update CHANGELOG.md [skip ci] (`e6613a9`)
 - update CHANGELOG.md [skip ci] (`af942b3`)
 - update CHANGELOG.md [skip ci] (`9c02779`)
@@ -75,6 +76,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 🔧 Chores
 
+- **deps-dev:** bump js-yaml from 4.3.0 to 4.3.1 (#34) (`d4447b0`)
 - **deps-dev:** bump postcss from 8.5.15 to 8.5.26 (#33) (`08f0e84`)
 - **deps-dev:** bump undici from 7.28.0 to 7.29.0 (#31) (`c62f447`)
 - **deps-dev:** bump brace-expansion from 1.1.15 to 1.1.18 (#30) (`de36730`)
