@@ -18,13 +18,13 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
-    "@ai-sdk/openai": "^3.0.82",
-    "ai": "^6.0.221",
+    "@ai-sdk/openai": "^3.0.86",
+    "ai": "^6.0.230",
     "lucide-react": "^0.577.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "sonner": "^1.7.0",
-    "ws": "^8.21.0",
+    "ws": "^8.21.1",
     "zod": "^3.24.0"
   },
   "devDependencies": {
