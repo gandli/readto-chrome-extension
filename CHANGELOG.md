@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
-## [Unreleased] — 2026-07-13
+## [Unreleased] — 2026-08-17
 
 ### ✨ Features
 
@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 📚 Documentation
 
+- update CHANGELOG.md [skip ci] (`38f91f6`)
 - update CHANGELOG.md [skip ci] (`6459fc8`)
 - update CHANGELOG.md [skip ci] (`7c8d882`)
 - update CHANGELOG.md [skip ci] (`9d3bfea`)
@@ -71,6 +72,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 🔧 Chores
 
+- **deps:** bump actions/checkout from 4.3.1 to 4.4.0 (#28) (`50aa7b4`)
+- **deps:** bump the runtime group across 1 directory with 3 updates (#26) (`d1d35fe`)
+- **deps-dev:** bump the dev-tooling group with 6 updates (#24) (`968ddc5`)
 - **audit-v5:** comprehensive fixes — 76→86 + coverage 39.62%→43.18% (#22) (`b775178`)
 - **audit-v3:** src/ 48→13 warning + Actions pin SHA — 82→88 (B→B+) (#19) (`65fb881`)
 - **audit-v2:** close 5 P1 + 3 P2 findings — 79→88 (B-→B+) (#18) (`5dc0b56`)
