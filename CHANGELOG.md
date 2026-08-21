@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
-## [Unreleased] — 2026-08-17
+## [Unreleased] — 2026-08-21
 
 ### ✨ Features
 
@@ -35,6 +35,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 📚 Documentation
 
+- refresh README with clearer structure and badges (#36) (`998d51b`)
+- update CHANGELOG.md [skip ci] (`7ae4a00`)
 - update CHANGELOG.md [skip ci] (`27774ef`)
 - update CHANGELOG.md [skip ci] (`2309ee4`)
 - update CHANGELOG.md [skip ci] (`e6613a9`)
