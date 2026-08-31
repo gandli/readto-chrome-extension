@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
-## [Unreleased] — 2026-08-25
+## [Unreleased] — 2026-08-31
 
 ### ✨ Features
 
@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 📚 Documentation
 
+- update CHANGELOG.md [skip ci] (`dd87cb1`)
 - update CHANGELOG.md [skip ci] (`606cc36`)
 - refresh README with clearer structure and badges (#36) (`998d51b`)
 - update CHANGELOG.md [skip ci] (`7ae4a00`)
@@ -80,6 +81,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### 🔧 Chores
 
+- **deps:** bump the runtime group with 2 updates (#40) (`c8d2365`)
+- **deps-dev:** bump the dev-tooling group with 6 updates (#39) (`cc3a52c`)
 - **deps-dev:** bump the dev-tooling group with 3 updates (#37) (`a63d104`)
 - **deps:** bump the runtime group with 3 updates (#38) (`223b187`)
 - **deps-dev:** bump the dev-tooling group across 1 directory with 10 updates (#35) (`bcbdaf1`)
